@@ -1,0 +1,465 @@
+@import "tailwindcss";
+
+@theme {
+  /* Neutrals — warm porcelain paper, never pure white or pure black. */
+  --color-porcelain: #fbf8f4;
+  --color-cream: #f4ede5;
+  --color-sand: #e9dfd3;
+  --color-line: #e2d7ca;
+  --color-line-strong: #cdbeae;
+  --color-muted: #6f635a;
+  --color-graphite: #2b2421;
+  --color-ink: #17120f;
+
+  /* Brand accents — deep bordeaux, forest, muted rose, brass. */
+  --color-bordeaux: #5a1226;
+  --color-bordeaux-deep: #330b16;
+  --color-bordeaux-soft: #7d2039;
+  --color-forest: #1e3a31;
+  --color-forest-soft: #2f5a4a;
+  --color-rose: #b96f83;
+  --color-rose-soft: #efd9de;
+  --color-brass: #a98456;
+  --color-brass-soft: #d8bf9c;
+
+  --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --radius-card: 1.5rem;
+  --radius-tile: 1rem;
+
+  --shadow-soft: 0 1px 2px rgb(23 18 15 / 0.035), 0 14px 36px -20px rgb(23 18 15 / 0.26);
+  --shadow-lift: 0 2px 6px rgb(23 18 15 / 0.05), 0 32px 64px -28px rgb(23 18 15 / 0.32);
+  --shadow-media: 0 18px 48px -28px rgb(23 18 15 / 0.42);
+
+  --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --duration-micro: 320ms;
+  --duration-motion: 520ms;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-porcelain);
+    color: var(--color-graphite);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    /* Guards every page against accidental sideways scroll on narrow screens. */
+    overflow-x: clip;
+    /* Soft paper depth under every page — stops the site reading as flat white. */
+    background-image:
+      radial-gradient(72rem 40rem at 8% -8%, rgb(239 217 222 / 0.38), transparent 58%),
+      radial-gradient(56rem 36rem at 96% 4%, rgb(233 223 211 / 0.55), transparent 55%),
+      radial-gradient(48rem 32rem at 50% 100%, rgb(244 237 229 / 0.7), transparent 60%);
+    background-attachment: fixed;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    color: var(--color-ink);
+    font-weight: 500;
+    letter-spacing: -0.018em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+    line-height: 1.65;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-bordeaux);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background-color: var(--color-rose-soft);
+    color: var(--color-bordeaux-deep);
+  }
+
+  /* Dark surfaces flip the focus ring so it stays visible on bordeaux. */
+  .on-dark :focus-visible {
+    outline-color: var(--color-brass-soft);
+  }
+}
+
+@utility container-page {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 84rem;
+  padding-inline: 1.25rem;
+
+  @media (width >= 48rem) {
+    padding-inline: 2rem;
+  }
+
+  @media (width >= 80rem) {
+    padding-inline: 3rem;
+  }
+}
+
+/* Editorial section rhythm: generous air between blocks, tighter on mobile. */
+@utility section-y {
+  padding-block: 5rem;
+
+  @media (width >= 48rem) {
+    padding-block: 7rem;
+  }
+
+  @media (width >= 80rem) {
+    padding-block: 8.5rem;
+  }
+}
+
+/*
+ * Light section atmospheres. Applied as absolute layers inside sections that
+ * need depth without competing with photography.
+ */
+@utility surface-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  opacity: 0.045;
+  pointer-events: none;
+}
+
+@utility surface-glow {
+  background-image:
+    radial-gradient(42rem 28rem at 12% 18%, rgb(239 217 222 / 0.45), transparent 68%),
+    radial-gradient(36rem 24rem at 88% 82%, rgb(216 191 156 / 0.18), transparent 70%);
+  pointer-events: none;
+}
+
+/* Shared media hover: slow zoom + soft veil deepen. */
+@utility media-zoom {
+  transition: transform var(--duration-motion) var(--ease-soft);
+  will-change: transform;
+
+  .group:hover & {
+    transform: scale(1.045);
+  }
+}
+
+@utility media-veil {
+  background-image: linear-gradient(
+    to top,
+    rgb(23 18 15 / 0.88) 0%,
+    rgb(23 18 15 / 0.42) 38%,
+    rgb(23 18 15 / 0.08) 68%,
+    transparent 100%
+  );
+  transition: opacity var(--duration-motion) var(--ease-soft);
+
+  .group:hover & {
+    opacity: 0.92;
+  }
+}
+
+@utility hairline {
+  background-image: linear-gradient(
+    to right,
+    transparent,
+    var(--color-line-strong) 18%,
+    var(--color-line-strong) 82%,
+    transparent
+  );
+  height: 1px;
+}
+
+/* Soft loading shimmer for the contacts map skeleton. */
+@utility skeleton-shimmer {
+  background-image: linear-gradient(
+    110deg,
+    var(--color-cream) 0%,
+    var(--color-sand) 42%,
+    var(--color-porcelain) 50%,
+    var(--color-sand) 58%,
+    var(--color-cream) 100%
+  );
+  background-size: 200% 100%;
+  animation: fdl-shimmer 1.6s var(--ease-soft) infinite;
+}
+
+/*
+ * Scroll reveal. Elements start shifted and fade in when `data-revealed`
+ * is set by the intersection observer in `useReveal`.
+ */
+@utility reveal {
+  opacity: 0;
+  transform: translateY(1rem);
+  filter: blur(2px);
+  transition:
+    opacity var(--duration-motion) var(--ease-soft),
+    transform var(--duration-motion) var(--ease-soft),
+    filter var(--duration-motion) var(--ease-soft);
+  transition-delay: var(--reveal-delay, 0ms);
+
+  &[data-revealed="true"] {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+/* Soft route entrance for inner pages — CSS only, no animation library. */
+@utility page-enter {
+  animation: fdl-page-enter 480ms var(--ease-soft) both;
+}
+
+/* ------------------------------------------------------------------ *
+ * Hero
+ * ------------------------------------------------------------------ */
+
+/*
+ * Atmosphere behind the hero. Overlapping radial fields — a warm bloom high
+ * right, a bordeaux mass upper left, brass low right — rather than one linear
+ * ramp, which is what keeps the surface from reading as a plain CSS gradient.
+ */
+@utility hero-atmosphere {
+  background-image:
+    radial-gradient(56rem 44rem at 10% 4%, rgb(125 32 57 / 0.55), transparent 64%),
+    radial-gradient(38rem 32rem at 0% 92%, rgb(30 58 49 / 0.3), transparent 70%),
+    radial-gradient(44rem 36rem at 96% 96%, rgb(169 132 86 / 0.14), transparent 70%),
+    linear-gradient(152deg, #360c19 0%, #24080f 48%, #130508 100%);
+}
+
+/* Defocused highlight orbs — depth cue, not decoration. */
+@utility hero-bokeh {
+  background-image:
+    radial-gradient(circle at 22% 18%, rgb(251 248 244 / 0.09), transparent 32%),
+    radial-gradient(circle at 44% 62%, rgb(239 217 222 / 0.07), transparent 30%),
+    radial-gradient(circle at 8% 74%, rgb(216 191 156 / 0.07), transparent 28%);
+}
+
+/* Weighted to the left so the copy sits in shadow and the image keeps the light. */
+@utility hero-vignette {
+  background-image: radial-gradient(128% 104% at 72% 42%, transparent 34%, rgb(10 3 6 / 0.72) 100%);
+}
+
+/* Monochrome film grain; also stops large flat areas from banding. */
+@utility hero-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  mix-blend-mode: overlay;
+  opacity: 0.34;
+}
+
+/*
+ * Dissolves the hero image into the page instead of framing it. Narrow screens
+ * only need a top/bottom fade; from `lg` the image sits beside the copy, so a
+ * left fade and a soft oval keep its inner edge from ever becoming a line.
+ */
+@utility hero-media-mask {
+  mask-repeat: no-repeat;
+  mask-size: 100% 100%;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgb(0 0 0 / 0.55) 13%,
+    #000 36%,
+    #000 74%,
+    transparent 100%
+  );
+
+  @media (width >= 64rem) {
+    mask-image:
+      linear-gradient(to right, transparent 0%, rgb(0 0 0 / 0.5) 11%, #000 34%),
+      linear-gradient(to bottom, transparent 0%, #000 16%, #000 76%, transparent 100%),
+      radial-gradient(128% 96% at 62% 46%, #000 52%, transparent 92%);
+    mask-composite: intersect;
+  }
+}
+
+/* Staged entrance for the hero copy: eyebrow, headline, body, buttons. */
+@utility hero-rise {
+  animation: fdl-hero-rise 820ms var(--ease-soft) both;
+  animation-delay: var(--hero-delay, 0ms);
+}
+
+@utility hero-media-in {
+  animation: fdl-hero-media 900ms var(--ease-soft) both;
+}
+
+/*
+ * Pointer parallax. The offsets are written by `HeroVisual`; the long easing is
+ * what makes a handful of pixels feel deliberate rather than twitchy.
+ */
+@utility hero-parallax {
+  transform: translate3d(var(--hero-px, 0px), var(--hero-py, 0px), 0);
+  transition: transform 700ms var(--ease-soft);
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .hero-parallax {
+    transform: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+
+  .page-enter {
+    animation: none;
+  }
+
+  .skeleton-shimmer {
+    animation: none;
+    background-image: none;
+    background-color: var(--color-cream);
+  }
+}
+
+@keyframes fdl-page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fdl-shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+@keyframes fdl-hero-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 1.5rem, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fdl-hero-media {
+  from {
+    opacity: 0;
+    transform: scale(1.03);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fdl-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fdl-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+}
+
+@keyframes fdl-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fdl-overlay-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/*
+ * Radix unmounts overlays on close and mounts them already in the open state,
+ * so entrance/exit motion has to come from keyframes rather than transitions —
+ * Radix waits for `animationend` before removing the node.
+ */
+@keyframes fdl-slide-in-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes fdl-slide-out-right {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes fdl-accordion-down {
+  from {
+    height: 0;
+    opacity: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+    opacity: 1;
+  }
+}
+
+@keyframes fdl-accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+    opacity: 1;
+  }
+  to {
+    height: 0;
+    opacity: 0;
+  }
+}
