@@ -12,6 +12,7 @@ import {
   supplyMapCaption,
   type SupplyFeature,
 } from "@/lib/content/suppliers";
+import { sceneImages } from "@/lib/content/scenes";
 import { cn } from "@/lib/utils";
 
 /** Shared surface for every panel in the geography story column. */
@@ -31,7 +32,7 @@ function RegionMark({ code }: { code: string }) {
       )}
     >
       <span className="bg-brass-soft size-1.5 rounded-full" />
-      <span className="text-porcelain text-[0.6875rem] font-semibold tracking-[0.16em]">{code}</span>
+      <span className="text-porcelain text-[0.8125rem] font-medium tracking-[0.12em]">{code}</span>
     </span>
   );
 }
@@ -58,9 +59,7 @@ function FeatureItem({ item }: { item: SupplyFeature }) {
         <span className="text-ink block text-[0.875rem] leading-snug font-semibold tracking-tight">
           {item.title}
         </span>
-        <span className="text-muted mt-1 block text-[0.8125rem] leading-relaxed">
-          {item.description}
-        </span>
+        <span className="type-caption text-muted mt-1 block">{item.description}</span>
       </span>
     </li>
   );
@@ -68,10 +67,11 @@ function FeatureItem({ item }: { item: SupplyFeature }) {
 
 export function SuppliersSection() {
   return (
-    <section id="suppliers" aria-labelledby="suppliers-title" className="relative bg-cream/40">
-      <div aria-hidden="true" className="surface-glow absolute inset-0" />
-      <div aria-hidden="true" className="surface-grain absolute inset-0" />
-
+    <section
+      id="suppliers"
+      aria-labelledby="suppliers-title"
+      className="section-canvas-light relative"
+    >
       <div className="container-page section-y relative">
         <SectionHeading
           id="suppliers-title"
@@ -84,11 +84,19 @@ export function SuppliersSection() {
           {/* Left column: one story — where / how / why. Right column untouched. */}
           <Reveal className="h-full">
             <div className="flex h-full flex-col gap-4">
+              <div className="relative aspect-16/10 overflow-hidden rounded-[var(--radius-card)]">
+                <Image
+                  src={sceneImages.import.src}
+                  alt={sceneImages.import.alt}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 42vw"
+                  className="object-cover object-center"
+                />
+              </div>
+
               <div className={storyPanel}>
                 <SupplyMap />
-                <p className="text-muted mt-3.5 text-center text-[0.8125rem] leading-relaxed">
-                  {supplyMapCaption}
-                </p>
+                <p className="type-caption text-muted mt-3.5 text-center">{supplyMapCaption}</p>
               </div>
 
               <div className={storyPanel}>
@@ -121,12 +129,10 @@ export function SuppliersSection() {
                       >
                         <Icon name={item.icon} className="size-3.5" />
                       </span>
-                      <span className="text-ink mt-3 text-[0.8125rem] leading-snug font-semibold tracking-tight">
+                      <span className="text-ink mt-3 text-sm leading-snug font-semibold tracking-tight">
                         {item.title}
                       </span>
-                      <span className="text-muted mt-1.5 text-[0.75rem] leading-relaxed">
-                        {item.description}
-                      </span>
+                      <span className="type-caption text-muted mt-1.5">{item.description}</span>
                     </li>
                   ))}
                 </ul>
@@ -163,7 +169,7 @@ export function SuppliersSection() {
                             ? "(max-width: 1024px) 100vw, 40vw"
                             : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 22vw"
                         }
-                        className="object-cover"
+                        className="media-grade media-zoom object-cover"
                       />
                       <div
                         aria-hidden="true"
@@ -172,7 +178,7 @@ export function SuppliersSection() {
 
                       <div className="absolute inset-x-0 top-0 flex justify-between p-4 sm:p-5">
                         <RegionMark code={region.code} />
-                        <span className="text-porcelain/70 text-[0.75rem] tracking-wide">
+                        <span className="text-porcelain/85 text-[0.8125rem] font-medium tracking-normal">
                           {region.tag}
                         </span>
                       </div>
@@ -181,7 +187,7 @@ export function SuppliersSection() {
                         <h3 className="text-porcelain font-display text-[1.625rem] leading-tight sm:text-[1.875rem]">
                           {region.country}
                         </h3>
-                        <p className="text-porcelain/75 mt-2 max-w-md text-[0.9375rem] leading-relaxed">
+                        <p className="text-porcelain/88 mt-2 max-w-md text-[0.9375rem] leading-[1.65] font-medium">
                           {region.description}
                         </p>
                       </div>

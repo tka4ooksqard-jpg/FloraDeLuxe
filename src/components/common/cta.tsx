@@ -13,8 +13,8 @@ export function CtaArrow({ className }: { className?: string }) {
     <ArrowRight
       aria-hidden="true"
       className={cn(
-        "transition-transform duration-300 ease-[var(--ease-soft)]",
-        "group-hover/button:translate-x-1 group-focus-visible/button:translate-x-1",
+        "transition-transform duration-500 ease-[var(--ease-soft)]",
+        "group-hover/button:translate-x-1.5 group-focus-visible/button:translate-x-1.5",
         className,
       )}
     />

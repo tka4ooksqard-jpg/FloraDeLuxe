@@ -10,6 +10,8 @@
     "typecheck": "tsc --noEmit",
     "placeholders": "node scripts/generate-placeholders.mjs",
     "import-opt-media": "node scripts/import-opt-media.mjs",
+    "photoset": "node scripts/apply-luxury-photoset.mjs",
+    "photoset:categories-gallery": "node scripts/apply-premium-categories-gallery.mjs",
     "qa": "node scripts/qa.mjs"
   },
   "dependencies": {

@@ -5,38 +5,38 @@ import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * Every variant keeps a minimum height of 44px (2.75rem) so all controls meet
- * the recommended touch-target size on mobile.
+ * Every variant keeps a comfortable touch target. Large CTAs target 56px.
  */
 const buttonVariants = cva(
   cn(
-    "group/button inline-flex min-h-11 items-center justify-center gap-2 rounded-full",
-    // Long Ukrainian labels must be allowed to wrap: forcing nowrap pushes the
-    // button past the viewport at 320px and drags its whole grid column with it.
-    "text-center text-sm font-medium tracking-wide text-balance",
-    "transition-[background-color,color,border-color,box-shadow,transform] duration-300 ease-[var(--ease-soft)]",
-    "disabled:pointer-events-none disabled:opacity-55",
+    "group/button inline-flex items-center justify-center gap-2 rounded-full",
+    "text-center text-[0.9375rem] font-semibold tracking-normal text-balance",
+    "transition-[background-color,color,border-color,box-shadow,transform] duration-500 ease-[var(--ease-soft)]",
+    "hover:scale-[1.01] active:scale-100",
+    "disabled:pointer-events-none disabled:opacity-55 disabled:hover:scale-100",
     "[&_svg]:size-4 [&_svg]:shrink-0",
   ),
   {
     variants: {
       variant: {
         primary:
-          "bg-bordeaux text-porcelain shadow-soft hover:bg-bordeaux-deep hover:shadow-lift",
+          "bg-bordeaux text-porcelain shadow-soft hover:bg-bordeaux-soft hover:shadow-lift",
         telegram:
-          "bg-forest text-porcelain shadow-soft hover:bg-forest-soft hover:shadow-lift",
+          "bg-[#0F4938] text-porcelain shadow-soft hover:bg-[#135543] hover:shadow-lift",
         outline:
           "border border-line-strong bg-transparent text-graphite hover:border-bordeaux hover:text-bordeaux",
         ghost: "bg-transparent text-graphite hover:bg-cream",
         light:
-          "bg-porcelain/95 text-bordeaux-deep shadow-soft hover:bg-porcelain hover:shadow-lift",
+          "border border-[#C7A15C]/55 bg-[#F5F0EA] text-bordeaux-deep shadow-soft hover:border-[#C7A15C]/90 hover:bg-[#F8F3ED] hover:shadow-[0_0_0_1px_rgb(199_161_92_/_0.28),0_18px_40px_-24px_rgb(199_161_92_/_0.4)]",
         onDark:
-          "border border-porcelain/35 bg-transparent text-porcelain hover:border-porcelain/70 hover:bg-porcelain/10",
+          "border border-porcelain/30 bg-transparent text-porcelain hover:border-[#C7A15C]/70 hover:text-[#C7A15C]",
+        linkGold:
+          "min-h-0 rounded-none bg-transparent px-0 py-0 font-medium text-porcelain shadow-none hover:scale-100 hover:shadow-none",
       },
       size: {
-        sm: "px-4 py-2 text-[0.8125rem]",
-        md: "px-5 py-3 sm:px-6",
-        lg: "px-5 py-3.5 text-[0.9375rem] sm:px-7",
+        sm: "min-h-11 px-4 py-2 text-sm",
+        md: "min-h-12 px-5 py-3 text-[0.9375rem] sm:px-6",
+        lg: "min-h-14 px-6 py-3.5 text-[0.9375rem] sm:px-8",
         icon: "size-11 shrink-0 px-0",
       },
     },

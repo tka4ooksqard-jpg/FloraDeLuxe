@@ -55,7 +55,7 @@ export default function SuppliesPage() {
                       </span>
                     </div>
                     <h3 className="text-ink mt-5 text-lg leading-snug">{step.title}</h3>
-                    <p className="text-muted mt-2.5 text-[0.875rem] leading-relaxed">
+                    <p className="text-muted mt-2.5 text-sm leading-[1.7] font-medium">
                       {step.description}
                     </p>
                   </article>
@@ -83,7 +83,7 @@ export default function SuppliesPage() {
                 <Reveal delay={index * 90} className="h-full">
                   <article className={cn(cardSurface, "flex h-full flex-col p-6 sm:p-7")}>
                     <h3 className="text-ink text-xl leading-snug">{item.title}</h3>
-                    <p className="text-muted mt-3 text-[0.9375rem] leading-relaxed">
+                    <p className="text-muted mt-3 text-[0.9375rem] leading-[1.7] font-medium">
                       {item.description}
                     </p>
                   </article>

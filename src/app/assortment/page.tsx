@@ -77,7 +77,7 @@ export default function AssortmentPage() {
                         index % 2 === 0 ? "lg:order-2" : "lg:order-1",
                       )}
                     >
-                      <span className="text-bordeaux text-[0.6875rem] font-semibold tracking-[0.2em] uppercase">
+                      <span className="type-eyebrow text-bordeaux">
                         {String(index + 1).padStart(2, "0")} · Категорія
                       </span>
                       <h3 className="text-ink mt-4 text-[clamp(1.75rem,1.2rem+1.6vw,2.5rem)] leading-tight">

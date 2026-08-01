@@ -39,11 +39,11 @@ export function FinalCta() {
                 <TelegramCta intent={telegramIntents.order} size="lg" variant="onDark" />
               </div>
 
-              <p className="text-porcelain/55 mt-6 text-[0.875rem] leading-relaxed">
+              <p className="text-porcelain/80 mt-6 text-sm leading-[1.7] font-medium">
                 Або зателефонуйте:{" "}
                 <a
                   href={`tel:${contactConfig.phoneHref}`}
-                  className="text-porcelain/85 hover:text-porcelain underline-offset-4 transition-colors duration-300 hover:underline"
+                  className="text-porcelain hover:text-brass-soft underline-offset-4 transition-colors duration-300 hover:underline"
                 >
                   {contactConfig.phone.value}
                 </a>

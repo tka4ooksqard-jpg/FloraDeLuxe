@@ -32,8 +32,8 @@ export function SectionHeading({
       {eyebrow ? (
         <span
           className={cn(
-            "mb-5 text-[0.6875rem] font-semibold tracking-[0.24em] uppercase",
-            isDark ? "text-brass-soft" : "text-bordeaux",
+            "type-eyebrow mb-6",
+            isDark ? "text-brass" : "text-bordeaux",
           )}
         >
           {eyebrow}
@@ -43,8 +43,8 @@ export function SectionHeading({
       <Tag
         id={id}
         className={cn(
-          "text-[clamp(2rem,1.25rem+2.7vw,3.5rem)] leading-[1.06]",
-          isDark && "text-porcelain",
+          "text-[clamp(2.15rem,1.35rem+2.9vw,3.75rem)] leading-[1.05] tracking-[-0.02em]",
+          isDark && "text-frost",
         )}
       >
         {title}
@@ -53,9 +53,9 @@ export function SectionHeading({
       {description ? (
         <div
           className={cn(
-            "mt-6 max-w-2xl text-[1.0625rem] leading-relaxed md:text-[1.125rem]",
+            "mt-7 max-w-2xl text-base leading-[1.8] font-medium md:text-lg",
             align === "center" && "mx-auto",
-            isDark ? "text-porcelain/75" : "text-muted",
+            isDark ? "text-mist" : "text-muted",
           )}
         >
           {description}

@@ -1,4 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
+import Image from "next/image";
 
 import { TelegramCta } from "@/components/common/cta";
 import { Reveal } from "@/components/common/reveal";
@@ -11,6 +12,7 @@ import {
 } from "@/components/ui/accordion";
 import { faqItems } from "@/lib/content/faq";
 import { ctaLabels, telegramIntents } from "@/lib/content/navigation";
+import { sceneImages } from "@/lib/content/scenes";
 
 export function FaqSection({
   eyebrow = "FAQ",
@@ -22,8 +24,8 @@ export function FaqSection({
   description?: string;
 }) {
   return (
-    <section id="faq" aria-labelledby="faq-title" className="bg-cream/50">
-      <div className="container-page section-y">
+    <section id="faq" aria-labelledby="faq-title" className="section-canvas-light relative">
+      <div className="container-page section-y relative">
         <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
           <div>
             <SectionHeading
@@ -33,7 +35,19 @@ export function FaqSection({
               description={description}
             />
 
-            <Reveal delay={120} className="mt-8">
+            <Reveal delay={100} className="mt-8">
+              <div className="relative aspect-4/3 overflow-hidden rounded-[1.75rem]">
+                <Image
+                  src={sceneImages.faq.src}
+                  alt={sceneImages.faq.alt}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 36vw"
+                  className="object-cover object-center"
+                />
+              </div>
+            </Reveal>
+
+            <Reveal delay={140} className="mt-6">
               <div className="border-line bg-porcelain rounded-[var(--radius-card)] border p-6">
                 <p className="text-graphite text-[0.9375rem] leading-relaxed">
                   Не знайшли відповідь? Менеджер оптового напрямку відповість у Telegram.

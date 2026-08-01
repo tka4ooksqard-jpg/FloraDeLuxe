@@ -1,4 +1,5 @@
 import { Clock, MapPin, Navigation, Phone, Send } from "lucide-react";
+import Image from "next/image";
 
 import { cardSurface } from "@/components/common/card";
 import { TelegramCta } from "@/components/common/cta";
@@ -8,17 +9,22 @@ import { ContactMap } from "@/components/sections/contact-map";
 import { Button } from "@/components/ui/button";
 import { contactConfig } from "@/lib/contact-config";
 import { ctaLabels, telegramIntents } from "@/lib/content/navigation";
+import { sceneImages } from "@/lib/content/scenes";
 import { cn } from "@/lib/utils";
 
 const rowClass = "flex items-start gap-4 py-5";
 const iconClass = "border-line bg-cream/60 text-bordeaux grid size-10 shrink-0 place-items-center rounded-full border";
-const labelClass = "text-muted text-[0.6875rem] font-semibold tracking-[0.18em] uppercase";
-const valueClass = "text-ink mt-1.5 text-[1.0625rem] leading-snug";
+const labelClass = "type-eyebrow text-muted";
+const valueClass = "text-ink mt-1.5 text-base leading-snug font-medium sm:text-[1.0625rem]";
 
 export function ContactSection({ withHeading = true }: { withHeading?: boolean }) {
   return (
-    <section id="contacts" aria-labelledby="contacts-title" className="bg-cream/50">
-      <div className="container-page section-y">
+    <section
+      id="contacts"
+      aria-labelledby="contacts-title"
+      className="section-canvas-light relative"
+    >
+      <div className="container-page section-y relative">
         {withHeading ? (
           <SectionHeading
             id="contacts-title"
@@ -97,7 +103,7 @@ export function ContactSection({ withHeading = true }: { withHeading?: boolean }
                   </span>
                   <div className="min-w-0">
                     <dt className={labelClass}>Графік роботи</dt>
-                    <dd className="text-muted mt-1.5 text-[1.0625rem] leading-snug">
+                    <dd className="text-muted mt-1.5 text-base leading-snug font-medium sm:text-[1.0625rem]">
                       {contactConfig.workingHours.value}
                     </dd>
                   </div>
@@ -127,7 +133,16 @@ export function ContactSection({ withHeading = true }: { withHeading?: boolean }
             </div>
           </Reveal>
 
-          <Reveal delay={100} className="h-full">
+          <Reveal delay={100} className="flex h-full flex-col gap-5">
+            <div className="relative aspect-16/10 overflow-hidden rounded-[1.75rem]">
+              <Image
+                src={sceneImages.contacts.src}
+                alt={sceneImages.contacts.alt}
+                fill
+                sizes="(max-width: 1024px) 100vw, 42vw"
+                className="object-cover object-[50%_40%]"
+              />
+            </div>
             <ContactMap />
           </Reveal>
         </div>

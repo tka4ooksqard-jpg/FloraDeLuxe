@@ -44,8 +44,8 @@ export const supplierRegions: readonly SupplierRegion[] = [
     image: {
       src: "/images/suppliers/netherlands.webp",
       alt: "Танацетум Голландія з оптового асортименту Flora de Luxe Kyiv OPT",
-      width: 1000,
-      height: 750,
+      width: 1600,
+      height: 1200,
       isPlaceholder: false,
     },
     profile: {
@@ -69,8 +69,8 @@ export const supplierRegions: readonly SupplierRegion[] = [
     image: {
       src: "/images/suppliers/ecuador.webp",
       alt: "Преміальна троянда з оптового асортименту Flora de Luxe Kyiv OPT",
-      width: 1000,
-      height: 750,
+      width: 1600,
+      height: 1200,
       isPlaceholder: false,
     },
     profile: {
@@ -94,8 +94,8 @@ export const supplierRegions: readonly SupplierRegion[] = [
     image: {
       src: "/images/suppliers/ukraine.webp",
       alt: "Оптові квіткові пачки Flora de Luxe Kyiv OPT",
-      width: 1000,
-      height: 750,
+      width: 1600,
+      height: 1200,
       isPlaceholder: false,
     },
     profile: {
@@ -119,8 +119,8 @@ export const supplierRegions: readonly SupplierRegion[] = [
     image: {
       src: "/images/suppliers/armenia.webp",
       alt: "Кущові троянди з оптового асортименту Flora de Luxe Kyiv OPT",
-      width: 1000,
-      height: 750,
+      width: 1600,
+      height: 1200,
       isPlaceholder: false,
     },
     profile: {

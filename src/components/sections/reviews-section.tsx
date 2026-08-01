@@ -8,8 +8,12 @@ import { cn } from "@/lib/utils";
 
 export function ReviewsSection() {
   return (
-    <section id="reviews" aria-labelledby="reviews-title" className="bg-porcelain">
-      <div className="container-page section-y">
+    <section
+      id="reviews"
+      aria-labelledby="reviews-title"
+      className="section-canvas-light relative"
+    >
+      <div className="container-page section-y relative">
         <SectionHeading
           id="reviews-title"
           eyebrow="Клієнти"
@@ -19,7 +23,7 @@ export function ReviewsSection() {
 
         {reviewsAreDemo ? (
           <Reveal delay={80} className="mt-8">
-            <p className="border-line-strong text-muted flex items-start gap-3 rounded-[var(--radius-tile)] border border-dashed p-4 text-[0.875rem] leading-relaxed sm:p-5">
+            <p className="border-line-strong text-muted flex items-start gap-3 rounded-[var(--radius-tile)] border border-dashed p-4 text-sm leading-[1.7] font-medium sm:p-5">
               <Info className="text-bordeaux mt-0.5 size-5 shrink-0" aria-hidden="true" />
               {reviewsDisclaimer}
             </p>
@@ -39,13 +43,13 @@ export function ReviewsSection() {
                 >
                   <Quote className="text-rose-soft size-7 shrink-0" aria-hidden="true" />
 
-                  <blockquote className="text-graphite mt-4 flex-1 text-[0.9375rem] leading-relaxed">
+                  <blockquote className="text-graphite mt-4 flex-1 text-[0.9375rem] leading-[1.7] font-medium">
                     {review.text}
                   </blockquote>
 
                   <figcaption className="border-line mt-6 border-t pt-5">
                     <p className="text-ink font-display text-lg leading-tight">{review.business}</p>
-                    <p className="text-muted mt-1 text-[0.8125rem]">
+                    <p className="type-caption text-muted mt-1.5">
                       {review.clientType} · {review.city}
                     </p>
                   </figcaption>

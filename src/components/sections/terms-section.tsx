@@ -8,8 +8,11 @@ import { ctaLabels, telegramIntents } from "@/lib/content/navigation";
 
 export function TermsSection() {
   return (
-    <section id="terms" aria-labelledby="terms-title" className="relative scroll-mt-24 bg-porcelain">
-      <div aria-hidden="true" className="surface-grain absolute inset-0" />
+    <section
+      id="terms"
+      aria-labelledby="terms-title"
+      className="section-canvas-light relative scroll-mt-24"
+    >
       <div className="container-page section-y relative">
         <SectionHeading
           id="terms-title"
@@ -25,14 +28,14 @@ export function TermsSection() {
                 key={term.id}
                 className="border-line bg-cream/40 flex flex-col gap-2 border-b p-6 last:border-b-0 sm:p-7 sm:not-nth-[2n]:border-r sm:nth-last-[-n+2]:border-b-0 lg:not-last:border-r lg:border-b-0"
               >
-                <dt className="text-muted text-[0.6875rem] font-semibold tracking-[0.18em] uppercase">
+                <dt className="type-eyebrow text-muted">
                   {term.label}
                 </dt>
                 {/* Clamped rather than fixed: the Telegram handle is long and must not overflow at 320px. */}
                 <dd className="font-display text-ink text-[clamp(1.25rem,0.95rem+1.1vw,1.75rem)] leading-tight break-words">
                   {term.value}
                 </dd>
-                <p className="text-muted mt-auto pt-2 text-[0.8125rem] leading-relaxed">
+                <p className="type-caption text-muted mt-auto pt-2">
                   {term.hint}
                 </p>
               </div>
@@ -42,7 +45,7 @@ export function TermsSection() {
 
         <Reveal delay={140} className="mt-8">
           <div className="border-line bg-cream/50 flex flex-col gap-5 rounded-[var(--radius-card)] border p-6 sm:p-7 lg:flex-row lg:items-center lg:justify-between">
-            <p className="text-graphite flex items-start gap-3 text-[0.9375rem] leading-relaxed">
+            <p className="text-graphite flex items-start gap-3 text-[0.9375rem] leading-[1.7] font-medium">
               <Info className="text-bordeaux mt-0.5 size-5 shrink-0" aria-hidden="true" />
               {cooperationNotice}
             </p>

@@ -17,7 +17,10 @@ import { breadcrumbSchema } from "@/lib/seo";
 
 export default function HomePage() {
   return (
-    <>
+    <div className="relative">
+      {/* One grain texture for the whole scroll — never per-section. */}
+      <div aria-hidden="true" className="page-grain pointer-events-none fixed inset-0 z-[25]" />
+
       <Hero />
       <QuickNav />
       <IntroSection />
@@ -34,6 +37,6 @@ export default function HomePage() {
       <ContactSection />
 
       <JsonLd data={breadcrumbSchema([{ name: "Головна", path: "/" }])} />
-    </>
+    </div>
   );
 }

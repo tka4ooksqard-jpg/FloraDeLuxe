@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Manrope } from "next/font/google";
+import { Cormorant_Garamond, Inter } from "next/font/google";
 
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
@@ -11,16 +11,15 @@ import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["cyrillic", "latin"],
-  weight: ["400", "500", "600"],
+  weight: ["300", "400", "500", "600"],
   display: "swap",
   variable: "--font-cormorant",
 });
 
-const manrope = Manrope({
+const inter = Inter({
   subsets: ["cyrillic", "latin"],
-  weight: ["400", "500", "600", "700"],
   display: "swap",
-  variable: "--font-manrope",
+  variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
@@ -58,7 +57,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#5a1226",
+  themeColor: "#23070D",
   colorScheme: "light",
   width: "device-width",
   initialScale: 1,
@@ -66,7 +65,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang={siteConfig.htmlLang} className={`${cormorant.variable} ${manrope.variable}`}>
+    <html lang={siteConfig.htmlLang} className={`${cormorant.variable} ${inter.variable}`}>
       <head>
         {/* Scroll reveals start hidden; without JS they must never stay invisible. */}
         <noscript>

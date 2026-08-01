@@ -1,40 +1,44 @@
 @import "tailwindcss";
 
 @theme {
-  /* Neutrals — warm porcelain paper, never pure white or pure black. */
-  --color-porcelain: #fbf8f4;
-  --color-cream: #f4ede5;
-  --color-sand: #e9dfd3;
-  --color-line: #e2d7ca;
-  --color-line-strong: #cdbeae;
-  --color-muted: #6f635a;
-  --color-graphite: #2b2421;
-  --color-ink: #17120f;
+  /* Neutrals — warm paper, never pure white or pure black. */
+  --color-porcelain: #f6f3ef;
+  --color-cream: #efe8df;
+  --color-sand: #e4d9cc;
+  --color-line: #ddd5cc;
+  --color-line-strong: #c9bfb4;
+  --color-muted: #6a6158;
+  --color-graphite: #2a2320;
+  --color-ink: #14100e;
 
-  /* Brand accents — deep bordeaux, forest, muted rose, brass. */
-  --color-bordeaux: #5a1226;
-  --color-bordeaux-deep: #330b16;
-  --color-bordeaux-soft: #7d2039;
-  --color-forest: #1e3a31;
-  --color-forest-soft: #2f5a4a;
-  --color-rose: #b96f83;
-  --color-rose-soft: #efd9de;
-  --color-brass: #a98456;
-  --color-brass-soft: #d8bf9c;
+  /* Brand — deep bordeaux, forest CTA, muted rose, antique gold. */
+  --color-bordeaux: #3b101a;
+  --color-bordeaux-deep: #23070d;
+  --color-bordeaux-soft: #5a1a2a;
+  --color-forest: #0f4938;
+  --color-forest-soft: #135543;
+  --color-rose: #b07a88;
+  --color-rose-soft: #e8d6db;
+  --color-brass: #c8a46a;
+  --color-brass-soft: #ddc49a;
+
+  /* On-dark copy tokens (also used as porcelain on light). */
+  --color-frost: #f6f3ef;
+  --color-mist: #ddd5cc;
 
   --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, "Times New Roman", serif;
-  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  --radius-card: 1.5rem;
-  --radius-tile: 1rem;
+  --radius-card: 1.5rem; /* 24px */
+  --radius-tile: 1.125rem;
 
-  --shadow-soft: 0 1px 2px rgb(23 18 15 / 0.035), 0 14px 36px -20px rgb(23 18 15 / 0.26);
-  --shadow-lift: 0 2px 6px rgb(23 18 15 / 0.05), 0 32px 64px -28px rgb(23 18 15 / 0.32);
-  --shadow-media: 0 18px 48px -28px rgb(23 18 15 / 0.42);
+  --shadow-soft: 0 1px 2px rgb(20 12 14 / 0.03), 0 18px 40px -28px rgb(20 12 14 / 0.28);
+  --shadow-lift: 0 8px 20px -12px rgb(20 12 14 / 0.18), 0 36px 72px -36px rgb(20 12 14 / 0.38);
+  --shadow-media: 0 24px 56px -32px rgb(20 12 14 / 0.45);
 
   --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
-  --duration-micro: 320ms;
-  --duration-motion: 520ms;
+  --duration-micro: 250ms;
+  --duration-motion: 600ms;
 }
 
 @layer base {
@@ -48,19 +52,22 @@
   }
 
   body {
-    background-color: var(--color-porcelain);
+    background-color: #f6f3ef;
     color: var(--color-graphite);
     font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    font-weight: 500;
+    line-height: 1.65;
     font-synthesis-weight: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
-    /* Guards every page against accidental sideways scroll on narrow screens. */
     overflow-x: clip;
-    /* Soft paper depth under every page — stops the site reading as flat white. */
+    /* Continuous warm canvas — one interior, not stacked page fills. */
     background-image:
-      radial-gradient(72rem 40rem at 8% -8%, rgb(239 217 222 / 0.38), transparent 58%),
-      radial-gradient(56rem 36rem at 96% 4%, rgb(233 223 211 / 0.55), transparent 55%),
-      radial-gradient(48rem 32rem at 50% 100%, rgb(244 237 229 / 0.7), transparent 60%);
+      radial-gradient(circle at 12% 8%, rgb(186 139 90 / 0.08), transparent 70%),
+      radial-gradient(circle at 78% 42%, rgb(120 30 40 / 0.06), transparent 80%),
+      radial-gradient(circle at 40% 92%, rgb(186 139 90 / 0.05), transparent 65%),
+      linear-gradient(180deg, #f6f3ef 0%, #efe8df 45%, #f4efe8 100%);
     background-attachment: fixed;
   }
 
@@ -77,7 +84,8 @@
 
   p {
     text-wrap: pretty;
-    line-height: 1.65;
+    line-height: 1.75;
+    font-weight: 500;
   }
 
   :focus-visible {
@@ -112,17 +120,95 @@
   }
 }
 
-/* Editorial section rhythm: generous air between blocks, tighter on mobile. */
-@utility section-y {
-  padding-block: 5rem;
+/* Wider editorial frame for the home Hero only (1500–1600px). */
+@utility container-hero {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 100rem; /* 1600px */
+  padding-inline: 1.25rem;
 
   @media (width >= 48rem) {
-    padding-block: 7rem;
+    padding-inline: 1.75rem;
   }
 
   @media (width >= 80rem) {
-    padding-block: 8.5rem;
+    padding-inline: 2.25rem 2.5rem 2.25rem 2rem;
   }
+}
+
+/*
+ * Shared caption / eyebrow style for small UI labels. Sans only — never the
+ * display serif — with a floor of 13px and moderate tracking for readability.
+ */
+@utility type-eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+@utility type-caption {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.55;
+  letter-spacing: 0;
+}
+
+/* Editorial section rhythm — 120–180px vertical air, never “sliced screens”. */
+@utility section-y {
+  padding-block: 7.5rem; /* 120px */
+
+  @media (width >= 48rem) {
+    padding-block: 9rem; /* 144px */
+  }
+
+  @media (width >= 80rem) {
+    padding-block: 11.25rem; /* 180px */
+  }
+}
+
+/*
+ * Clean cream canvas — no decorative fills that read as section dividers.
+ */
+@utility section-canvas-light {
+  position: relative;
+  background-color: #efe8df;
+}
+
+/* Quiet bordeaux field — Hero / Delivery / How-to-order family. */
+@utility section-canvas-dark {
+  position: relative;
+  color: var(--color-frost);
+  background-color: #23070d;
+}
+
+/*
+ * Optional whisper only — ≤80px, <10% opacity.
+ * Prefer none; space between sections does the work.
+ */
+@utility section-seam-whisper {
+  &::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    z-index: 0;
+    height: 4.5rem;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgb(35 7 13 / 0.08) 0%, transparent 100%);
+  }
+}
+
+/* Page-wide film grain — same texture on every chapter (2–3%). */
+@utility page-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  mix-blend-mode: soft-light;
+  opacity: 0.028;
+  pointer-events: none;
 }
 
 /*
@@ -132,15 +218,23 @@
 @utility surface-grain {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
   background-size: 160px 160px;
-  opacity: 0.045;
+  opacity: 0.03;
   pointer-events: none;
 }
 
 @utility surface-glow {
   background-image:
-    radial-gradient(42rem 28rem at 12% 18%, rgb(239 217 222 / 0.45), transparent 68%),
-    radial-gradient(36rem 24rem at 88% 82%, rgb(216 191 156 / 0.18), transparent 70%);
+    radial-gradient(circle at 14% 12%, rgb(90 26 42 / 0.03), transparent 72%),
+    radial-gradient(circle at 82% 70%, rgb(186 139 90 / 0.03), transparent 75%);
   pointer-events: none;
+}
+
+/*
+ * Unified photographic grade — warm light, soft contrast, slight vignette feel
+ * via filter. Applied to content images so the pack reads as one session.
+ */
+@utility media-grade {
+  filter: contrast(1.06) saturate(0.9) brightness(0.97) sepia(0.1);
 }
 
 /* Shared media hover: slow zoom + soft veil deepen. */
@@ -149,7 +243,7 @@
   will-change: transform;
 
   .group:hover & {
-    transform: scale(1.045);
+    transform: scale(1.03);
   }
 }
 
@@ -199,19 +293,103 @@
  */
 @utility reveal {
   opacity: 0;
-  transform: translateY(1rem);
-  filter: blur(2px);
+  transform: translateY(30px);
   transition:
-    opacity var(--duration-motion) var(--ease-soft),
-    transform var(--duration-motion) var(--ease-soft),
-    filter var(--duration-motion) var(--ease-soft);
+    opacity 800ms var(--ease-soft),
+    transform 800ms var(--ease-soft);
   transition-delay: var(--reveal-delay, 0ms);
 
   &[data-revealed="true"] {
     opacity: 1;
     transform: none;
-    filter: none;
   }
+}
+
+/*
+ * Home bridge (QuickNav + Intro): quieter motion so the chapter continues
+ * the Hero rather than announcing a new page.
+ */
+@utility bridge-motion {
+  .reveal {
+    transform: translateY(6px);
+    transition-duration: 420ms;
+  }
+}
+
+/*
+ * Delivery section — continues the Hero bordeaux field so the page reads as
+ * one composition rather than a dark dashboard block.
+ */
+@utility delivery-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  mix-blend-mode: soft-light;
+  opacity: 0.055;
+  pointer-events: none;
+}
+
+/* Thin editorial week tabs — never a control panel. */
+@utility delivery-week-tab {
+  display: inline-flex;
+  min-height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  padding-inline: 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgb(246 243 239 / 0.06);
+  background: rgb(246 243 239 / 0.03);
+  color: rgb(246 243 239 / 0.36);
+  transition:
+    background-color 250ms var(--ease-soft),
+    border-color 250ms var(--ease-soft),
+    color 250ms var(--ease-soft);
+
+  &:hover {
+    border-color: rgb(213 175 99 / 0.22);
+    background: rgb(246 243 239 / 0.06);
+    color: rgb(246 243 239 / 0.7);
+  }
+}
+
+@utility delivery-week-tab-active {
+  border-color: rgb(213 175 99 / 0.4);
+  background: rgb(213 175 99 / 0.9);
+  color: #1a050a;
+
+  &:hover {
+    border-color: rgb(213 175 99 / 0.5);
+    background: rgb(213 175 99 / 0.95);
+    color: #1a050a;
+  }
+}
+
+@utility delivery-card {
+  border: 1px solid rgb(246 243 239 / 0.06);
+  border-radius: 1.75rem;
+  background: rgb(34 20 23 / 0.42);
+  backdrop-filter: blur(28px) saturate(1.08);
+  -webkit-backdrop-filter: blur(28px) saturate(1.08);
+  box-shadow: 0 16px 36px -30px rgb(0 0 0 / 0.35);
+  transition:
+    transform 250ms var(--ease-soft),
+    box-shadow 250ms var(--ease-soft),
+    border-color 250ms var(--ease-soft);
+
+  &:hover {
+    transform: translateY(-4px) scale(1.01);
+    border-color: rgb(213 175 99 / 0.28);
+    box-shadow: 0 22px 44px -28px rgb(0 0 0 / 0.42);
+  }
+}
+
+@utility delivery-card-feature {
+  border: 1px solid rgb(213 175 99 / 0.16);
+  background: rgb(34 20 23 / 0.5);
+}
+
+@utility delivery-photo {
+  border-radius: 2rem;
+  filter: brightness(1.02) contrast(1.04) saturate(0.92) sepia(0.03);
 }
 
 /* Soft route entrance for inner pages — CSS only, no animation library. */
@@ -230,37 +408,107 @@
  */
 @utility hero-atmosphere {
   background-image:
-    radial-gradient(56rem 44rem at 10% 4%, rgb(125 32 57 / 0.55), transparent 64%),
-    radial-gradient(38rem 32rem at 0% 92%, rgb(30 58 49 / 0.3), transparent 70%),
-    radial-gradient(44rem 36rem at 96% 96%, rgb(169 132 86 / 0.14), transparent 70%),
-    linear-gradient(152deg, #360c19 0%, #24080f 48%, #130508 100%);
+    radial-gradient(44rem 32rem at 14% 14%, rgb(90 26 42 / 0.32), transparent 64%),
+    radial-gradient(36rem 30rem at 86% 20%, rgb(201 166 107 / 0.08), transparent 60%),
+    radial-gradient(30rem 24rem at 72% 88%, rgb(15 58 46 / 0.1), transparent 68%),
+    linear-gradient(148deg, #23070d 0%, #3b101a 48%, #1a050a 100%);
+}
+
+/*
+ * Soft bloom behind the copy. Oversized ellipse + strong blur — never a
+ * rectangular card behind the headline.
+ */
+@utility hero-title-glow {
+  background: radial-gradient(
+    ellipse 78% 68% at 28% 40%,
+    rgba(116, 27, 48, 0.22) 0%,
+    rgba(88, 18, 36, 0.12) 40%,
+    rgba(45, 8, 17, 0.05) 64%,
+    transparent 84%
+  );
+  filter: blur(40px);
+  animation: fdl-title-glow 34s var(--ease-soft) infinite alternate;
+  will-change: opacity;
+}
+
+/* Slow drifting wine bloom — depth without noise. */
+@utility hero-wine-glow {
+  background-image:
+    radial-gradient(36rem 26rem at 22% 38%, rgb(90 26 42 / 0.28), transparent 74%),
+    radial-gradient(24rem 20rem at 78% 52%, rgb(201 166 107 / 0.09), transparent 72%);
+  animation: fdl-wine-glow 32s var(--ease-soft) infinite alternate;
+  will-change: transform, opacity;
+}
+
+/* Wide left→photo dissolve — stacked radials only, no hard vertical edge. */
+@utility hero-field-blend {
+  background-image:
+    radial-gradient(ellipse 70% 90% at 0% 45%, rgb(35 7 13 / 0.78) 0%, transparent 68%),
+    radial-gradient(ellipse 55% 80% at 18% 50%, rgb(35 7 13 / 0.42) 0%, transparent 72%),
+    radial-gradient(ellipse 40% 70% at 36% 48%, rgb(35 7 13 / 0.16) 0%, transparent 74%);
+}
+
+/* Photo plane veil — seamless radial dissolve into the copy field. */
+@utility hero-media-veil {
+  background-image:
+    radial-gradient(ellipse 85% 110% at -5% 48%, rgb(35 7 13 / 0.88) 0%, transparent 58%),
+    radial-gradient(ellipse 60% 95% at 12% 50%, rgb(35 7 13 / 0.48) 0%, transparent 68%),
+    radial-gradient(ellipse 45% 80% at 28% 46%, rgb(35 7 13 / 0.18) 0%, transparent 72%),
+    radial-gradient(ellipse 35% 55% at 42% 40%, rgb(35 7 13 / 0.06) 0%, transparent 78%);
+}
+
+@utility hero-media-veil-mobile {
+  background-image:
+    radial-gradient(ellipse 120% 70% at 50% 100%, rgb(18 7 10 / 0.78) 0%, transparent 58%),
+    radial-gradient(ellipse 100% 55% at 50% 0%, rgb(18 7 10 / 0.28) 0%, transparent 55%);
 }
 
 /* Defocused highlight orbs — depth cue, not decoration. */
 @utility hero-bokeh {
   background-image:
-    radial-gradient(circle at 22% 18%, rgb(251 248 244 / 0.09), transparent 32%),
-    radial-gradient(circle at 44% 62%, rgb(239 217 222 / 0.07), transparent 30%),
-    radial-gradient(circle at 8% 74%, rgb(216 191 156 / 0.07), transparent 28%);
+    radial-gradient(circle at 18% 18%, rgb(246 243 239 / 0.04), transparent 30%),
+    radial-gradient(circle at 46% 62%, rgb(201 166 107 / 0.035), transparent 28%),
+    radial-gradient(circle at 10% 78%, rgb(246 243 239 / 0.03), transparent 26%);
 }
 
-/* Weighted to the left so the copy sits in shadow and the image keeps the light. */
+/* Soft edge vignette — radial only, no hard horizontal/vertical bands. */
 @utility hero-vignette {
-  background-image: radial-gradient(128% 104% at 72% 42%, transparent 34%, rgb(10 3 6 / 0.72) 100%);
+  background-image: radial-gradient(
+    132% 112% at 70% 42%,
+    transparent 46%,
+    rgb(10 3 6 / 0.28) 100%
+  );
 }
 
-/* Monochrome film grain; also stops large flat areas from banding. */
+/* Barely-there film grain — texture, not noise. */
 @utility hero-grain {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
   background-size: 160px 160px;
-  mix-blend-mode: overlay;
-  opacity: 0.34;
+  mix-blend-mode: soft-light;
+  opacity: 0.07;
+}
+
+/* Editorial photo grade — subtle cinematic lift, not a visible filter. */
+@utility hero-photo-grade {
+  filter: brightness(1.02) contrast(1.05) saturate(0.9) sepia(0.025);
+}
+
+/* Soft petal shapes — decorative only, never interactive. */
+@utility hero-petal {
+  position: absolute;
+  border-radius: 70% 30% 60% 40% / 50% 55% 45% 50%;
+  background: rgb(246 243 239 / 0.09);
+  filter: blur(1.5px);
+  opacity: 0.08;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: fdl-petal-drift var(--petal-duration, 18s) var(--ease-soft) infinite;
+  animation-delay: var(--petal-delay, 0s);
 }
 
 /*
- * Dissolves the hero image into the page instead of framing it. Narrow screens
- * only need a top/bottom fade; from `lg` the image sits beside the copy, so a
- * left fade and a soft oval keep its inner edge from ever becoming a line.
+ * Soft edge dissolve only — never a framed card. Mobile fades top/bottom;
+ * desktop bleeds the left edge into the bordeaux field with no hard seam.
  */
 @utility hero-media-mask {
   mask-repeat: no-repeat;
@@ -268,29 +516,70 @@
   mask-image: linear-gradient(
     to bottom,
     transparent 0%,
-    rgb(0 0 0 / 0.55) 13%,
-    #000 36%,
-    #000 74%,
+    #000 10%,
+    #000 90%,
     transparent 100%
   );
 
   @media (width >= 64rem) {
-    mask-image:
-      linear-gradient(to right, transparent 0%, rgb(0 0 0 / 0.5) 11%, #000 34%),
-      linear-gradient(to bottom, transparent 0%, #000 16%, #000 76%, transparent 100%),
-      radial-gradient(128% 96% at 62% 46%, #000 52%, transparent 92%);
-    mask-composite: intersect;
+    /* Soft left dissolve only — top-right stays solid so the still can break out. */
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      rgb(0 0 0 / 0.28) 6%,
+      #000 22%,
+      #000 100%
+    );
   }
 }
 
 /* Staged entrance for the hero copy: eyebrow, headline, body, buttons. */
 @utility hero-rise {
-  animation: fdl-hero-rise 820ms var(--ease-soft) both;
+  animation: fdl-hero-rise 1100ms var(--ease-soft) both;
   animation-delay: var(--hero-delay, 0ms);
 }
 
 @utility hero-media-in {
   animation: fdl-hero-media 900ms var(--ease-soft) both;
+}
+
+/*
+ * Brand mark on the hero still — reads as a metal wall sign, not a UI badge.
+ * Soft-light + low opacity let it pick up the photograph’s warm light.
+ */
+@utility hero-brand-sign {
+  opacity: 0.52;
+  mix-blend-mode: soft-light;
+  filter: blur(0.3px) drop-shadow(0 1px 8px rgb(201 166 107 / 0.22));
+  animation: fdl-hero-brand-sign 900ms ease-out both;
+  will-change: opacity, transform;
+}
+
+/* Slow cinematic ken-burns on the hero photograph. */
+@utility hero-kenburns {
+  animation: fdl-hero-kenburns 30s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+/* Luxury glass strip for hero highlights — soft border gradient. */
+@utility hero-glass {
+  border: 1px solid transparent;
+  border-radius: 26px;
+  background:
+    linear-gradient(rgba(34, 20, 23, 0.55), rgba(34, 20, 23, 0.55)) padding-box,
+    linear-gradient(
+      135deg,
+      rgb(213 175 99 / 0.45) 0%,
+      rgb(213 175 99 / 0.1) 42%,
+      rgb(213 175 99 / 0.34) 100%
+    )
+    border-box;
+  backdrop-filter: blur(36px) saturate(1.14);
+  -webkit-backdrop-filter: blur(36px) saturate(1.14);
+  box-shadow:
+    0 1px 0 rgb(246 243 239 / 0.08) inset,
+    0 0 28px rgb(213 175 99 / 0.05) inset,
+    0 22px 48px -36px rgb(0 0 0 / 0.36);
 }
 
 /*
@@ -303,13 +592,32 @@
   will-change: transform;
 }
 
+/* Cinematic grade stack over hero media. */
+@utility hero-cinematic {
+  background-image:
+    linear-gradient(to right, rgb(35 7 13 / 0.72) 0%, rgb(35 7 13 / 0.18) 38%, transparent 58%),
+    linear-gradient(to top, rgb(19 5 8 / 0.55) 0%, transparent 42%),
+    radial-gradient(90% 80% at 60% 40%, transparent 40%, rgb(10 3 6 / 0.45) 100%);
+  mix-blend-mode: multiply;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
 
-  .hero-parallax {
+  .hero-parallax,
+  .hero-kenburns,
+  .hero-wine-glow,
+  .hero-title-glow,
+  .hero-brand-sign,
+  .hero-petal {
+    animation: none !important;
     transform: none;
+  }
+
+  .hero-brand-sign {
+    opacity: 0.52;
   }
 
   *,
@@ -321,10 +629,10 @@
     scroll-behavior: auto !important;
   }
 
-  .reveal {
+  .reveal,
+  .bridge-motion .reveal {
     opacity: 1;
     transform: none;
-    filter: none;
   }
 
   .page-enter {
@@ -361,7 +669,7 @@
 @keyframes fdl-hero-rise {
   from {
     opacity: 0;
-    transform: translate3d(0, 1.5rem, 0);
+    transform: translate3d(0, 0.85rem, 0);
   }
   to {
     opacity: 1;
@@ -377,6 +685,64 @@
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@keyframes fdl-hero-brand-sign {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 0.52;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fdl-hero-kenburns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.025);
+  }
+}
+
+@keyframes fdl-wine-glow {
+  from {
+    opacity: 0.35;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    opacity: 0.62;
+    transform: translate3d(2.5%, -1.5%, 0) scale(1.06);
+  }
+}
+
+/* Opacity-only drift — no scale that would reveal a rectangular frame. */
+@keyframes fdl-title-glow {
+  from {
+    opacity: 0.72;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fdl-petal-drift {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.12;
+  }
+  88% {
+    opacity: 0.09;
+  }
+  100% {
+    transform: translate3d(var(--petal-x, 40px), var(--petal-y, -120px), 0) rotate(var(--petal-rot, 28deg));
+    opacity: 0;
   }
 }
 

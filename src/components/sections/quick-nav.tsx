@@ -20,12 +20,27 @@ export function QuickNav({
   className?: string;
 }) {
   return (
-    <section aria-label={title ?? "Швидкий перехід"} className={cn("bg-cream/50", className)}>
-      <div className="container-page py-12 md:py-16">
+    <section
+      aria-label={title ?? "Швидкий перехід"}
+      className={cn(
+        "section-canvas-light relative",
+        !title && "bridge-motion",
+        className,
+      )}
+    >
+      <div
+        className={cn(
+          "relative",
+          /* Home bridge: tight under Hero. Inner pages keep fuller closing rhythm. */
+          title
+            ? "container-page py-20 md:py-24"
+            : "container-hero pt-8 pb-4 md:pt-10 md:pb-5",
+        )}
+      >
         {title ? (
           <Reveal className="mb-10">
             {eyebrow ? (
-              <span className="text-bordeaux text-[0.6875rem] font-semibold tracking-[0.22em] uppercase">
+              <span className="type-eyebrow text-bordeaux">
                 {eyebrow}
               </span>
             ) : null}

@@ -12,7 +12,7 @@ export default function NotFound() {
   return (
     <section className="bg-porcelain">
       <div className="container-page flex min-h-[60svh] flex-col justify-center py-20">
-        <p className="text-bordeaux text-[0.6875rem] font-semibold tracking-[0.22em] uppercase">
+        <p className="type-eyebrow text-bordeaux">
           Помилка 404
         </p>
         <h1 className="mt-5 max-w-2xl text-[clamp(2rem,1.3rem+3vw,3.5rem)] leading-[1.08]">

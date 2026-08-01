@@ -52,7 +52,7 @@ export function SuppliersPreview() {
                       fill
                       loading="lazy"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 24vw"
-                      className="object-cover transition-transform duration-700 ease-[var(--ease-soft)] group-hover:scale-[1.04]"
+                      className="media-grade media-zoom object-cover"
                     />
                   </span>
 
@@ -60,7 +60,7 @@ export function SuppliersPreview() {
                     <span className="flex items-center gap-2.5">
                       <span
                         aria-hidden="true"
-                        className="border-line-strong text-bordeaux rounded-full border px-2.5 py-0.5 text-[0.6875rem] font-semibold tracking-[0.14em]"
+                        className="border-line-strong text-bordeaux rounded-full border px-2.5 py-0.5 text-[0.8125rem] font-medium tracking-[0.1em]"
                       >
                         {region.code}
                       </span>
@@ -68,7 +68,7 @@ export function SuppliersPreview() {
                         {region.country}
                       </span>
                     </span>
-                    <span className="text-muted mt-2.5 block text-[0.875rem] leading-relaxed">
+                    <span className="text-muted mt-2.5 block text-sm leading-[1.65] font-medium">
                       {region.description}
                     </span>
                   </span>

@@ -1,54 +1,54 @@
+import Image from "next/image";
 import Link from "next/link";
 
+import { brandLogo } from "@/lib/brand-logo";
 import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
+export { brandLogo };
+
 /**
- * Wordmark used in the header, footer and mobile menu. There is no supplied
- * logo file yet, so the brand is set in the display serif with a wide-tracked
- * sub-line — replace with an SVG once the client provides one.
+ * Brand logo for header, footer and mobile menu.
+ * Display height ~43px mobile / ~58px desktop; width follows aspect ratio.
  */
 export function BrandMark({
-  tone = "light",
   asLink = true,
+  priority = false,
   className,
 }: {
+  /** Kept for call-site compatibility. */
   tone?: "light" | "dark";
   asLink?: boolean;
+  priority?: boolean;
   className?: string;
 }) {
-  const isDark = tone === "dark";
-
-  const content = (
-    <span className={cn("flex flex-col leading-none", className)}>
-      <span
-        className={cn(
-          "font-display text-[1.0625rem] tracking-[0.22em] uppercase sm:text-lg",
-          isDark ? "text-porcelain" : "text-ink",
-        )}
-      >
-        {siteConfig.logoTop}
-      </span>
-      <span
-        className={cn(
-          "mt-1 text-[0.5625rem] font-semibold tracking-[0.42em] uppercase",
-          isDark ? "text-brass-soft" : "text-bordeaux",
-        )}
-      >
-        {siteConfig.logoBottom}
-      </span>
-    </span>
+  const image = (
+    <Image
+      src={brandLogo.src}
+      alt={siteConfig.name}
+      width={brandLogo.width}
+      height={brandLogo.height}
+      priority={priority}
+      sizes="(max-width: 640px) 172px, 232px"
+      className={cn(
+        "h-[43px] w-auto sm:h-[58px]",
+        "transition-[transform,filter] duration-[250ms] ease-[var(--ease-soft)]",
+        asLink &&
+          "group-hover:scale-[1.02] group-hover:drop-shadow-[0_0_10px_rgba(201,166,107,0.22)]",
+        className,
+      )}
+    />
   );
 
-  if (!asLink) return content;
+  if (!asLink) return image;
 
   return (
     <Link
       href="/"
       aria-label={`${siteConfig.name} — на головну`}
-      className="inline-flex min-h-11 shrink-0 items-center"
+      className="group inline-flex shrink-0 items-center self-center"
     >
-      {content}
+      {image}
     </Link>
   );
 }

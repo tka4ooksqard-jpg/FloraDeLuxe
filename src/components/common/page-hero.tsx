@@ -27,20 +27,20 @@ export function PageHero({
       <div aria-hidden="true" className="surface-glow absolute inset-0" />
       <div aria-hidden="true" className="surface-grain absolute inset-0" />
 
-      <div className="container-page relative pt-10 pb-16 md:pt-14 md:pb-24">
+      <div className="container-page relative pt-12 pb-20 md:pt-16 md:pb-28">
         <nav aria-label="Хлібні крихти">
-          <ol className="text-muted flex flex-wrap items-center gap-x-1.5 gap-y-1 text-[0.8125rem]">
+          <ol className="text-muted flex flex-wrap items-center gap-x-1.5 gap-y-1 text-sm font-medium">
             {trail.map((crumb, index) => {
               const isLast = index === trail.length - 1;
               return (
                 <li key={crumb.path} className="flex items-center gap-1.5">
                   {index > 0 ? (
-                    <ChevronRight className="size-3.5 opacity-50" aria-hidden="true" />
+                    <ChevronRight className="size-3.5 opacity-60" aria-hidden="true" />
                   ) : null}
                   {isLast ? (
                     <span
                       aria-current="page"
-                      className="text-graphite inline-flex min-h-8 items-center"
+                      className="text-graphite inline-flex min-h-8 items-center font-medium"
                     >
                       {crumb.name}
                     </span>
@@ -59,13 +59,11 @@ export function PageHero({
         </nav>
 
         <Reveal className="mt-9 max-w-3xl">
-          <p className="text-bordeaux text-[0.6875rem] font-semibold tracking-[0.22em] uppercase">
-            {intro.eyebrow}
-          </p>
+          <p className="type-eyebrow text-bordeaux">{intro.eyebrow}</p>
           <h1 className="mt-5 text-[clamp(2.2rem,1.35rem+3.4vw,4.25rem)] leading-[1.04]">
             {intro.title}
           </h1>
-          <p className="text-muted mt-6 max-w-2xl text-[1.0625rem] leading-relaxed md:text-[1.125rem]">
+          <p className="text-muted mt-6 max-w-2xl text-base leading-[1.75] font-medium md:text-[1.0625rem]">
             {intro.description}
           </p>
         </Reveal>

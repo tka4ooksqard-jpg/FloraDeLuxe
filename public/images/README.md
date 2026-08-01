@@ -1,33 +1,36 @@
 # Зображення / Images
 
-Більшість слотів заповнені **реальними фото** з публічного Telegram-каналу
-опту [`@floradeluxekyiv_opt`](https://t.me/floradeluxekyiv_opt)
-(скрипт `scripts/import-opt-media.mjs`).
+Єдиний luxury-фотосет Flora de Luxe Kyiv OPT.
 
-## Замінено реальними фото OPT
+## Асортимент (категорії)
 
-| Файл | Джерело / зміст |
+| Категорія | Файл |
 | --- | --- |
-| `hero/wholesale-hall.webp` | Оптові пачки троянд |
-| `categories/roses.webp` | Троянди в пачках |
-| `categories/chrysanthemums.webp` | Оптова пачка (dedicated хризантема-пост не знайдено в недавній стрічці — reuse) |
-| `categories/exotic.webp` | Акцентна / екзотична позиція |
-| `categories/greenery.webp` | Декоративна зелень |
-| `categories/seasonal.webp` | Танацетум Голландія |
-| `suppliers/netherlands.webp` | Танацетум / голландський напрямок |
-| `suppliers/ecuador.webp` | Преміальна троянда (серія «Е») |
-| `suppliers/ukraine.webp` | Оптові пачки |
-| `suppliers/armenia.webp` | Кущові / спрей-троянди |
-| `about/hall.webp`, `about/craft.webp` | Оптові пачки з каналу |
-| `warehouse/*.webp` | Продуктові кадри з каналу (не інтер’єр складу) |
-| `og/cover.webp` | Обкладинка з оптового кадру |
+| Троянди | `categories/roses-premium.webp` |
+| Хризантеми | `categories/chrysanthemums-premium.webp` |
+| Екзотика | `categories/exotic-premium.webp` |
+| Зелень | `categories/greenery-premium.webp` |
+| Сезонні | `categories/seasonal-premium.webp` |
 
-## Ще очікує матеріал
+## Галерея «Як виглядає наша робота»
 
-- `public/videos/warehouse/walkthrough.mp4` — відео зі складу
+| Кадр | Файл |
+| --- | --- |
+| Оптовий зал (feature) | `gallery/wholesale-hall-premium.webp` |
+| Партія на прийманні | `gallery/new-delivery-premium.webp` |
+| Червоні / білі троянди | `gallery/red-white-roses-premium.webp` |
+| Рожеві троянди | `gallery/pink-roses-premium.webp` |
+| Кошики | `gallery/floral-baskets-premium.webp` |
+| Упаковка | `gallery/packaging-materials-premium.webp` |
+| Комплектація | `gallery/order-preparation-premium.webp` |
+| Холодильне зберігання | `gallery/cold-storage-premium.webp` |
 
-## Порядок оновлення
+## Архів
 
-1. Додайте або перезапустіть `node scripts/import-opt-media.mjs`.
-2. Оновіть `alt` у `src/lib/content/*.ts`.
-3. Для Hero — перегенеруйте `blurDataURL` (див. `src/lib/content/media.ts`).
+Попередні матеріали збережено в `archive/real-media/` (не видаляти).
+
+## Пайплайн
+
+```bash
+pnpm photoset:categories-gallery
+```

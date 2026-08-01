@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 
 const controlStyles = cn(
   "border-line-strong bg-porcelain text-graphite w-full rounded-2xl border px-4 py-3",
-  "min-h-11 text-[0.9375rem] placeholder:text-muted/60",
+  "min-h-11 text-[0.9375rem] font-medium placeholder:text-muted/75",
   "transition-[border-color,box-shadow] duration-300 ease-[var(--ease-soft)]",
   "hover:border-line-strong/80",
   "focus:border-bordeaux focus:ring-bordeaux/15 focus:ring-4 focus:outline-none",
@@ -19,7 +19,7 @@ const controlStyles = cn(
 function Label({ className, ...props }: ComponentProps<typeof LabelPrimitive.Root>) {
   return (
     <LabelPrimitive.Root
-      className={cn("text-graphite mb-2 block text-sm font-medium", className)}
+      className={cn("text-graphite mb-2 block text-sm font-semibold", className)}
       {...props}
     />
   );

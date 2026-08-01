@@ -9,8 +9,11 @@ import { cn } from "@/lib/utils";
 
 export function StorageSection() {
   return (
-    <section id="storage" aria-labelledby="storage-title" className="relative bg-porcelain">
-      <div aria-hidden="true" className="surface-glow absolute inset-0 opacity-70" />
+    <section
+      id="storage"
+      aria-labelledby="storage-title"
+      className="section-canvas-light relative"
+    >
       <div className="container-page section-y relative">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
           <div>
@@ -24,7 +27,10 @@ export function StorageSection() {
             <Reveal delay={120} className="mt-9">
               <ul className="grid gap-y-3 sm:grid-cols-2 sm:gap-x-6">
                 {storageAdvantages.map((advantage) => (
-                  <li key={advantage} className="text-graphite flex items-start gap-2.5 text-[0.9375rem]">
+                  <li
+                    key={advantage}
+                    className="text-graphite flex items-start gap-2.5 text-[0.9375rem] font-medium leading-snug"
+                  >
                     <Check className="text-bordeaux mt-0.5 size-4 shrink-0" aria-hidden="true" />
                     {advantage}
                   </li>
@@ -47,7 +53,7 @@ export function StorageSection() {
                       <Icon name={card.icon} className="size-5" />
                     </span>
                     <h3 className="text-ink mt-5 text-xl leading-tight">{card.title}</h3>
-                    <p className="text-muted mt-2.5 text-[0.9375rem] leading-relaxed">
+                    <p className="text-muted mt-2.5 text-[0.9375rem] leading-[1.7] font-medium">
                       {card.description}
                     </p>
                   </article>

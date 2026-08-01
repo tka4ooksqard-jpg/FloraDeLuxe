@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useId, useState, useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -14,6 +15,7 @@ import { Checkbox, FieldMessage, Input, Label, Select, Textarea } from "@/compon
 import { submitLead } from "@/lib/actions/submit-lead";
 import { categoryNames } from "@/lib/content/categories";
 import { ctaLabels } from "@/lib/content/navigation";
+import { sceneImages } from "@/lib/content/scenes";
 import {
   budgetRanges,
   leadSchema,
@@ -92,8 +94,12 @@ export function LeadForm() {
   });
 
   return (
-    <section id="lead-form" aria-labelledby="lead-form-title" className="bg-porcelain scroll-mt-24">
-      <div className="container-page section-y">
+    <section
+      id="lead-form"
+      aria-labelledby="lead-form-title"
+      className="section-canvas-light relative scroll-mt-24"
+    >
+      <div className="container-page section-y relative">
         <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <div>
             <SectionHeading
@@ -103,7 +109,19 @@ export function LeadForm() {
               description="Залиште контакти — менеджер надішле актуальний прайс і узгодить умови під ваш формат закупівлі."
             />
 
-            <Reveal delay={120} className="mt-8">
+            <Reveal delay={100} className="mt-8">
+              <div className="relative aspect-4/5 max-w-md overflow-hidden rounded-[1.75rem]">
+                <Image
+                  src={sceneImages.finalCta.src}
+                  alt={sceneImages.finalCta.alt}
+                  fill
+                  sizes="(max-width: 1024px) 90vw, 32vw"
+                  className="object-cover object-center"
+                />
+              </div>
+            </Reveal>
+
+            <Reveal delay={140} className="mt-7">
               <ul className="text-muted space-y-3 text-[0.9375rem] leading-relaxed">
                 <li>Відповідаємо в робочий час у Telegram або телефоном.</li>
                 <li>Прайс надсилається без зобов’язань щодо замовлення.</li>

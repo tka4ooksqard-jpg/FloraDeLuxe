@@ -50,7 +50,7 @@ export default function AboutPage() {
               <div className="mt-8 space-y-5">
                 {aboutPage.story.map((paragraph, index) => (
                   <Reveal key={paragraph.slice(0, 24)} delay={index * 80}>
-                    <p className="text-muted text-[1.0625rem] leading-relaxed">{paragraph}</p>
+                    <p className="text-muted text-base leading-[1.75] font-medium">{paragraph}</p>
                   </Reveal>
                 ))}
               </div>
@@ -58,14 +58,14 @@ export default function AboutPage() {
 
             <Reveal delay={100}>
               <div className="grid grid-cols-2 gap-4">
-                <div className="relative col-span-2 aspect-4/3 overflow-hidden rounded-[var(--radius-card)]">
+                <div className="relative col-span-2 aspect-3/4 overflow-hidden rounded-[var(--radius-card)] sm:aspect-4/5">
                   <Image
                     src={aboutPage.images.hall.src}
                     alt={aboutPage.images.hall.alt}
                     fill
                     priority
                     sizes="(max-width: 1024px) 100vw, 45vw"
-                    className="object-cover"
+                    className="media-grade object-cover object-center"
                   />
                 </div>
                 <div className="relative col-span-2 aspect-16/10 overflow-hidden rounded-[var(--radius-card)] sm:col-span-1 sm:aspect-4/5">
@@ -75,7 +75,7 @@ export default function AboutPage() {
                     fill
                     loading="lazy"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 22vw"
-                    className="object-cover"
+                    className="media-grade object-cover object-center"
                   />
                 </div>
                 <div
@@ -87,7 +87,7 @@ export default function AboutPage() {
                   <p className="font-display text-ink text-[1.5rem] leading-tight">
                     Прайс і наявність — у Telegram
                   </p>
-                  <p className="text-muted mt-3 text-[0.875rem] leading-relaxed">
+                  <p className="text-muted mt-3 text-sm leading-[1.7] font-medium">
                     Тому ми говоримо про графік поставок, пачки та підтвердження наявності, а не про
                     гучні гарантії.
                   </p>
@@ -116,7 +116,7 @@ export default function AboutPage() {
                       <Icon name={principle.icon} className="size-5" />
                     </span>
                     <h3 className="text-ink mt-5 text-xl leading-snug">{principle.title}</h3>
-                    <p className="text-muted mt-2.5 text-[0.9375rem] leading-relaxed">
+                    <p className="text-muted mt-2.5 text-[0.9375rem] leading-[1.7] font-medium">
                       {principle.description}
                     </p>
                   </article>

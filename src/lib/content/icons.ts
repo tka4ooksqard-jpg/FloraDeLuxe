@@ -14,6 +14,7 @@ export type IconName =
   | "globe"
   | "sparkles"
   | "flower"
+  | "users"
   | "leaf"
   | "send"
   | "mapPin"

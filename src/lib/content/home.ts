@@ -4,20 +4,22 @@ import type { SiteImage } from "@/lib/content/media";
 import { type NavCard, routeCards } from "@/lib/content/navigation";
 
 export const hero = {
-  eyebrow: "Оптові поставки квітів у Києві",
-  titleLead: "Свіжі квіти оптом",
-  titleAccent: "для вашого бізнесу",
-  tagline: "Опт у Києві. Актуальний прайс у Telegram. Доставка по місту.",
-  subtitle:
-    "Постачаємо троянди, хризантеми, екзотику, зелень і сезонні квіти для магазинів, флористів, декораторів та HoReCa.",
+  eyebrow: "Оптовий напрямок Flora de Luxe",
+  titleLead: "Квіти,",
+  titleAccent: ["які обирають", "професіонали"] as const,
+  subtitle: [
+    "Добірні троянди, хризантеми, сезонні квіти та зелень для квіткових магазинів, студій флористики і корпоративних клієнтів.",
+    "Працюємо виключно з професійними клієнтами.",
+    "Актуальний прайс та швидке оформлення — у Telegram.",
+  ] as const,
   image: {
-    src: "/images/hero/wholesale-hall.webp",
-    alt: "Оптові пачки троянд Flora de Luxe Kyiv OPT",
-    width: 1500,
-    height: 1900,
+    src: "/images/hero/hero-premium-wholesale.webp",
+    alt: "Оптовий асортимент свіжих квітів Flora de Luxe Kyiv OPT",
+    width: 1920,
+    height: 1280,
     isPlaceholder: false,
     blurDataURL:
-      "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAADQAQCdASoMABAAA4BaJbACdADdQXv5oAD+umsBHZko//IHhJM0KV9bsv+7w48zFy2VSoRFxPXaixS/WMHHfWiqwjC/cjsJOtdkyAAA",
+      "data:image/webp;base64,UklGRpQAAABXRUJQVlA4IIgAAABQBACdASoYABAAPu1iqk2ppaQiMAgBMB2JQBOmUAZnIiOOrb0Ver4cCEHgAP7u31j0sJ2Qb25Hn9hs5VbH4dPJaoBG+UTEu9Ah4xrKZdKuwYdbrvOfbB1UBrWQSIaKjg/Ab+fKJbFM+IIDMmK8IaV4LYzsiLOVrnjRYByVNkDlWTacdlZNDVAA",
   } satisfies SiteImage,
 } as const;
 
@@ -29,8 +31,8 @@ export type HeroHighlight = {
 
 export const heroHighlights: readonly HeroHighlight[] = [
   { id: "frequency", label: "Регулярні дні поставок", icon: "clock" },
-  { id: "geography", label: "Голландія, Еквадор, Вірменія, Україна — у прайсі", icon: "route" },
-  { id: "packs", label: "Відпуск пачками / пучками", icon: "package" },
+  { id: "geography", label: "Голландія, Еквадор, Вірменія, Україна", icon: "globe" },
+  { id: "packs", label: "Відпуск пачками та пучками", icon: "packageCheck" },
   { id: "logistics", label: "Доставка по Києву", icon: "truck" },
 ];
 
@@ -104,12 +106,58 @@ export const advantages: readonly Advantage[] = [
   },
 ];
 
-/** Short "who we are" block that replaced the long intro copy on the home page. */
+/**
+ * Home bridge between Hero and Delivery — trust, not company biography.
+ * Claims stay qualitative unless already confirmed elsewhere on the site.
+ */
 export const aboutBrief = {
-  eyebrow: "Flora de Luxe Kyiv OPT",
-  title: "Оптовий партнер для тих, хто продає квіти щодня",
-  lead: "Окремий B2B-підрозділ Flora de Luxe: працюємо з магазинами, флористами, декораторами та HoReCa, а не з роздрібними букетами.",
+  /** Small navigation label — brand name already lives in the logo. */
+  eyebrow: "Для професіоналів",
+  title: ["Для тих,", "хто продає", "квіти щодня"] as const,
+  /** Short right-column trust lines — not a paragraph. */
+  aside: [
+    "Працюємо лише",
+    "з професійними",
+    "клієнтами.",
+    "Без роздрібного продажу.",
+  ] as const,
+  linkLabel: "Про компанію",
 } as const;
+
+export type BridgeTrustItem = {
+  readonly id: string;
+  readonly value: string;
+  readonly label: string;
+  readonly icon: IconName;
+};
+
+/** Compact trust strip under the bridge copy — no cards, no invented metrics. */
+export const bridgeTrust: readonly BridgeTrustItem[] = [
+  {
+    id: "cadence",
+    value: "3 поставки",
+    label: "щотижня",
+    icon: "clock",
+  },
+  {
+    id: "regions",
+    value: "Нідерланди",
+    label: "Еквадор · Україна",
+    icon: "globe",
+  },
+  {
+    id: "telegram",
+    value: "Telegram",
+    label: "оновлюється щодня",
+    icon: "send",
+  },
+  {
+    id: "delivery",
+    value: "Доставка",
+    label: "по Києву",
+    icon: "truck",
+  },
+];
 
 export const finalCta = {
   eyebrow: "Почати співпрацю",

@@ -8,8 +8,11 @@ import { cn } from "@/lib/utils";
 
 export function CategoriesSection() {
   return (
-    <section id="assortment" aria-labelledby="assortment-title" className="relative bg-porcelain">
-      <div aria-hidden="true" className="surface-grain absolute inset-0" />
+    <section
+      id="assortment"
+      aria-labelledby="assortment-title"
+      className="section-canvas-light relative"
+    >
       <div className="container-page section-y relative">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading

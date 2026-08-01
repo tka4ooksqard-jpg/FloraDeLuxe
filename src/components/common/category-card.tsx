@@ -34,8 +34,9 @@ export function CategoryCard({
         fill
         priority={priority}
         loading={priority ? undefined : "lazy"}
+        quality={85}
         sizes={mediaSizes}
-        className="object-cover transition-transform duration-500 ease-[var(--ease-soft)] group-hover:scale-[1.045]"
+        className="media-grade media-zoom object-cover object-[50%_42%]"
       />
       <div
         aria-hidden="true"
@@ -58,10 +59,10 @@ export function CategoryCard({
         <h3 className="text-porcelain text-[1.625rem] leading-tight sm:text-[1.875rem]">
           {category.name}
         </h3>
-        <p className="text-porcelain/75 mt-2 max-w-md text-[0.9375rem] leading-relaxed">
+        <p className="text-porcelain/88 mt-2 max-w-md text-[0.9375rem] leading-[1.65] font-medium">
           {category.description}
         </p>
-        <span className="text-brass-soft mt-4 inline-flex items-center gap-1.5 text-[0.8125rem] font-medium tracking-wide">
+        <span className="text-brass-soft mt-4 inline-flex items-center gap-1.5 text-sm font-semibold tracking-normal">
           {ctaLabels.availability}
         </span>
       </div>

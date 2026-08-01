@@ -45,7 +45,8 @@ export function IconCardGrid({
               className={cn(
                 cardSurface,
                 "flex h-full flex-col p-6 sm:p-7",
-                interactive && "hover:border-line-strong hover:shadow-lift group",
+                interactive &&
+                  "hover:border-line-strong hover:shadow-lift hover:-translate-y-1.5 group",
               )}
             >
               {item.icon || numbered ? (
@@ -71,7 +72,7 @@ export function IconCardGrid({
               ) : null}
 
               <h3 className="text-ink mt-5 text-xl leading-snug">{item.title}</h3>
-              <p className="text-muted mt-2.5 text-[0.9375rem] leading-relaxed">
+              <p className="text-muted mt-2.5 text-[0.9375rem] leading-[1.7] font-medium">
                 {item.description}
               </p>
             </article>

@@ -64,7 +64,7 @@ export function ContactMap() {
             />
             <span>{contactConfig.legalName}</span>
           </p>
-          <p className="text-muted mt-2 pl-6 text-[0.8125rem] leading-snug">
+          <p className="type-caption text-muted mt-2 pl-6">
             {contactConfig.street}
             <br />
             {contactConfig.city}
