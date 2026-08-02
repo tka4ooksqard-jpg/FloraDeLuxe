@@ -40,8 +40,8 @@ export function QuickNav({
         {title ? (
           <Reveal className="mb-10">
             {eyebrow ? (
-              <span className="mb-5 flex items-center gap-3.5 text-[0.75rem] font-medium tracking-[0.2em] text-brass uppercase">
-                <span aria-hidden="true" className="h-px w-8 shrink-0 bg-brass/55" />
+              <span className="text-brass-ink mb-5 flex items-center gap-3.5 text-[0.75rem] font-medium tracking-[0.2em] uppercase">
+                <span aria-hidden="true" className="h-px w-8 shrink-0 bg-brass-ink/55" />
                 {eyebrow}
               </span>
             ) : null}

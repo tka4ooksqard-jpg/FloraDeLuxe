@@ -19,6 +19,8 @@ export function HeroVisual({ className }: { className?: string }) {
     const node = frameRef.current;
     if (!node) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    /* Skip parallax work on phones/tablets — saves main-thread; layout unchanged. */
+    if (window.matchMedia("(max-width: 1023px)").matches) return;
 
     let frame = 0;
     let offsetX = 0;

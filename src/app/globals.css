@@ -21,6 +21,8 @@
   --color-rose-soft: #e8d6db;
   --color-brass: #c8a46a;
   --color-brass-soft: #ddc49a;
+  /* Text on cream/porcelain — ≥4.5:1 vs #efe8df, still in the brass family. */
+  --color-brass-ink: #7d5820;
 
   /* On-dark copy tokens (also used as porcelain on light). */
   --color-frost: #f6f3ef;
@@ -259,7 +261,7 @@
 
 /* Page-wide film grain — same texture on every chapter (2–3%). */
 @utility page-grain {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
+  background-image: url("/images/textures/grain-tile.png");
   background-size: 180px 180px;
   mix-blend-mode: soft-light;
   opacity: 0.028;
@@ -271,7 +273,7 @@
  * need depth without competing with photography.
  */
 @utility surface-grain {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+  background-image: url("/images/textures/grain-tile.png");
   background-size: 160px 160px;
   opacity: 0.03;
   pointer-events: none;
@@ -393,7 +395,7 @@
  * one composition rather than a dark dashboard block.
  */
 @utility delivery-grain {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  background-image: url("/images/textures/grain-tile.png");
   background-size: 160px 160px;
   mix-blend-mode: soft-light;
   opacity: 0.055;
@@ -464,9 +466,12 @@
   filter: brightness(1.02) contrast(1.04) saturate(0.92) sepia(0.03);
 }
 
-/* Soft route entrance for inner pages — CSS only, no animation library. */
+/*
+ * Soft route entrance — transform only (no opacity).
+ * Opacity on <main> delayed LCP for the whole page, including Hero.
+ */
 @utility page-enter {
-  animation: fdl-page-enter 480ms var(--ease-soft) both;
+  animation: fdl-page-enter 420ms var(--ease-soft) both;
 }
 
 /* ------------------------------------------------------------------ *
@@ -552,12 +557,16 @@
   );
 }
 
-/* Barely-there film grain — texture, not noise. */
+/*
+ * Film grain via a pre-rasterized tile — not feTurbulence.
+ * Runtime SVG noise on a full-bleed layer was the mobile LCP element (~4–5s).
+ */
 @utility hero-grain {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
-  background-size: 160px 160px;
+  background-image: url("/images/textures/grain-tile.png");
+  background-size: 128px 128px;
   mix-blend-mode: soft-light;
-  opacity: 0.07;
+  opacity: 0.055;
+  pointer-events: none;
 }
 
 /* Editorial photo grade — subtle cinematic lift, not a visible filter. */
@@ -673,6 +682,37 @@
   mix-blend-mode: multiply;
 }
 
+/*
+ * Narrow viewports: keep the settled Hero look, drop entrance opacity animation.
+ * Opacity-0 → 1 on the headline delayed LCP (~5s) because the photo is below the fold
+ * on mobile and the logo became the LCP candidate instead.
+ */
+@media (max-width: 1023px) {
+  .hero-title-glow {
+    animation: none;
+    filter: blur(24px);
+    opacity: 0.85;
+  }
+
+  .hero-wine-glow {
+    animation: none;
+  }
+
+  .hero-grain {
+    opacity: 0.04;
+  }
+
+  .hero-rise {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .page-enter {
+    animation: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -720,11 +760,9 @@
 
 @keyframes fdl-page-enter {
   from {
-    opacity: 0;
-    transform: translateY(0.5rem);
+    transform: translateY(0.4rem);
   }
   to {
-    opacity: 1;
     transform: none;
   }
 }

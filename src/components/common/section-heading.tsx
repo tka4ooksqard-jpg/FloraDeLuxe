@@ -38,13 +38,13 @@ export function SectionHeading({
           className={cn(
             "mb-6 flex items-center gap-3.5 text-[0.75rem] font-medium tracking-[0.2em] uppercase",
             align === "center" && "justify-center",
-            isDark ? "text-[#D5AF63]" : "text-brass",
+            isDark ? "text-[#D5AF63]" : "text-brass-ink",
           )}
         >
           {align === "start" ? (
             <span
               aria-hidden="true"
-              className={cn("h-px w-8 shrink-0", isDark ? "bg-[#D5AF63]/55" : "bg-brass/55")}
+              className={cn("h-px w-8 shrink-0", isDark ? "bg-[#D5AF63]/55" : "bg-brass-ink/55")}
             />
           ) : null}
           {eyebrow}

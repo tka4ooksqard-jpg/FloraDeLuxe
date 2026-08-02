@@ -12,13 +12,36 @@ type RevealProps = {
   as?: ElementType;
 };
 
+const observers = new WeakMap<Element, () => void>();
+let sharedObserver: IntersectionObserver | null = null;
+
+function getSharedObserver() {
+  if (typeof IntersectionObserver === "undefined") return null;
+  if (!sharedObserver) {
+    sharedObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const done = observers.get(entry.target);
+          if (done) {
+            done();
+            observers.delete(entry.target);
+            sharedObserver?.unobserve(entry.target);
+          }
+        }
+      },
+      /* Softer bottom margin so short mobile viewports still trigger. */
+      { rootMargin: "0px 0px -6% 0px", threshold: 0.05 },
+    );
+  }
+  return sharedObserver;
+}
+
 /**
  * Fades content in once it scrolls into view.
  *
- * The transition itself lives in CSS (`.reveal`), which is also where
- * `prefers-reduced-motion` disables it. The observer flips a data attribute on
- * the DOM node directly instead of going through React state — there is nothing
- * to re-render, and it keeps long pages from queueing dozens of state updates.
+ * Uses one shared IntersectionObserver for all instances. The transition lives
+ * in CSS (`.reveal`); prefers-reduced-motion and noscript keep content visible.
  */
 export function Reveal({ children, className, delay = 0, as }: RevealProps) {
   const Component = as ?? "div";
@@ -28,11 +51,6 @@ export function Reveal({ children, className, delay = 0, as }: RevealProps) {
     const node = ref.current;
     if (!node) return;
 
-    if (typeof IntersectionObserver === "undefined") {
-      node.dataset.revealed = "true";
-      return;
-    }
-
     let revealed = false;
     const reveal = () => {
       if (revealed) return;
@@ -40,25 +58,20 @@ export function Reveal({ children, className, delay = 0, as }: RevealProps) {
       node.dataset.revealed = "true";
     };
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            reveal();
-            observer.disconnect();
-          }
-        }
-      },
-      /* Softer bottom margin so short mobile viewports still trigger. */
-      { rootMargin: "0px 0px -6% 0px", threshold: 0.05 },
-    );
+    const observer = getSharedObserver();
+    if (!observer) {
+      reveal();
+      return;
+    }
 
+    observers.set(node, reveal);
     observer.observe(node);
     /* Safety net: never leave content invisible if IO never fires. */
     const fallback = window.setTimeout(reveal, 2200);
 
     return () => {
-      observer.disconnect();
+      observers.delete(node);
+      observer.unobserve(node);
       window.clearTimeout(fallback);
     };
   }, []);

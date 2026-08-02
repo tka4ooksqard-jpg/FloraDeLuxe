@@ -27,13 +27,15 @@ export function TermsSection() {
           <dl className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
             {cooperationTerms.map((term) => (
               <div key={term.id} className={cn(cardSurface, "flex flex-col gap-2 p-6 sm:p-7")}>
-                <dt className="text-[0.75rem] font-medium tracking-[0.18em] text-brass uppercase">
+                <dt className="text-[0.75rem] font-medium tracking-[0.18em] text-brass-ink uppercase">
                   {term.label}
                 </dt>
                 <dd className="font-display text-ink text-[clamp(1.25rem,0.95rem+1.1vw,1.75rem)] leading-tight font-normal tracking-[-0.015em] break-words">
                   {term.value}
+                  <span className="type-caption text-muted mt-2 block font-sans font-medium tracking-normal normal-case">
+                    {term.hint}
+                  </span>
                 </dd>
-                <p className="type-caption text-muted mt-auto pt-2">{term.hint}</p>
               </div>
             ))}
           </dl>

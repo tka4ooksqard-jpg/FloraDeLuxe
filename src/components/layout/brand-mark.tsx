@@ -29,6 +29,7 @@ export function BrandMark({
       width={brandLogo.width}
       height={brandLogo.height}
       priority={priority}
+      fetchPriority={priority ? "high" : "auto"}
       sizes="(max-width: 640px) 172px, 232px"
       className={cn(
         /* Cap width on the narrowest phones so the mark never crowds the menu button. */

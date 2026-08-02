@@ -75,9 +75,6 @@ function GalleryTile({
           type="button"
           onClick={() => onOpen(item)}
           aria-haspopup="dialog"
-          aria-label={
-            isVideo ? `Відтворити відео: ${item.title}` : `Відкрити фото: ${item.title}`
-          }
           className={cn(slotSurface, "h-full min-h-full")}
         >
           {item.image ? (
@@ -130,6 +127,9 @@ function GalleryTile({
             </span>
             <span className="mt-2 block max-w-md text-sm leading-[1.6] font-medium text-[rgba(245,239,233,0.86)]">
               {item.caption}
+            </span>
+            <span className="sr-only">
+              {isVideo ? "Відтворити відео" : "Відкрити фото"}
             </span>
           </span>
         </button>

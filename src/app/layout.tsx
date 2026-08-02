@@ -11,7 +11,8 @@ import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["cyrillic", "latin"],
-  weight: ["300", "400", "500", "600"],
+  /* 300 = Hero accent lines; 400/500 = body display. 600 unused — dropped for bytes. */
+  weight: ["300", "400", "500"],
   display: "swap",
   variable: "--font-cormorant",
 });

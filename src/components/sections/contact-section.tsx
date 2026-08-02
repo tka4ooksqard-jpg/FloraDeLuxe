@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 const rowClass = "flex items-start gap-4 py-5";
 const iconClass =
   "border-line bg-cream/60 text-brass grid size-10 shrink-0 place-items-center rounded-[14px] border";
-const labelClass = "text-[0.75rem] font-medium tracking-[0.18em] text-brass uppercase";
+const labelClass = "text-[0.75rem] font-medium tracking-[0.18em] text-brass-ink uppercase";
 const valueClass = "text-ink mt-1.5 text-base leading-snug font-medium sm:text-[1.0625rem]";
 
 export function ContactSection({ withHeading = true }: { withHeading?: boolean }) {
@@ -51,24 +51,24 @@ export function ContactSection({ withHeading = true }: { withHeading?: boolean }
                 {contactConfig.legalName}
               </p>
 
-              <dl className="divide-line mt-6 divide-y">
-                <div className={rowClass}>
+              <ul className="divide-line mt-6 divide-y">
+                <li className={rowClass}>
                   <span className={iconClass}>
                     <MapPin className="size-4.5" aria-hidden="true" strokeWidth={1.5} />
                   </span>
                   <div className="min-w-0">
-                    <dt className={labelClass}>Адреса</dt>
-                    <dd className={valueClass}>{contactConfig.address}</dd>
+                    <p className={labelClass}>Адреса</p>
+                    <p className={valueClass}>{contactConfig.address}</p>
                   </div>
-                </div>
+                </li>
 
-                <div className={rowClass}>
+                <li className={rowClass}>
                   <span className={iconClass}>
                     <Send className="size-4.5" aria-hidden="true" strokeWidth={1.5} />
                   </span>
                   <div className="min-w-0">
-                    <dt className={labelClass}>Telegram опту</dt>
-                    <dd className={valueClass}>
+                    <p className={labelClass}>Telegram опту</p>
+                    <p className={valueClass}>
                       <a
                         href={contactConfig.telegramUrl}
                         target="_blank"
@@ -77,39 +77,39 @@ export function ContactSection({ withHeading = true }: { withHeading?: boolean }
                       >
                         {contactConfig.telegramHandle}
                       </a>
-                    </dd>
+                    </p>
                   </div>
-                </div>
+                </li>
 
-                <div className={rowClass}>
+                <li className={rowClass}>
                   <span className={iconClass}>
                     <Phone className="size-4.5" aria-hidden="true" strokeWidth={1.5} />
                   </span>
                   <div className="min-w-0">
-                    <dt className={labelClass}>Телефон</dt>
-                    <dd className={valueClass}>
+                    <p className={labelClass}>Телефон</p>
+                    <p className={valueClass}>
                       <a
                         href={`tel:${contactConfig.phoneHref}`}
                         className="hover:text-brass inline-flex min-h-11 items-center break-all transition-colors duration-500 ease-[var(--ease-soft)]"
                       >
                         {contactConfig.phone.value}
                       </a>
-                    </dd>
+                    </p>
                   </div>
-                </div>
+                </li>
 
-                <div className={rowClass}>
+                <li className={rowClass}>
                   <span className={iconClass}>
                     <Clock className="size-4.5" aria-hidden="true" strokeWidth={1.5} />
                   </span>
                   <div className="min-w-0">
-                    <dt className={labelClass}>Графік роботи</dt>
-                    <dd className="text-muted mt-1.5 text-base leading-snug font-medium sm:text-[1.0625rem]">
+                    <p className={labelClass}>Графік роботи</p>
+                    <p className="text-muted mt-1.5 text-base leading-snug font-medium sm:text-[1.0625rem]">
                       {contactConfig.workingHours.value}
-                    </dd>
+                    </p>
                   </div>
-                </div>
-              </dl>
+                </li>
+              </ul>
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <TelegramCta

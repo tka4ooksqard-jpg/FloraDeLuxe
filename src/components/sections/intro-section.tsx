@@ -19,8 +19,8 @@ export function IntroSection() {
       <div className="container-hero relative z-10 pt-1 pb-12 sm:pb-14 md:pt-2 md:pb-16">
         <div className="grid max-w-[60rem] items-end gap-7 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10 xl:gap-12">
           <Reveal>
-            <p className="flex items-center gap-3.5 text-[0.75rem] font-medium tracking-[0.2em] text-brass uppercase">
-              <span aria-hidden="true" className="h-px w-8 bg-brass/55" />
+            <p className="text-brass-ink flex items-center gap-3.5 text-[0.75rem] font-medium tracking-[0.2em] uppercase">
+              <span aria-hidden="true" className="h-px w-8 bg-brass-ink/55" />
               {aboutBrief.eyebrow}
             </p>
             <h2

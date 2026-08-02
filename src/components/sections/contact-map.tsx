@@ -1,7 +1,7 @@
 "use client";
 
 import { ExternalLink, MapPin } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { cardSurface } from "@/components/common/card";
 import { Button } from "@/components/ui/button";
@@ -12,14 +12,40 @@ import { cn } from "@/lib/utils";
 /**
  * Interactive Google Maps embed for the contacts page.
  *
- * The iframe fills the card; a glass address chip sits on top so the block
- * still reads as a designed surface rather than a raw embed.
+ * The iframe is only mounted when the block nears the viewport so Maps does not
+ * contend with LCP on the contacts route.
  */
 export function ContactMap() {
+  const shellRef = useRef<HTMLDivElement>(null);
+  const [shouldLoad, setShouldLoad] = useState(false);
   const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    const node = shellRef.current;
+    if (!node || shouldLoad) return;
+
+    if (typeof IntersectionObserver === "undefined") {
+      const id = window.setTimeout(() => setShouldLoad(true), 0);
+      return () => window.clearTimeout(id);
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setShouldLoad(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "240px 0px" },
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [shouldLoad]);
 
   return (
     <div
+      ref={shellRef}
       className={cn(
         cardSurface,
         "relative h-[22.5rem] overflow-hidden p-0 sm:h-[23.75rem] lg:h-full lg:min-h-0",
@@ -34,18 +60,20 @@ export function ContactMap() {
         )}
       />
 
-      <iframe
-        title={`Карта: ${contactConfig.legalName}, ${contactConfig.address}`}
-        src={contactConfig.mapsEmbedUrl}
-        loading="lazy"
-        referrerPolicy="no-referrer-when-downgrade"
-        allowFullScreen
-        onLoad={() => setLoaded(true)}
-        className={cn(
-          "absolute inset-0 size-full border-0 transition-opacity duration-700 ease-[var(--ease-soft)]",
-          loaded ? "opacity-100" : "opacity-0",
-        )}
-      />
+      {shouldLoad ? (
+        <iframe
+          title={`Карта: ${contactConfig.legalName}, ${contactConfig.address}`}
+          src={contactConfig.mapsEmbedUrl}
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          allowFullScreen
+          onLoad={() => setLoaded(true)}
+          className={cn(
+            "absolute inset-0 size-full border-0 transition-opacity duration-700 ease-[var(--ease-soft)]",
+            loaded ? "opacity-100" : "opacity-0",
+          )}
+        />
+      ) : null}
 
       {/* Glass address chip — bottom-left, above the map chrome. */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 p-4 sm:p-5">
