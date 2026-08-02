@@ -56,13 +56,13 @@ export function CategoryCard({
   const body = (
     <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5 sm:p-6">
       <div className="min-w-0">
-        <h3 className="text-porcelain text-[1.625rem] leading-tight sm:text-[1.875rem]">
+        <h3 className="font-display text-[1.625rem] leading-tight font-normal tracking-[-0.015em] text-[#F5EFE9] sm:text-[1.875rem]">
           {category.name}
         </h3>
-        <p className="text-porcelain/88 mt-2 max-w-md text-[0.9375rem] leading-[1.65] font-medium">
+        <p className="mt-2 max-w-md text-[0.9375rem] leading-[1.65] font-medium text-[rgba(245,239,233,0.86)]">
           {category.description}
         </p>
-        <span className="text-brass-soft mt-4 inline-flex items-center gap-1.5 text-sm font-semibold tracking-normal">
+        <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium tracking-[0.02em] text-[#D5AF63]">
           {ctaLabels.availability}
         </span>
       </div>
@@ -70,9 +70,9 @@ export function CategoryCard({
       <span
         aria-hidden="true"
         className={cn(
-          "border-porcelain/25 bg-porcelain/10 text-porcelain grid size-11 shrink-0 place-items-center rounded-full border backdrop-blur-md",
+          "grid size-11 shrink-0 place-items-center rounded-[14px] border border-[rgba(213,175,99,0.35)] bg-[rgba(35,7,13,0.35)] text-[#D5AF63]",
           "transition-transform duration-500 ease-[var(--ease-soft)]",
-          "group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:border-brass-soft/50",
+          "group-hover:translate-x-1",
         )}
       >
         <ArrowUpRight className="size-4" />

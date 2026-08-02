@@ -1,9 +1,11 @@
 import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 
+import { cardSurface } from "@/components/common/card";
 import { TelegramCta } from "@/components/common/cta";
 import { Reveal } from "@/components/common/reveal";
 import { SectionHeading } from "@/components/common/section-heading";
+import { cn } from "@/lib/utils";
 import {
   Accordion,
   AccordionContent,
@@ -25,7 +27,7 @@ export function FaqSection({
 }) {
   return (
     <section id="faq" aria-labelledby="faq-title" className="section-canvas-light relative">
-      <div className="container-page section-y relative">
+      <div className="container-hero section-y relative z-10">
         <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
           <div>
             <SectionHeading
@@ -36,20 +38,24 @@ export function FaqSection({
             />
 
             <Reveal delay={100} className="mt-8">
-              <div className="relative aspect-4/3 overflow-hidden rounded-[1.75rem]">
+              <div className="group relative aspect-4/3 overflow-hidden rounded-[1.75rem]">
                 <Image
                   src={sceneImages.faq.src}
                   alt={sceneImages.faq.alt}
                   fill
                   sizes="(max-width: 1024px) 100vw, 36vw"
-                  className="object-cover object-center"
+                  className="media-grade media-zoom object-cover object-center"
+                />
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-0 bg-gradient-to-t from-ink/35 via-transparent to-transparent"
                 />
               </div>
             </Reveal>
 
             <Reveal delay={140} className="mt-6">
-              <div className="border-line bg-porcelain rounded-[var(--radius-card)] border p-6">
-                <p className="text-graphite text-[0.9375rem] leading-relaxed">
+              <div className={cn(cardSurface, "p-6")}>
+                <p className="text-graphite text-[0.9375rem] leading-[1.7] font-medium">
                   Не знайшли відповідь? Менеджер оптового напрямку відповість у Telegram.
                 </p>
                 <TelegramCta
@@ -74,7 +80,7 @@ export function FaqSection({
                         href={item.action.href}
                         target={item.action.external ? "_blank" : undefined}
                         rel={item.action.external ? "noopener noreferrer" : undefined}
-                        className="text-bordeaux hover:text-bordeaux-deep group/action mt-4 inline-flex min-h-11 items-center gap-1.5 text-[0.9375rem] font-medium transition-colors duration-300"
+                        className="text-bordeaux hover:text-brass group/action mt-4 inline-flex min-h-11 items-center gap-1.5 text-[0.9375rem] font-medium transition-colors duration-500 ease-[var(--ease-soft)]"
                       >
                         {item.action.label}
                         <ArrowUpRight

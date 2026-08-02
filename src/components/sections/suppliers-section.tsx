@@ -6,62 +6,23 @@ import { Reveal } from "@/components/common/reveal";
 import { SectionHeading } from "@/components/common/section-heading";
 import { SupplyMap } from "@/components/sections/supply-map";
 import {
-  supplierAdvantages,
   supplierRegions,
   supplyLogistics,
   supplyMapCaption,
-  type SupplyFeature,
 } from "@/lib/content/suppliers";
 import { sceneImages } from "@/lib/content/scenes";
 import { cn } from "@/lib/utils";
 
-/** Shared surface for every panel in the geography story column. */
-const storyPanel = cn(cardSurface, "p-5 sm:p-6");
-
-const storyTitleClass =
-  "text-ink text-[1.0625rem] font-semibold tracking-tight sm:text-[1.125rem]";
-
-/** Compact country badge that reads as a flag mark without drawing flags. */
+/** Quiet country mark — metal chip, not a UI pill cluster. */
 function RegionMark({ code }: { code: string }) {
   return (
     <span
       aria-hidden="true"
-      className={cn(
-        "inline-flex items-center gap-2 rounded-full border border-porcelain/25 bg-porcelain/12 px-2.5 py-1",
-        "backdrop-blur-md",
-      )}
+      className="inline-flex items-center gap-2 text-[0.75rem] font-medium tracking-[0.14em] text-[#D5AF63] uppercase"
     >
-      <span className="bg-brass-soft size-1.5 rounded-full" />
-      <span className="text-porcelain text-[0.8125rem] font-medium tracking-[0.12em]">{code}</span>
+      <span className="h-px w-5 bg-[#D5AF63]/50" />
+      {code}
     </span>
-  );
-}
-
-function FeatureItem({ item }: { item: SupplyFeature }) {
-  return (
-    <li
-      className={cn(
-        "group border-line/80 bg-cream/30 flex items-start gap-3 rounded-[var(--radius-tile)] border px-3.5 py-3",
-        "transition-[transform,box-shadow,border-color,background-color] duration-500 ease-[var(--ease-soft)]",
-        "hover:-translate-y-0.5 hover:border-line-strong hover:bg-porcelain hover:shadow-soft",
-      )}
-    >
-      <span
-        className={cn(
-          "border-line bg-porcelain text-bordeaux grid size-10 shrink-0 place-items-center rounded-full border",
-          "transition-[color,border-color,background-color] duration-500 ease-[var(--ease-soft)]",
-          "group-hover:border-bordeaux/35 group-hover:bg-cream group-hover:text-brass",
-        )}
-      >
-        <Icon name={item.icon} className="size-4" />
-      </span>
-      <span className="min-w-0 pt-0.5">
-        <span className="text-ink block text-[0.875rem] leading-snug font-semibold tracking-tight">
-          {item.title}
-        </span>
-        <span className="type-caption text-muted mt-1 block">{item.description}</span>
-      </span>
-    </li>
   );
 }
 
@@ -72,7 +33,7 @@ export function SuppliersSection() {
       aria-labelledby="suppliers-title"
       className="section-canvas-light relative"
     >
-      <div className="container-page section-y relative">
+      <div className="container-hero section-y relative z-10">
         <SectionHeading
           id="suppliers-title"
           eyebrow="Географія поставок"
@@ -80,67 +41,45 @@ export function SuppliersSection() {
           description="Асортимент формується з кількох напрямків — це дає ширший вибір сортів і стабільніше наповнення партій протягом року."
         />
 
-        <div className="mt-14 grid items-stretch gap-5 lg:grid-cols-[0.95fr_1.05fr] lg:gap-8">
-          {/* Left column: one story — where / how / why. Right column untouched. */}
+        <div className="mt-14 grid items-stretch gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-10">
           <Reveal className="h-full">
-            <div className="flex h-full flex-col gap-4">
-              <div className="relative aspect-16/10 overflow-hidden rounded-[var(--radius-card)]">
+            <div className="flex h-full flex-col gap-5">
+              <div className="group relative aspect-16/10 overflow-hidden rounded-[1.75rem]">
                 <Image
                   src={sceneImages.import.src}
                   alt={sceneImages.import.alt}
                   fill
-                  sizes="(max-width: 1024px) 100vw, 42vw"
-                  className="object-cover object-center"
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                  className="media-grade media-zoom object-cover object-center"
+                />
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-0 bg-gradient-to-t from-ink/50 via-transparent to-transparent"
                 />
               </div>
 
-              <div className={storyPanel}>
+              <div className={cn(cardSurface, "p-5 sm:p-6")}>
                 <SupplyMap />
                 <p className="type-caption text-muted mt-3.5 text-center">{supplyMapCaption}</p>
               </div>
 
-              <div className={storyPanel}>
-                <h3 className={storyTitleClass}>{supplyLogistics.title}</h3>
-                <ul className="mt-4 grid gap-2.5">
-                  {supplyLogistics.items.map((item) => (
-                    <FeatureItem key={item.id} item={item} />
-                  ))}
-                </ul>
-              </div>
-
-              <div className={storyPanel}>
-                <h3 className={storyTitleClass}>{supplierAdvantages.title}</h3>
-                <ul className="mt-4 grid grid-cols-2 gap-2.5">
-                  {supplierAdvantages.items.map((item) => (
-                    <li
-                      key={item.id}
-                      className={cn(
-                        "group border-line/80 bg-cream/30 flex flex-col rounded-[var(--radius-tile)] border px-3.5 py-3.5",
-                        "transition-[transform,box-shadow,border-color,background-color] duration-500 ease-[var(--ease-soft)]",
-                        "hover:-translate-y-0.5 hover:border-line-strong hover:bg-porcelain hover:shadow-soft",
-                      )}
-                    >
-                      <span
-                        className={cn(
-                          "border-line bg-porcelain text-bordeaux grid size-9 place-items-center rounded-full border",
-                          "transition-[color,border-color,background-color] duration-500 ease-[var(--ease-soft)]",
-                          "group-hover:border-bordeaux/35 group-hover:bg-cream group-hover:text-brass",
-                        )}
-                      >
-                        <Icon name={item.icon} className="size-3.5" />
-                      </span>
-                      <span className="text-ink mt-3 text-sm leading-snug font-semibold tracking-tight">
+              <ul className="grid gap-3 sm:grid-cols-2">
+                {supplyLogistics.items.map((item) => (
+                  <li key={item.id} className="flex items-start gap-3 px-1 py-1">
+                    <Icon name={item.icon} className="mt-0.5 size-4 shrink-0 text-brass" />
+                    <span className="min-w-0">
+                      <span className="text-ink block text-[0.875rem] leading-snug font-semibold">
                         {item.title}
                       </span>
-                      <span className="type-caption text-muted mt-1.5">{item.description}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+                      <span className="type-caption text-muted mt-1 block">{item.description}</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </Reveal>
 
-          <ul className="grid gap-3 sm:grid-cols-2 sm:gap-3.5">
+          <ul className="grid gap-3.5 sm:grid-cols-2 sm:gap-4">
             {supplierRegions.map((region, index) => {
               const isLead = index === 0;
               const isArmenia = region.code === "AM";
@@ -166,28 +105,28 @@ export function SuppliersSection() {
                         loading="lazy"
                         sizes={
                           isLead
-                            ? "(max-width: 1024px) 100vw, 40vw"
+                            ? "(max-width: 1024px) 100vw, 42vw"
                             : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 22vw"
                         }
                         className="media-grade media-zoom object-cover"
                       />
                       <div
                         aria-hidden="true"
-                        className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/40 to-ink/10 transition-opacity duration-500 group-hover:opacity-95"
+                        className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/35 to-ink/5"
                       />
 
                       <div className="absolute inset-x-0 top-0 flex justify-between p-4 sm:p-5">
                         <RegionMark code={region.code} />
-                        <span className="text-porcelain/85 text-[0.8125rem] font-medium tracking-normal">
+                        <span className="text-[0.75rem] font-medium tracking-[0.08em] text-[rgba(245,239,233,0.7)]">
                           {region.tag}
                         </span>
                       </div>
 
                       <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
-                        <h3 className="text-porcelain font-display text-[1.625rem] leading-tight sm:text-[1.875rem]">
+                        <h3 className="font-display text-[1.625rem] leading-tight font-normal tracking-[-0.015em] text-[#F5EFE9] sm:text-[1.875rem]">
                           {region.country}
                         </h3>
-                        <p className="text-porcelain/88 mt-2 max-w-md text-[0.9375rem] leading-[1.65] font-medium">
+                        <p className="mt-2 max-w-md text-[0.9375rem] leading-[1.65] font-medium text-[rgba(245,239,233,0.86)]">
                           {region.description}
                         </p>
                       </div>

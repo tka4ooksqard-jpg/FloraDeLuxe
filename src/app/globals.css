@@ -202,6 +202,51 @@
   }
 }
 
+/*
+ * Background-only chapter handoffs — never overlays text.
+ * Paint into the section field; content stays on z-10+.
+ */
+@utility seam-from-cream {
+  &::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    z-index: 0;
+    height: 8.5rem;
+    pointer-events: none;
+    background:
+      radial-gradient(120% 9rem at 50% 0%, #3b101a 0%, transparent 72%),
+      linear-gradient(180deg, rgb(239 232 223 / 0.2) 0%, transparent 55%);
+  }
+}
+
+@utility seam-from-dark {
+  &::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    z-index: 0;
+    height: 7rem;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgb(35 7 13 / 0.14) 0%, transparent 70%);
+  }
+}
+
+@utility seam-to-dark {
+  &::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 0;
+    height: 5rem;
+    pointer-events: none;
+    background: linear-gradient(180deg, transparent 0%, rgb(35 7 13 / 0.12) 100%);
+  }
+}
+
 /* Page-wide film grain — same texture on every chapter (2–3%). */
 @utility page-grain {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
@@ -237,13 +282,13 @@
   filter: contrast(1.06) saturate(0.9) brightness(0.97) sepia(0.1);
 }
 
-/* Shared media hover: slow zoom + soft veil deepen. */
+/* Shared media hover: slow zoom capped at 1.04 — luxury, never jumpy. */
 @utility media-zoom {
   transition: transform var(--duration-motion) var(--ease-soft);
   will-change: transform;
 
   .group:hover & {
-    transform: scale(1.03);
+    transform: scale(1.04);
   }
 }
 
@@ -293,10 +338,10 @@
  */
 @utility reveal {
   opacity: 0;
-  transform: translateY(30px);
+  transform: translateY(16px);
   transition:
-    opacity 800ms var(--ease-soft),
-    transform 800ms var(--ease-soft);
+    opacity 700ms var(--ease-soft),
+    transform 700ms var(--ease-soft);
   transition-delay: var(--reveal-delay, 0ms);
 
   &[data-revealed="true"] {
@@ -311,9 +356,26 @@
  */
 @utility bridge-motion {
   .reveal {
-    transform: translateY(6px);
-    transition-duration: 420ms;
+    transform: translateY(8px);
+    transition-duration: 520ms;
   }
+}
+
+/* Radius discipline — Hero family. Prefer these over inventing per section. */
+@utility radius-cta {
+  border-radius: 14px;
+}
+
+@utility radius-glass {
+  border-radius: 26px;
+}
+
+@utility radius-card-lux {
+  border-radius: 1.5rem;
+}
+
+@utility radius-media-lux {
+  border-radius: 1.75rem;
 }
 
 /*

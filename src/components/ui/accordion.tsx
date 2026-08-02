@@ -35,8 +35,8 @@ function AccordionTrigger({
       <AccordionPrimitive.Trigger
         className={cn(
           "flex min-h-14 flex-1 items-center justify-between gap-6 py-5 text-left",
-          "font-display text-ink text-xl leading-snug transition-colors duration-300 sm:text-2xl",
-          "hover:text-bordeaux data-[state=open]:text-bordeaux",
+          "font-display text-ink text-xl leading-snug font-normal tracking-[-0.015em] transition-colors duration-500 ease-[var(--ease-soft)] sm:text-2xl",
+          "hover:text-bordeaux-deep data-[state=open]:text-bordeaux-deep",
           className,
         )}
         {...props}
@@ -45,10 +45,9 @@ function AccordionTrigger({
         <span
           aria-hidden="true"
           className={cn(
-            "border-line-strong text-bordeaux grid size-9 shrink-0 place-items-center rounded-full border",
-            "transition-transform duration-400 ease-[var(--ease-soft)]",
-            "group-data-[state=open]:bg-bordeaux group-data-[state=open]:text-porcelain",
-            "group-data-[state=open]:border-bordeaux group-data-[state=open]:rotate-45",
+            "grid size-9 shrink-0 place-items-center rounded-[14px] border border-line-strong text-brass",
+            "transition-[transform,background-color,border-color,color] duration-500 ease-[var(--ease-soft)]",
+            "group-data-[state=open]:rotate-45 group-data-[state=open]:border-[rgba(213,175,99,0.45)] group-data-[state=open]:bg-[rgba(213,175,99,0.12)] group-data-[state=open]:text-[#D5AF63]",
           )}
         >
           <Plus className="size-4" />

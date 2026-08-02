@@ -1,19 +1,21 @@
 import { Info } from "lucide-react";
 
+import { cardSurface } from "@/components/common/card";
 import { TelegramCta } from "@/components/common/cta";
 import { Reveal } from "@/components/common/reveal";
 import { SectionHeading } from "@/components/common/section-heading";
 import { cooperationNotice, cooperationTerms } from "@/lib/content/home";
 import { ctaLabels, telegramIntents } from "@/lib/content/navigation";
+import { cn } from "@/lib/utils";
 
 export function TermsSection() {
   return (
     <section
       id="terms"
       aria-labelledby="terms-title"
-      className="section-canvas-light relative scroll-mt-24"
+      className="section-canvas-light seam-to-dark relative scroll-mt-24"
     >
-      <div className="container-page section-y relative">
+      <div className="container-hero section-y relative z-10">
         <SectionHeading
           id="terms-title"
           eyebrow="Умови співпраці"
@@ -22,31 +24,30 @@ export function TermsSection() {
         />
 
         <Reveal delay={100} className="mt-12">
-          <dl className="border-line grid overflow-hidden rounded-[var(--radius-card)] border sm:grid-cols-2 lg:grid-cols-4">
+          <dl className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
             {cooperationTerms.map((term) => (
-              <div
-                key={term.id}
-                className="border-line bg-cream/40 flex flex-col gap-2 border-b p-6 last:border-b-0 sm:p-7 sm:not-nth-[2n]:border-r sm:nth-last-[-n+2]:border-b-0 lg:not-last:border-r lg:border-b-0"
-              >
-                <dt className="type-eyebrow text-muted">
+              <div key={term.id} className={cn(cardSurface, "flex flex-col gap-2 p-6 sm:p-7")}>
+                <dt className="text-[0.75rem] font-medium tracking-[0.18em] text-brass uppercase">
                   {term.label}
                 </dt>
-                {/* Clamped rather than fixed: the Telegram handle is long and must not overflow at 320px. */}
-                <dd className="font-display text-ink text-[clamp(1.25rem,0.95rem+1.1vw,1.75rem)] leading-tight break-words">
+                <dd className="font-display text-ink text-[clamp(1.25rem,0.95rem+1.1vw,1.75rem)] leading-tight font-normal tracking-[-0.015em] break-words">
                   {term.value}
                 </dd>
-                <p className="type-caption text-muted mt-auto pt-2">
-                  {term.hint}
-                </p>
+                <p className="type-caption text-muted mt-auto pt-2">{term.hint}</p>
               </div>
             ))}
           </dl>
         </Reveal>
 
         <Reveal delay={140} className="mt-8">
-          <div className="border-line bg-cream/50 flex flex-col gap-5 rounded-[var(--radius-card)] border p-6 sm:p-7 lg:flex-row lg:items-center lg:justify-between">
+          <div
+            className={cn(
+              cardSurface,
+              "flex flex-col gap-5 p-6 sm:p-7 lg:flex-row lg:items-center lg:justify-between",
+            )}
+          >
             <p className="text-graphite flex items-start gap-3 text-[0.9375rem] leading-[1.7] font-medium">
-              <Info className="text-bordeaux mt-0.5 size-5 shrink-0" aria-hidden="true" />
+              <Info className="mt-0.5 size-5 shrink-0 text-brass" aria-hidden="true" />
               {cooperationNotice}
             </p>
             <TelegramCta

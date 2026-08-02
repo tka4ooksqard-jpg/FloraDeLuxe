@@ -1,3 +1,4 @@
+import { cardSurface } from "@/components/common/card";
 import { CategoryCard } from "@/components/common/category-card";
 import { InternalCta, TelegramCta } from "@/components/common/cta";
 import { Reveal } from "@/components/common/reveal";
@@ -11,9 +12,9 @@ export function CategoriesSection() {
     <section
       id="assortment"
       aria-labelledby="assortment-title"
-      className="section-canvas-light relative"
+      className="section-canvas-light seam-from-dark relative"
     >
-      <div className="container-page section-y relative">
+      <div className="container-hero section-y relative z-10">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading
             id="assortment-title"
@@ -40,7 +41,7 @@ export function CategoriesSection() {
                 key={category.slug}
                 className={cn(wide ? "lg:col-span-3" : "lg:col-span-2")}
               >
-                <Reveal delay={(index % 3) * 90} className="h-full">
+                <Reveal delay={80 + (index % 3) * 80} className="h-full">
                   <CategoryCard category={category} wide={wide} />
                 </Reveal>
               </li>
@@ -48,9 +49,14 @@ export function CategoriesSection() {
           })}
         </ul>
 
-        <Reveal delay={120} className="mt-10">
-          <div className="border-line bg-cream/50 flex flex-col gap-5 rounded-[var(--radius-card)] border p-6 sm:p-7 lg:flex-row lg:items-center lg:justify-between">
-            <p className="text-muted max-w-2xl text-[0.9375rem] leading-relaxed">
+        <Reveal delay={160} className="mt-10">
+          <div
+            className={cn(
+              cardSurface,
+              "flex flex-col gap-5 p-6 sm:p-7 lg:flex-row lg:items-center lg:justify-between",
+            )}
+          >
+            <p className="text-muted max-w-2xl text-[0.9375rem] leading-[1.7] font-medium">
               Ціни не публікуються на сайті — вони змінюються від поставки до поставки. Актуальний
               прайс і наявність надсилає менеджер в оптовому Telegram.
             </p>

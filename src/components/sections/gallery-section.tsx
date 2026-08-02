@@ -1,10 +1,9 @@
 "use client";
 
-import { Expand, Play } from "lucide-react";
+import { Play } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
-import { Icon } from "@/components/common/icon";
 import { Reveal } from "@/components/common/reveal";
 import { SectionHeading } from "@/components/common/section-heading";
 import {
@@ -23,9 +22,9 @@ import { cn } from "@/lib/utils";
 
 const slotSurface = cn(
   "group relative flex w-full flex-col justify-end overflow-hidden text-left",
-  "rounded-[var(--radius-card)] border border-line/70",
+  "rounded-[1.75rem] border border-[rgba(35,7,13,0.1)]",
   "bg-graphite shadow-soft transition-[border-color,box-shadow,transform] duration-500 ease-[var(--ease-soft)]",
-  "hover:border-line-strong hover:shadow-lift hover:-translate-y-0.5",
+  "hover:-translate-y-1 hover:border-[rgba(213,175,99,0.35)] hover:shadow-[0_24px_48px_-28px_rgb(20_12_14_/_0.3)]",
 );
 
 function tileClass(item: GalleryItem): string {
@@ -68,7 +67,6 @@ function GalleryTile({
   onOpen: (item: GalleryItem) => void;
 }) {
   const isVideo = item.kind === "video";
-  const hasMedia = Boolean(item.image);
 
   return (
     <li className={tileClass(item)}>
@@ -113,33 +111,16 @@ function GalleryTile({
           {isVideo ? (
             <span
               aria-hidden="true"
-              className="border-porcelain/30 bg-ink/45 text-porcelain absolute top-1/2 left-1/2 grid size-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border backdrop-blur-sm transition-transform duration-500 group-hover:scale-105"
+              className="absolute top-1/2 left-1/2 grid size-12 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-[14px] border border-[rgba(213,175,99,0.35)] bg-[rgba(35,7,13,0.45)] text-[#D5AF63] transition-transform duration-500 group-hover:scale-105"
             >
-              <Play className="size-5 fill-current" />
+              <Play className="size-4 fill-current" />
             </span>
-          ) : (
-            <span
-              aria-hidden="true"
-              className="border-line-strong/80 text-bordeaux bg-porcelain/80 absolute top-4 left-4 grid size-11 place-items-center rounded-full border backdrop-blur-sm"
-            >
-              <Icon name="image" className="size-5" />
-            </span>
-          )}
-
-          <span
-            aria-hidden="true"
-            className="border-line-strong/80 text-muted bg-porcelain/80 absolute top-4 right-4 grid size-9 place-items-center rounded-full border opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100"
-          >
-            <Expand className="size-4" />
-          </span>
+          ) : null}
 
           <span className="relative p-5 sm:p-6">
-            <span className="type-eyebrow text-porcelain/85">
-              {isVideo ? "Відео · Kyiv OPT" : hasMedia ? "Фото · Kyiv OPT" : "Очікує матеріал"}
-            </span>
             <span
               className={cn(
-                "text-porcelain font-display mt-2 block leading-tight",
+                "font-display block leading-tight font-normal tracking-[-0.015em] text-[#F5EFE9]",
                 item.emphasis === "feature"
                   ? "text-[1.75rem] sm:text-[2.15rem]"
                   : "text-xl sm:text-[1.375rem]",
@@ -147,7 +128,7 @@ function GalleryTile({
             >
               {item.title}
             </span>
-            <span className="text-porcelain/88 mt-2 block max-w-md text-sm leading-[1.6] font-medium">
+            <span className="mt-2 block max-w-md text-sm leading-[1.6] font-medium text-[rgba(245,239,233,0.86)]">
               {item.caption}
             </span>
           </span>
@@ -190,7 +171,7 @@ export function GallerySection() {
       aria-labelledby="gallery-title"
       className="section-canvas-light relative"
     >
-      <div className="container-page section-y relative">
+      <div className="container-hero section-y relative z-10">
         <SectionHeading
           id="gallery-title"
           eyebrow="Візуальне підтвердження"
@@ -205,10 +186,10 @@ export function GallerySection() {
         </ul>
 
         <div className="mt-14">
-          <h3 className="text-ink text-[1.0625rem] font-semibold tracking-tight sm:text-[1.125rem]">
+          <h3 className="font-display text-ink text-[1.5rem] leading-tight font-normal tracking-[-0.015em] sm:text-[1.625rem]">
             Відео зі складу
           </h3>
-          <p className="text-muted mt-2 max-w-2xl text-[0.9375rem] leading-[1.7] font-medium">
+          <p className="text-muted mt-2.5 max-w-2xl text-[0.9375rem] leading-[1.7] font-medium">
             Короткі ролики оптового залу. Відтворення лише після натискання — без автозапуску зі
             звуком.
           </p>
@@ -228,7 +209,7 @@ export function GallerySection() {
               <p className="type-eyebrow text-brass-soft">
                 {activeItem.kind === "video" ? "Відеоматеріал" : "Фотоматеріал"}
               </p>
-              <DialogTitle className="text-porcelain font-display mt-3 text-[1.75rem] leading-tight sm:text-[2.25rem]">
+              <DialogTitle className="font-display text-porcelain mt-3 text-[1.75rem] leading-tight font-normal tracking-[-0.015em] sm:text-[2.25rem]">
                 {activeItem.title}
               </DialogTitle>
               <DialogDescription className="text-porcelain/85 mt-3 text-[0.9375rem] leading-[1.7] font-medium">

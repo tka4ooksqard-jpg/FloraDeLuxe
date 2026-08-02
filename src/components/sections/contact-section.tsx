@@ -13,8 +13,9 @@ import { sceneImages } from "@/lib/content/scenes";
 import { cn } from "@/lib/utils";
 
 const rowClass = "flex items-start gap-4 py-5";
-const iconClass = "border-line bg-cream/60 text-bordeaux grid size-10 shrink-0 place-items-center rounded-full border";
-const labelClass = "type-eyebrow text-muted";
+const iconClass =
+  "border-line bg-cream/60 text-brass grid size-10 shrink-0 place-items-center rounded-[14px] border";
+const labelClass = "text-[0.75rem] font-medium tracking-[0.18em] text-brass uppercase";
 const valueClass = "text-ink mt-1.5 text-base leading-snug font-medium sm:text-[1.0625rem]";
 
 export function ContactSection({ withHeading = true }: { withHeading?: boolean }) {
@@ -22,9 +23,9 @@ export function ContactSection({ withHeading = true }: { withHeading?: boolean }
     <section
       id="contacts"
       aria-labelledby="contacts-title"
-      className="section-canvas-light relative"
+      className="section-canvas-light seam-to-dark relative"
     >
-      <div className="container-page section-y relative">
+      <div className="container-hero section-y relative z-10">
         {withHeading ? (
           <SectionHeading
             id="contacts-title"
@@ -46,7 +47,7 @@ export function ContactSection({ withHeading = true }: { withHeading?: boolean }
         >
           <Reveal className="h-full">
             <div className={cn(cardSurface, "h-full p-6 sm:p-8")}>
-              <p className="font-display text-ink text-[1.75rem] leading-tight">
+              <p className="font-display text-ink text-[1.75rem] leading-tight font-normal tracking-[-0.015em]">
                 {contactConfig.legalName}
               </p>
 
@@ -72,7 +73,7 @@ export function ContactSection({ withHeading = true }: { withHeading?: boolean }
                         href={contactConfig.telegramUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="hover:text-bordeaux inline-flex min-h-9 items-center transition-colors duration-300"
+                        className="hover:text-brass inline-flex min-h-9 items-center transition-colors duration-500 ease-[var(--ease-soft)]"
                       >
                         {contactConfig.telegramHandle}
                       </a>
@@ -89,7 +90,7 @@ export function ContactSection({ withHeading = true }: { withHeading?: boolean }
                     <dd className={valueClass}>
                       <a
                         href={`tel:${contactConfig.phoneHref}`}
-                        className="hover:text-bordeaux inline-flex min-h-9 items-center transition-colors duration-300"
+                        className="hover:text-brass inline-flex min-h-9 items-center transition-colors duration-500 ease-[var(--ease-soft)]"
                       >
                         {contactConfig.phone.value}
                       </a>
@@ -134,13 +135,17 @@ export function ContactSection({ withHeading = true }: { withHeading?: boolean }
           </Reveal>
 
           <Reveal delay={100} className="flex h-full flex-col gap-5">
-            <div className="relative aspect-16/10 overflow-hidden rounded-[1.75rem]">
+            <div className="group relative aspect-16/10 overflow-hidden rounded-[1.75rem]">
               <Image
                 src={sceneImages.contacts.src}
                 alt={sceneImages.contacts.alt}
                 fill
                 sizes="(max-width: 1024px) 100vw, 42vw"
-                className="object-cover object-[50%_40%]"
+                className="media-grade media-zoom object-cover object-[50%_40%]"
+              />
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 bg-gradient-to-t from-ink/35 via-transparent to-transparent"
               />
             </div>
             <ContactMap />

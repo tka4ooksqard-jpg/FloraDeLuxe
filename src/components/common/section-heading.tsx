@@ -15,6 +15,10 @@ type SectionHeadingProps = {
   id?: string;
 };
 
+/**
+ * Shared section title grammar — hairline + uppercase eyebrow + display clamp,
+ * aligned with Hero / Delivery editorial voice (copy unchanged).
+ */
 export function SectionHeading({
   eyebrow,
   title,
@@ -32,10 +36,17 @@ export function SectionHeading({
       {eyebrow ? (
         <span
           className={cn(
-            "type-eyebrow mb-6",
-            isDark ? "text-brass" : "text-bordeaux",
+            "mb-6 flex items-center gap-3.5 text-[0.75rem] font-medium tracking-[0.2em] uppercase",
+            align === "center" && "justify-center",
+            isDark ? "text-[#D5AF63]" : "text-brass",
           )}
         >
+          {align === "start" ? (
+            <span
+              aria-hidden="true"
+              className={cn("h-px w-8 shrink-0", isDark ? "bg-[#D5AF63]/55" : "bg-brass/55")}
+            />
+          ) : null}
           {eyebrow}
         </span>
       ) : null}
@@ -43,8 +54,8 @@ export function SectionHeading({
       <Tag
         id={id}
         className={cn(
-          "text-[clamp(2.15rem,1.35rem+2.9vw,3.75rem)] leading-[1.05] tracking-[-0.02em]",
-          isDark && "text-frost",
+          "font-display text-[clamp(2.15rem,1.35rem+2.6vw,3.5rem)] leading-[1.05] font-normal tracking-[-0.02em]",
+          isDark ? "text-[#F5EFE9]" : "text-ink",
         )}
       >
         {title}
@@ -53,9 +64,9 @@ export function SectionHeading({
       {description ? (
         <div
           className={cn(
-            "mt-7 max-w-2xl text-base leading-[1.8] font-medium md:text-lg",
+            "mt-7 max-w-[34rem] text-[1.0625rem] leading-[1.75] font-medium md:text-[1.125rem] md:leading-[1.8]",
             align === "center" && "mx-auto",
-            isDark ? "text-mist" : "text-muted",
+            isDark ? "text-[rgba(255,255,255,0.84)]" : "text-muted",
           )}
         >
           {description}

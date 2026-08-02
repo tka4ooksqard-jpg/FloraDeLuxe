@@ -58,7 +58,7 @@ export function ContactMap() {
         >
           <p className="text-ink flex items-start gap-2 font-display text-[1.125rem] leading-tight">
             <MapPin
-              className="text-bordeaux mt-0.5 size-4 shrink-0"
+              className="mt-0.5 size-4 shrink-0 text-brass"
               aria-hidden="true"
               strokeWidth={1.5}
             />

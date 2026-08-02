@@ -34,17 +34,18 @@ export function QuickNav({
           /* Home bridge: tight under Hero. Inner pages keep fuller closing rhythm. */
           title
             ? "container-page py-20 md:py-24"
-            : "container-hero pt-8 pb-4 md:pt-10 md:pb-5",
+            : "container-hero pt-7 pb-3 md:pt-9 md:pb-4",
         )}
       >
         {title ? (
           <Reveal className="mb-10">
             {eyebrow ? (
-              <span className="type-eyebrow text-bordeaux">
+              <span className="mb-5 flex items-center gap-3.5 text-[0.75rem] font-medium tracking-[0.2em] text-brass uppercase">
+                <span aria-hidden="true" className="h-px w-8 shrink-0 bg-brass/55" />
                 {eyebrow}
               </span>
             ) : null}
-            <h2 className="mt-4 text-[clamp(1.6rem,1.2rem+1.4vw,2.25rem)] leading-tight">
+            <h2 className="font-display text-[clamp(1.75rem,1.25rem+1.6vw,2.5rem)] leading-[1.08] font-normal tracking-[-0.02em] text-ink">
               {title}
             </h2>
           </Reveal>

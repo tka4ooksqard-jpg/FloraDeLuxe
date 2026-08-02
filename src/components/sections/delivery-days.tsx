@@ -64,7 +64,7 @@ function DayCard({
         {day.focus.map((tag) => (
           <li
             key={tag}
-            className="rounded-full border border-[rgba(255,255,255,0.1)] px-3.5 py-1.5 text-[0.75rem] font-medium tracking-[0.04em] text-[rgba(255,255,255,0.68)]"
+            className="rounded-[14px] border border-[rgba(255,255,255,0.1)] px-3.5 py-1.5 text-[0.75rem] font-medium tracking-[0.04em] text-[rgba(255,255,255,0.68)]"
           >
             {tag}
           </li>
@@ -127,7 +127,7 @@ export function DeliveryDays() {
     <section
       id="delivery"
       aria-labelledby="delivery-title"
-      className="on-dark section-canvas-dark relative overflow-hidden text-porcelain"
+      className="on-dark section-canvas-dark seam-from-cream relative overflow-hidden text-porcelain"
     >
       {/*
         Depth only — painted into the section background, never over copy.
@@ -173,30 +173,6 @@ export function DeliveryDays() {
             <div className="mt-10">
               <DeliveryTimeline />
             </div>
-
-            <ol
-              className="mt-8 flex flex-wrap gap-2"
-              aria-label="Тиждень поставок"
-            >
-              {weekStrip.map((day) => {
-                const isDelivery = deliveryIndexes.has(day.index);
-                return (
-                  <li key={day.index}>
-                    <span
-                      className={cn(
-                        "delivery-week-tab text-[0.75rem] font-semibold tracking-[0.14em] uppercase",
-                        isDelivery && "delivery-week-tab-active",
-                      )}
-                    >
-                      {day.short}
-                      <span className="sr-only">
-                        {isDelivery ? " — день поставки" : " — без поставки"}
-                      </span>
-                    </span>
-                  </li>
-                );
-              })}
-            </ol>
           </Reveal>
 
           <Reveal delay={120} className="relative">
@@ -206,7 +182,7 @@ export function DeliveryDays() {
                 alt={deliveryVisual.alt}
                 fill
                 sizes="(min-width: 1024px) 42vw, 100vw"
-                className="object-cover object-center"
+                className="media-grade object-cover object-center"
               />
               <div
                 aria-hidden="true"
@@ -249,7 +225,7 @@ export function DeliveryDays() {
               label={ctaLabels.currentSupply}
               variant="light"
               size="lg"
-              className="h-12 min-h-12 shrink-0 rounded-[14px] px-6 text-[0.875rem] transition-[background-color,box-shadow,transform] duration-[250ms] ease-[var(--ease-soft)] hover:-translate-y-0.5 hover:scale-[1.01] sm:px-7"
+              className="h-12 min-h-12 shrink-0 px-6 text-[0.875rem] sm:px-7"
             />
           </div>
         </Reveal>

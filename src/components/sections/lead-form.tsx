@@ -99,7 +99,7 @@ export function LeadForm() {
       aria-labelledby="lead-form-title"
       className="section-canvas-light relative scroll-mt-24"
     >
-      <div className="container-page section-y relative">
+      <div className="container-hero section-y relative z-10">
         <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <div>
             <SectionHeading
@@ -110,13 +110,17 @@ export function LeadForm() {
             />
 
             <Reveal delay={100} className="mt-8">
-              <div className="relative aspect-4/5 max-w-md overflow-hidden rounded-[1.75rem]">
+              <div className="group relative aspect-4/5 max-w-md overflow-hidden rounded-[1.75rem]">
                 <Image
                   src={sceneImages.finalCta.src}
                   alt={sceneImages.finalCta.alt}
                   fill
                   sizes="(max-width: 1024px) 90vw, 32vw"
-                  className="object-cover object-center"
+                  className="media-grade media-zoom object-cover object-center"
+                />
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-0 bg-gradient-to-t from-ink/40 via-transparent to-transparent"
                 />
               </div>
             </Reveal>
@@ -143,7 +147,7 @@ export function LeadForm() {
             <form
               noValidate
               onSubmit={onSubmit}
-              className="border-line bg-porcelain shadow-soft rounded-[var(--radius-card)] border p-6 sm:p-8"
+              className="rounded-[1.75rem] border border-[rgba(35,7,13,0.08)] bg-[rgba(246,243,239,0.78)] p-6 shadow-soft backdrop-blur-[18px] sm:p-8"
             >
               {/* Honeypot: hidden from users and assistive tech, visible to bots. */}
               <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
@@ -263,11 +267,11 @@ export function LeadForm() {
                           <label
                             key={category}
                             className={cn(
-                              "flex min-h-11 cursor-pointer items-center gap-2.5 rounded-full border px-4 py-2",
+                              "flex min-h-11 cursor-pointer items-center gap-2.5 rounded-[14px] border px-4 py-2",
                               "text-[0.9375rem] transition-colors duration-300",
                               checked
-                                ? "border-bordeaux bg-bordeaux/[0.06] text-bordeaux"
-                                : "border-line-strong text-graphite hover:border-bordeaux/50",
+                                ? "border-[rgba(213,175,99,0.45)] bg-[rgba(213,175,99,0.1)] text-bordeaux-deep"
+                                : "border-line-strong text-graphite hover:border-[rgba(213,175,99,0.35)]",
                             )}
                           >
                             <Checkbox

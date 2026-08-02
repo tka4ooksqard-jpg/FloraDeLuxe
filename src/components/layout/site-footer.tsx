@@ -22,12 +22,12 @@ export function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="on-dark bg-bordeaux-deep text-mist relative mt-auto overflow-hidden">
+    <footer className="on-dark seam-from-cream bg-bordeaux-deep text-mist relative mt-auto overflow-hidden">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(48rem_28rem_at_12%_0%,rgb(200_164_106_/_0.08),transparent_60%)]"
       />
-      <div className="container-page relative py-20 md:py-24">
+      <div className="container-hero relative z-10 py-20 md:py-24">
         <div className="grid gap-14 lg:grid-cols-[1.35fr_1fr_1fr_1.15fr] lg:gap-12">
           <div className="max-w-sm">
             <BrandMark tone="dark" />
@@ -114,7 +114,7 @@ export function SiteFooter() {
         </div>
 
         {siteConfig.isDemo ? (
-          <p className="border-porcelain/18 text-mist mt-16 rounded-[var(--radius-tile)] border border-dashed px-5 py-4 text-[0.9375rem] leading-[1.75] font-medium">
+          <p className="mt-16 text-[0.875rem] leading-[1.75] font-medium text-[rgba(246,243,239,0.45)]">
             Демонстраційні відгуки ще не замінені публічними відгуками клієнтів. Графік роботи
             оптової точки уточнюйте у менеджера. Приберіть цю позначку перед публікацією.
           </p>

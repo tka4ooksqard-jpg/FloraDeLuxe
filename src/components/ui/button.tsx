@@ -9,11 +9,12 @@ import { cn } from "@/lib/utils";
  */
 const buttonVariants = cva(
   cn(
-    "group/button inline-flex items-center justify-center gap-2 rounded-full",
+    /* Hero-shaped CTAs — 14px radius, soft lift, never pill candy. */
+    "group/button inline-flex items-center justify-center gap-2 rounded-[14px]",
     "text-center text-[0.9375rem] font-semibold tracking-normal text-balance",
     "transition-[background-color,color,border-color,box-shadow,transform] duration-500 ease-[var(--ease-soft)]",
-    "hover:scale-[1.01] active:scale-100",
-    "disabled:pointer-events-none disabled:opacity-55 disabled:hover:scale-100",
+    "hover:-translate-y-0.5 hover:scale-[1.01] active:translate-y-0 active:scale-100",
+    "disabled:pointer-events-none disabled:opacity-55 disabled:hover:translate-y-0 disabled:hover:scale-100",
     "[&_svg]:size-4 [&_svg]:shrink-0",
   ),
   {
@@ -22,7 +23,7 @@ const buttonVariants = cva(
         primary:
           "bg-bordeaux text-porcelain shadow-soft hover:bg-bordeaux-soft hover:shadow-lift",
         telegram:
-          "bg-[#0F4938] text-porcelain shadow-soft hover:bg-[#135543] hover:shadow-lift",
+          "bg-[#0F4938] text-porcelain shadow-[0_12px_32px_-20px_rgb(8_2_4_/_0.45)] hover:bg-[#135543] hover:shadow-[0_20px_40px_-24px_rgb(8_2_4_/_0.55)]",
         outline:
           "border border-line-strong bg-transparent text-graphite hover:border-bordeaux hover:text-bordeaux",
         ghost: "bg-transparent text-graphite hover:bg-cream",
@@ -31,7 +32,7 @@ const buttonVariants = cva(
         onDark:
           "border border-porcelain/30 bg-transparent text-porcelain hover:border-[#C7A15C]/70 hover:text-[#C7A15C]",
         linkGold:
-          "min-h-0 rounded-none bg-transparent px-0 py-0 font-medium text-porcelain shadow-none hover:scale-100 hover:shadow-none",
+          "min-h-0 rounded-none bg-transparent px-0 py-0 font-medium text-porcelain shadow-none hover:translate-y-0 hover:scale-100 hover:shadow-none",
       },
       size: {
         sm: "min-h-11 px-4 py-2 text-sm",
