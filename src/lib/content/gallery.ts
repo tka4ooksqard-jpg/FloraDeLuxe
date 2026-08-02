@@ -15,11 +15,6 @@ export type GalleryItem = {
   readonly image?: SiteImage;
   /** Public path to the mp4. Only set for shipped video items. */
   readonly videoSrc?: string;
-  /**
-   * Kept for future assets that are not yet on disk. The UI can still name the
-   * expected file without inventing substitute media.
-   */
-  readonly expectedPath?: string;
 };
 
 /**
@@ -39,7 +34,6 @@ export const galleryItems: readonly GalleryItem[] = [
       alt: "Візуальна презентація оптового асортименту квітів",
       width: 1600,
       height: 2000,
-      isPlaceholder: false,
     },
   },
   {
@@ -54,7 +48,6 @@ export const galleryItems: readonly GalleryItem[] = [
       alt: "Нова партія квітів на прийманні",
       width: 2200,
       height: 1238,
-      isPlaceholder: false,
     },
   },
   {
@@ -69,7 +62,6 @@ export const galleryItems: readonly GalleryItem[] = [
       alt: "Оптові пачки червоних і білих троянд",
       width: 1600,
       height: 2000,
-      isPlaceholder: false,
     },
   },
   {
@@ -84,7 +76,6 @@ export const galleryItems: readonly GalleryItem[] = [
       alt: "Оптові пачки пудрово-рожевих троянд",
       width: 1600,
       height: 2000,
-      isPlaceholder: false,
     },
   },
   {
@@ -99,7 +90,6 @@ export const galleryItems: readonly GalleryItem[] = [
       alt: "Преміальні плетені кошики для флористики",
       width: 1600,
       height: 2000,
-      isPlaceholder: false,
     },
   },
   {
@@ -114,7 +104,6 @@ export const galleryItems: readonly GalleryItem[] = [
       alt: "Пакувальні матеріали для оптових замовлень",
       width: 2200,
       height: 1238,
-      isPlaceholder: false,
     },
   },
   {
@@ -129,7 +118,6 @@ export const galleryItems: readonly GalleryItem[] = [
       alt: "Комплектація оптового замовлення квітів",
       width: 2200,
       height: 1238,
-      isPlaceholder: false,
     },
   },
   {
@@ -144,7 +132,6 @@ export const galleryItems: readonly GalleryItem[] = [
       alt: "Холодильне зберігання оптових квітів",
       width: 1600,
       height: 2000,
-      isPlaceholder: false,
     },
   },
 
@@ -162,7 +149,6 @@ export const galleryItems: readonly GalleryItem[] = [
       alt: "Відео: загальний вигляд оптового асортименту",
       width: 1600,
       height: 2000,
-      isPlaceholder: false,
     },
   },
   {
@@ -178,7 +164,6 @@ export const galleryItems: readonly GalleryItem[] = [
       alt: "Відео: надходження квіткової партії",
       width: 2200,
       height: 1238,
-      isPlaceholder: false,
     },
   },
   {
@@ -194,7 +179,6 @@ export const galleryItems: readonly GalleryItem[] = [
       alt: "Відео: оптові рожеві троянди",
       width: 1600,
       height: 2000,
-      isPlaceholder: false,
     },
   },
   {
@@ -210,7 +194,6 @@ export const galleryItems: readonly GalleryItem[] = [
       alt: "Відео: червоні та білі троянди",
       width: 1600,
       height: 2000,
-      isPlaceholder: false,
     },
   },
   {
@@ -226,7 +209,6 @@ export const galleryItems: readonly GalleryItem[] = [
       alt: "Відео: сезонні квіти з гортензією",
       width: 1600,
       height: 1067,
-      isPlaceholder: false,
     },
   },
   {
@@ -242,13 +224,16 @@ export const galleryItems: readonly GalleryItem[] = [
       alt: "Відео: квіткові пачки з оптового асортименту",
       width: 1600,
       height: 2000,
-      isPlaceholder: false,
     },
   },
 ];
 
 export const galleryNotice =
-  "Візуальна презентація асортименту та процесів Flora de Luxe Kyiv OPT. Натисніть на кадр, щоб відкрити його повністю.";
+  "Асортимент і робочі процеси Flora de Luxe Kyiv OPT. Натисніть на кадр, щоб відкрити його повністю.";
 
-export const galleryPhotoItems = galleryItems.filter((item) => item.kind === "image");
-export const galleryVideoItems = galleryItems.filter((item) => item.kind === "video");
+export const galleryPhotoItems = galleryItems.filter(
+  (item) => item.kind === "image" && Boolean(item.image?.src),
+);
+export const galleryVideoItems = galleryItems.filter(
+  (item) => item.kind === "video" && Boolean(item.videoSrc),
+);

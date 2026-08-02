@@ -46,7 +46,6 @@ export const supplierRegions: readonly SupplierRegion[] = [
       alt: "Танацетум Голландія з оптового асортименту Flora de Luxe Kyiv OPT",
       width: 1600,
       height: 1200,
-      isPlaceholder: false,
     },
     profile: {
       summary:
@@ -71,7 +70,6 @@ export const supplierRegions: readonly SupplierRegion[] = [
       alt: "Преміальна троянда з оптового асортименту Flora de Luxe Kyiv OPT",
       width: 1600,
       height: 1200,
-      isPlaceholder: false,
     },
     profile: {
       summary:
@@ -96,7 +94,6 @@ export const supplierRegions: readonly SupplierRegion[] = [
       alt: "Оптові квіткові пачки Flora de Luxe Kyiv OPT",
       width: 1600,
       height: 1200,
-      isPlaceholder: false,
     },
     profile: {
       summary:
@@ -121,7 +118,6 @@ export const supplierRegions: readonly SupplierRegion[] = [
       alt: "Кущові троянди з оптового асортименту Flora de Luxe Kyiv OPT",
       width: 1600,
       height: 1200,
-      isPlaceholder: false,
     },
     profile: {
       summary:

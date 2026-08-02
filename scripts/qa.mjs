@@ -224,68 +224,35 @@ async function main() {
     if (expanded !== "true") report("faq", `accordion did not expand (aria-expanded=${expanded})`);
     await page.screenshot({ path: `${OUT}/faq-open.png` });
 
-    // Lead form: empty submit must surface inline errors.
-    await page.goto(`${BASE}/contacts`, { waitUntil: "networkidle2" });
-    await page.evaluate(() => document.querySelector("#lead-form")?.scrollIntoView());
-    await new Promise((r) => setTimeout(r, 400));
-    await page.evaluate(() => {
-      const submit = document.querySelector('#lead-form button[type="submit"]');
-      submit?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-    });
-    await new Promise((r) => setTimeout(r, 900));
-    const invalidCount = await page.evaluate(
-      () => document.querySelectorAll('#lead-form [aria-invalid="true"]').length,
-    );
-    if (invalidCount === 0) report("lead form", "empty submit produced no aria-invalid fields");
-    await page.screenshot({ path: `${OUT}/form-errors.png` });
-
-    // Lead form: happy path.
-    await page.evaluate(() => {
-      // React Hook Form listens for native input events, so values must be set
-      // through the prototype setter rather than assigned directly.
-      const fill = (name, value, proto) => {
-        const el = document.querySelector(`#lead-form [name="${name}"]`);
-        if (!el) throw new Error(`field not found: ${name}`);
-        Object.getOwnPropertyDescriptor(proto.prototype, "value")?.set?.call(el, value);
-        el.dispatchEvent(new Event("input", { bubbles: true }));
-        el.dispatchEvent(new Event("blur", { bubbles: true }));
-      };
-
-      fill("name", "Тест Тестенко", HTMLInputElement);
-      fill("company", "Квіткова Крамниця", HTMLInputElement);
-      fill("phone", "+380671234567", HTMLInputElement);
-      fill("telegram", "@testshop", HTMLInputElement);
-      fill("city", "Київ", HTMLInputElement);
-      fill("comment", "Регулярна закупівля.", HTMLTextAreaElement);
-
-      const select = document.querySelector('#lead-form [name="budget"]');
-      Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, "value")?.set?.call(
-        select,
-        select.options[1].value,
-      );
-      select.dispatchEvent(new Event("change", { bubbles: true }));
-
-      // First category chip, then the consent box (rendered last).
-      const checkboxes = [...document.querySelectorAll('#lead-form button[role="checkbox"]')];
-      checkboxes[0]?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-      checkboxes.at(-1)?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-    });
-    await new Promise((r) => setTimeout(r, 500));
-    await page.evaluate(() => {
-      const submit = document.querySelector('#lead-form button[type="submit"]');
-      submit?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-    });
-    await new Promise((r) => setTimeout(r, 2500));
-    const successText = await page.evaluate(() => {
-      const region = document.querySelector("#lead-form [aria-live]");
-      return region?.textContent?.trim() ?? "";
-    });
-    const demoOk = successText.includes("тестовому режимі");
-    const liveOk = successText.includes("Дякуємо");
-    if (!demoOk && !liveOk) {
-      report("lead form", `no demo/success message after valid submit, live region = "${successText}"`);
+    // Public lead form must stay unmounted until delivery is configured.
+    // Order path is Telegram CTA only — no personal-data collection on the site.
+    for (const path of ["/", "/contacts"]) {
+      await page.goto(`${BASE}${path}`, { waitUntil: "networkidle2" });
+      const orderUi = await page.evaluate(() => {
+        const hasLeadForm = Boolean(document.querySelector("#lead-form"));
+        const order = document.querySelector("#order");
+        const telegram = order?.querySelector('a[href*="t.me/"]');
+        return {
+          hasLeadForm,
+          hasOrder: Boolean(order),
+          href: telegram?.getAttribute("href") ?? "",
+          label: (telegram?.textContent ?? "").replace(/\s+/g, " ").trim(),
+        };
+      });
+      if (orderUi.hasLeadForm) {
+        report(path, "public lead form (#lead-form) must not be rendered");
+      }
+      if (!orderUi.hasOrder) {
+        report(path, "Telegram order CTA (#order) is missing");
+      }
+      if (!orderUi.href.includes("t.me/floradeluxekyiv_opt")) {
+        report(path, `order Telegram href unexpected: ${orderUi.href}`);
+      }
+      if (!orderUi.label.includes("Написати в Telegram")) {
+        report(path, `order CTA label unexpected: ${orderUi.label}`);
+      }
+      await page.screenshot({ path: `${OUT}/order-cta-${path === "/" ? "home" : "contacts"}.png` });
     }
-    await page.screenshot({ path: `${OUT}/form-success.png` });
 
     await page.close();
   } finally {

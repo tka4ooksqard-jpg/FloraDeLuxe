@@ -7,11 +7,11 @@ import { GallerySection } from "@/components/sections/gallery-section";
 import { Hero } from "@/components/sections/hero";
 import { HowToOrder } from "@/components/sections/how-to-order";
 import { IntroSection } from "@/components/sections/intro-section";
-import { LeadForm } from "@/components/sections/lead-form";
 import { QuickNav } from "@/components/sections/quick-nav";
 import { ReviewsSection } from "@/components/sections/reviews-section";
 import { StorageSection } from "@/components/sections/storage-section";
 import { SuppliersSection } from "@/components/sections/suppliers-section";
+import { TelegramOrderCta } from "@/components/sections/telegram-order-cta";
 import { TermsSection } from "@/components/sections/terms-section";
 import { breadcrumbSchema } from "@/lib/seo";
 
@@ -33,7 +33,7 @@ export default function HomePage() {
       <HowToOrder />
       <ReviewsSection />
       <FaqSection />
-      <LeadForm />
+      <TelegramOrderCta />
       <ContactSection />
 
       <JsonLd data={breadcrumbSchema([{ name: "Головна", path: "/" }])} />

@@ -113,14 +113,6 @@ export function SiteFooter() {
           </nav>
         </div>
 
-        {siteConfig.isDemo ? (
-          <p className="mt-16 text-[0.875rem] leading-[1.75] font-medium text-[rgba(246,243,239,0.45)]">
-            Демонстраційна версія сайту: відгуки ще не замінені публічними відгуками клієнтів,
-            форма заявки працює в тестовому режимі без збереження даних. Графік роботи оптової
-            точки уточнюйте у менеджера. Приберіть цю позначку перед публікацією.
-          </p>
-        ) : null}
-
         <div className="border-porcelain/15 mt-12 flex flex-col gap-3 border-t pt-8 sm:mt-16 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:pt-10">
           <p className="text-mist/90 text-sm leading-relaxed font-medium break-words">
             © {year} {siteConfig.name}. Усі права захищені.

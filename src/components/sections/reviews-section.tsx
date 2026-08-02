@@ -1,12 +1,14 @@
-import { Info, Quote } from "lucide-react";
+import { Quote } from "lucide-react";
 
 import { cardSurface } from "@/components/common/card";
 import { Reveal } from "@/components/common/reveal";
 import { SectionHeading } from "@/components/common/section-heading";
-import { reviews, reviewsAreDemo, reviewsDisclaimer } from "@/lib/content/reviews";
+import { reviews } from "@/lib/content/reviews";
 import { cn } from "@/lib/utils";
 
 export function ReviewsSection() {
+  if (reviews.length === 0) return null;
+
   return (
     <section
       id="reviews"
@@ -20,15 +22,6 @@ export function ReviewsSection() {
           title="Нам довіряють флористи та магазини"
           description="Оптова співпраця тримається на передбачуваності: графіку, наявності та чесному підтвердженні замовлення."
         />
-
-        {reviewsAreDemo ? (
-          <Reveal delay={80} className="mt-8">
-            <p className="text-muted flex items-start gap-3 text-sm leading-[1.7] font-medium">
-              <Info className="mt-0.5 size-4 shrink-0 text-brass" aria-hidden="true" />
-              {reviewsDisclaimer}
-            </p>
-          </Reveal>
-        ) : null}
 
         <ul className="mt-10 grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3">
           {reviews.map((review, index) => (

@@ -83,8 +83,6 @@ export type LeadFieldName = keyof LeadValues;
 export type LeadActionState =
   | { status: "idle" }
   | { status: "success"; message: string }
-  /** Validated demo path — no delivery, no claim that a lead was accepted. */
-  | { status: "demo"; message: string }
   | {
       status: "error";
       message: string;

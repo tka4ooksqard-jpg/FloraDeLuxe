@@ -1,6 +1,6 @@
 import { PageHero } from "@/components/common/page-hero";
 import { ContactSection } from "@/components/sections/contact-section";
-import { LeadForm } from "@/components/sections/lead-form";
+import { TelegramOrderCta } from "@/components/sections/telegram-order-cta";
 import { JsonLd } from "@/components/seo/json-ld";
 import { contactsPage } from "@/lib/content/pages";
 import { breadcrumbSchema, buildMetadata } from "@/lib/seo";
@@ -18,7 +18,7 @@ export default function ContactsPage() {
       <PageHero intro={contactsPage.intro} crumbs={[{ name: "Контакти", path: "/contacts" }]} />
 
       <ContactSection withHeading={false} />
-      <LeadForm />
+      <TelegramOrderCta />
 
       <JsonLd
         data={breadcrumbSchema([

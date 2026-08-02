@@ -174,8 +174,8 @@ export function GallerySection() {
       <div className="container-hero section-y relative z-10">
         <SectionHeading
           id="gallery-title"
-          eyebrow="Візуальна презентація"
-          title="Як виглядає наша робота"
+          eyebrow="Асортимент"
+          title="Як виглядають асортимент і робочі процеси"
           description={galleryNotice}
         />
 
@@ -269,23 +269,7 @@ export function GallerySection() {
                   className="media-grade object-cover"
                 />
               </div>
-            ) : (
-              <div className="border-porcelain/15 mt-6 rounded-[var(--radius-tile)] border border-dashed p-5">
-                <p className="text-porcelain/80 text-sm leading-[1.65] font-medium">
-                  Матеріал ще не додано.
-                </p>
-                {activeItem.expectedPath ? (
-                  <>
-                    <p className="text-porcelain/70 mt-4 text-[0.8125rem] font-medium">
-                      Очікуваний файл:
-                    </p>
-                    <code className="text-brass-soft mt-1 block font-mono text-[0.8125rem] break-all">
-                      {activeItem.expectedPath}
-                    </code>
-                  </>
-                ) : null}
-              </div>
-            )}
+            ) : null}
           </DialogContent>
         ) : null}
       </Dialog>

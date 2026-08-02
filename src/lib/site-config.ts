@@ -31,15 +31,6 @@ export const siteConfig = {
     "квіти для флористів",
     "Flora de Luxe опт",
   ],
-  /**
-   * Site-wide demonstration flag. While `true`:
-   * - footer shows the demo notice;
-   * - the lead form validates but does not deliver or claim a real submission
-     (`submitLead` → status `demo`).
-   * Set to `false` only together with real lead delivery and real reviews
-   * (`reviewsAreDemo = false`).
-   */
-  isDemo: true,
 } as const;
 
 export function absoluteUrl(pathname: string): string {

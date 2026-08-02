@@ -17,7 +17,6 @@ export const hero = {
     alt: "Оптовий асортимент свіжих квітів Flora de Luxe Kyiv OPT",
     width: 1920,
     height: 1280,
-    isPlaceholder: false,
     blurDataURL:
       "data:image/webp;base64,UklGRpQAAABXRUJQVlA4IIgAAABQBACdASoYABAAPu1iqk2ppaQiMAgBMB2JQBOmUAZnIiOOrb0Ver4cCEHgAP7u31j0sJ2Qb25Hn9hs5VbH4dPJaoBG+UTEu9Ah4xrKZdKuwYdbrvOfbB1UBrWQSIaKjg/Ab+fKJbFM+IIDMmK8IaV4LYzsiLOVrnjRYByVNkDlWTacdlZNDVAA",
   } satisfies SiteImage,

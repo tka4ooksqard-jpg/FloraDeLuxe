@@ -33,7 +33,6 @@ export const categories: readonly Category[] = [
       alt: "Оптові пачки преміальних троянд Flora de Luxe",
       width: 1600,
       height: 1067,
-      isPlaceholder: false,
     },
   },
   {
@@ -50,7 +49,6 @@ export const categories: readonly Category[] = [
       alt: "Асортимент оптових хризантем у Kyiv OPT",
       width: 1200,
       height: 1500,
-      isPlaceholder: false,
     },
   },
   {
@@ -68,7 +66,6 @@ export const categories: readonly Category[] = [
       alt: "Преміальна екзотика для професійної флористики",
       width: 1200,
       height: 1500,
-      isPlaceholder: false,
     },
   },
   {
@@ -85,7 +82,6 @@ export const categories: readonly Category[] = [
       alt: "Декоративна зелень для професійної флористики",
       width: 1200,
       height: 1500,
-      isPlaceholder: false,
     },
   },
   {
@@ -104,7 +100,6 @@ export const categories: readonly Category[] = [
       alt: "Сезонний оптовий асортимент квітів Flora de Luxe",
       width: 1600,
       height: 1067,
-      isPlaceholder: false,
     },
   },
 ];

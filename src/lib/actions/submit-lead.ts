@@ -1,6 +1,5 @@
 "use server";
 
-import { siteConfig } from "@/lib/site-config";
 import {
   leadSchema,
   type LeadActionState,
@@ -8,17 +7,15 @@ import {
   type LeadValues,
 } from "@/lib/validation/lead";
 
-const DEMO_FORM_MESSAGE =
-  "Форма працює в тестовому режимі. Для замовлення напишіть нам у Telegram.";
-
 /**
  * Delivery stub for wholesale enquiry leads.
  *
- * While `siteConfig.isDemo` is true the payload is validated and then discarded:
- * nothing is stored, emailed, or sent to Telegram. Personal data is never logged.
+ * Not wired to any inbox, database or Telegram bot yet. The public site does
+ * not render LeadForm — visitors order via Telegram CTA. Keep this action and
+ * the Zod schema for the future go-live.
  *
- * To go live: implement real delivery here, then set `siteConfig.isDemo = false`
- * and `reviewsAreDemo = false`. Example Telegram Bot API call:
+ * To go live, implement `deliverLead` (e.g. Telegram Bot API) and mount
+ * LeadForm again on home/contacts:
  *
  *   await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
  *     method: "POST",
@@ -27,13 +24,7 @@ const DEMO_FORM_MESSAGE =
  *   });
  */
 async function deliverLead(_lead: LeadValues): Promise<void> {
-  if (siteConfig.isDemo) {
-    // Keep a short pause so the pending UI remains observable during demos.
-    await new Promise((resolve) => setTimeout(resolve, 700));
-    return;
-  }
-
-  throw new Error("Lead delivery is not configured. Keep siteConfig.isDemo = true until go-live.");
+  throw new Error("Lead delivery is not configured.");
 }
 
 export async function submitLead(
@@ -71,9 +62,7 @@ export async function submitLead(
 
   // A filled honeypot is silently accepted so bots get no useful signal.
   if (parsed.data.website) {
-    return siteConfig.isDemo
-      ? { status: "demo", message: DEMO_FORM_MESSAGE }
-      : { status: "success", message: "Дякуємо! Заявку прийнято." };
+    return { status: "success", message: "Дякуємо! Заявку прийнято." };
   }
 
   try {
@@ -83,10 +72,6 @@ export async function submitLead(
       status: "error",
       message: "Не вдалося надіслати заявку. Спробуйте ще раз або напишіть у Telegram.",
     };
-  }
-
-  if (siteConfig.isDemo) {
-    return { status: "demo", message: DEMO_FORM_MESSAGE };
   }
 
   return {

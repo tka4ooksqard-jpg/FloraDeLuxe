@@ -183,14 +183,12 @@ export const aboutPage = {
       alt: "Оптовий асортимент квітів у залі Flora de Luxe Kyiv OPT",
       width: 1600,
       height: 2000,
-      isPlaceholder: false,
     } satisfies SiteImage,
     craft: {
       src: "/images/about/packaging-area.webp",
       alt: "Упаковка та флористичні матеріали на оптовому складі Flora de Luxe Kyiv OPT",
       width: 2200,
       height: 1238,
-      isPlaceholder: false,
     } satisfies SiteImage,
   },
 } as const;

@@ -53,8 +53,8 @@ const postalAddress: JsonLdObject = {
  *
  * Deliberately omitted: `openingHours` (not confirmed), `email` (not
  * confirmed), `sameAs` social profiles (not confirmed) and any
- * `aggregateRating` / `review` data (the on-site testimonials are demo
- * content). Publishing those would be unverified structured data.
+ * `aggregateRating` / `review` data until confirmed client testimonials
+ * exist. Publishing those would be unverified structured data.
  */
 export function organizationSchema(): JsonLdObject {
   return {
