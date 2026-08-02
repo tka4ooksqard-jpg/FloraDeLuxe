@@ -1,20 +1,20 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
+import { AlertCircle, CheckCircle2, Info, Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useId, useState, useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
 
-import { CtaArrow } from "@/components/common/cta";
+import { CtaArrow, TelegramCta } from "@/components/common/cta";
 import { Reveal } from "@/components/common/reveal";
 import { SectionHeading } from "@/components/common/section-heading";
 import { Button } from "@/components/ui/button";
 import { Checkbox, FieldMessage, Input, Label, Select, Textarea } from "@/components/ui/field";
 import { submitLead } from "@/lib/actions/submit-lead";
 import { categoryNames } from "@/lib/content/categories";
-import { ctaLabels } from "@/lib/content/navigation";
+import { ctaLabels, telegramIntents } from "@/lib/content/navigation";
 import { sceneImages } from "@/lib/content/scenes";
 import {
   budgetRanges,
@@ -87,6 +87,7 @@ export function LeadForm() {
         }
       }
 
+      // Demo mode keeps the filled fields — nothing was delivered.
       if (result.status === "success") {
         reset(defaultValues);
       }
@@ -344,12 +345,12 @@ export function LeadForm() {
                 <FieldMessage id={messageId("consent")} message={errors.consent?.message} />
               </div>
 
-              <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
+              <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
                 <Button type="submit" size="lg" disabled={isPending} className="sm:w-auto">
                   {isPending ? (
                     <>
                       <Loader2 className="animate-spin" aria-hidden="true" />
-                      Надсилаємо…
+                      Перевіряємо…
                     </>
                   ) : (
                     <>
@@ -358,14 +359,36 @@ export function LeadForm() {
                     </>
                   )}
                 </Button>
-                <p className="text-muted text-[0.8125rem] leading-relaxed">
+                <TelegramCta
+                  intent={telegramIntents.terms}
+                  label={ctaLabels.telegram}
+                  variant="light"
+                  size="lg"
+                  className="sm:w-auto"
+                />
+                <p className="text-muted text-[0.8125rem] leading-relaxed sm:basis-full">
                   Поля, позначені *, обов’язкові.
                 </p>
               </div>
 
-              {/* Single live region announcing loading, success and error states. */}
+              {/* Single live region announcing loading, demo, success and error states. */}
               <div aria-live="polite" aria-atomic="true" className="mt-5 empty:mt-0">
-                {isPending ? <p className="sr-only">Надсилаємо заявку…</p> : null}
+                {isPending ? <p className="sr-only">Перевіряємо заявку…</p> : null}
+
+                {!isPending && state.status === "demo" ? (
+                  <div className="border-brass/35 bg-brass/[0.08] text-ink flex flex-col gap-4 rounded-[var(--radius-tile)] border p-4 sm:flex-row sm:items-start">
+                    <p className="flex items-start gap-3 text-[0.9375rem] leading-relaxed">
+                      <Info className="text-brass-ink mt-0.5 size-5 shrink-0" aria-hidden="true" />
+                      {state.message}
+                    </p>
+                    <TelegramCta
+                      intent={telegramIntents.order}
+                      label={ctaLabels.telegram}
+                      size="md"
+                      className="shrink-0 sm:ml-auto"
+                    />
+                  </div>
+                ) : null}
 
                 {!isPending && state.status === "success" ? (
                   <p className="border-forest/25 bg-forest/[0.06] text-forest flex items-start gap-3 rounded-[var(--radius-tile)] border p-4 text-[0.9375rem] leading-relaxed">

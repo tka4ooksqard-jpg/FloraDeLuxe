@@ -32,8 +32,12 @@ export const siteConfig = {
     "Flora de Luxe опт",
   ],
   /**
-   * Kept `true` while demo testimonials remain on the site. Product photography
-   * and contact details are already live; set to `false` after real reviews land.
+   * Site-wide demonstration flag. While `true`:
+   * - footer shows the demo notice;
+   * - the lead form validates but does not deliver or claim a real submission
+     (`submitLead` → status `demo`).
+   * Set to `false` only together with real lead delivery and real reviews
+   * (`reviewsAreDemo = false`).
    */
   isDemo: true,
 } as const;

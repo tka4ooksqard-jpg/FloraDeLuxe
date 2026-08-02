@@ -174,7 +174,7 @@ export function GallerySection() {
       <div className="container-hero section-y relative z-10">
         <SectionHeading
           id="gallery-title"
-          eyebrow="Візуальне підтвердження"
+          eyebrow="Візуальна презентація"
           title="Як виглядає наша робота"
           description={galleryNotice}
         />
@@ -187,11 +187,11 @@ export function GallerySection() {
 
         <div className="mt-14">
           <h3 className="font-display text-ink text-[1.5rem] leading-tight font-normal tracking-[-0.015em] sm:text-[1.625rem]">
-            Відео зі складу
+            Відеоматеріали асортименту
           </h3>
           <p className="text-muted mt-2.5 max-w-2xl text-[0.9375rem] leading-[1.7] font-medium">
-            Короткі ролики оптового залу. Відтворення лише після натискання — без автозапуску зі
-            звуком.
+            Короткі ролики асортименту та робочих процесів. Відтворення лише після натискання —
+            без автозапуску зі звуком.
           </p>
 
           <ul className="mt-8 grid auto-rows-[11rem] gap-3 sm:auto-rows-[13rem] sm:gap-4 md:grid-cols-6 md:gap-5">

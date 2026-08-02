@@ -280,8 +280,10 @@ async function main() {
       const region = document.querySelector("#lead-form [aria-live]");
       return region?.textContent?.trim() ?? "";
     });
-    if (!successText.includes("Дякуємо")) {
-      report("lead form", `no success message after valid submit, live region = "${successText}"`);
+    const demoOk = successText.includes("тестовому режимі");
+    const liveOk = successText.includes("Дякуємо");
+    if (!demoOk && !liveOk) {
+      report("lead form", `no demo/success message after valid submit, live region = "${successText}"`);
     }
     await page.screenshot({ path: `${OUT}/form-success.png` });
 
