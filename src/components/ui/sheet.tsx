@@ -33,8 +33,9 @@ function SheetContent({
       />
       <DialogPrimitive.Content
         className={cn(
-          "bg-porcelain fixed inset-y-0 right-0 z-50 flex w-full max-w-sm flex-col",
+          "bg-porcelain fixed inset-y-0 right-0 z-50 flex h-dvh max-h-dvh w-full max-w-sm flex-col",
           "shadow-lift border-line border-l",
+          "pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]",
           "data-[state=open]:animate-[fdl-slide-in-right_300ms_var(--ease-soft)]",
           "data-[state=closed]:animate-[fdl-slide-out-right_240ms_var(--ease-soft)]",
           className,
@@ -44,7 +45,7 @@ function SheetContent({
         <DialogPrimitive.Close
           aria-label={closeLabel}
           className={cn(
-            "border-line text-graphite absolute top-4 right-4 grid size-11 place-items-center",
+            "border-line text-graphite absolute top-[max(1rem,env(safe-area-inset-top))] right-4 z-10 grid size-11 place-items-center",
             "hover:border-bordeaux hover:text-bordeaux rounded-full border transition-colors duration-300",
           )}
         >

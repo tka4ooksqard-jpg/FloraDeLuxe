@@ -41,9 +41,9 @@ export function SuppliersSection() {
           description="Асортимент формується з кількох напрямків — це дає ширший вибір сортів і стабільніше наповнення партій протягом року."
         />
 
-        <div className="mt-14 grid items-stretch gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-10">
-          <Reveal className="h-full">
-            <div className="flex h-full flex-col gap-5">
+        <div className="mt-14 grid min-w-0 grid-cols-1 items-stretch gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-10">
+          <Reveal className="h-full min-w-0">
+            <div className="flex h-full min-w-0 flex-col gap-5">
               <div className="group relative aspect-16/10 overflow-hidden rounded-[1.75rem]">
                 <Image
                   src={sceneImages.import.src}
@@ -58,8 +58,10 @@ export function SuppliersSection() {
                 />
               </div>
 
-              <div className={cn(cardSurface, "p-5 sm:p-6")}>
-                <SupplyMap />
+              <div className={cn(cardSurface, "min-w-0 overflow-hidden p-5 sm:p-6")}>
+                <div className="w-full max-w-full overflow-hidden">
+                  <SupplyMap />
+                </div>
                 <p className="type-caption text-muted mt-3.5 text-center">{supplyMapCaption}</p>
               </div>
 
@@ -79,18 +81,18 @@ export function SuppliersSection() {
             </div>
           </Reveal>
 
-          <ul className="grid gap-3.5 sm:grid-cols-2 sm:gap-4">
+          <ul className="grid min-w-0 grid-cols-1 gap-3.5 sm:grid-cols-2 sm:gap-4">
             {supplierRegions.map((region, index) => {
               const isLead = index === 0;
               const isArmenia = region.code === "AM";
 
               return (
-                <li key={region.code} className={cn(isLead && "sm:col-span-2")}>
-                  <Reveal delay={index * 80} className="h-full">
+                <li key={region.code} className={cn("min-w-0", isLead && "sm:col-span-2")}>
+                  <Reveal delay={index * 80} className="h-full min-w-0">
                     <article
                       className={cn(
                         cardMedia,
-                        "h-full",
+                        "h-full w-full max-w-full",
                         isLead
                           ? "aspect-16/10 sm:aspect-[2.2/1]"
                           : isArmenia

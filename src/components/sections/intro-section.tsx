@@ -44,7 +44,7 @@ export function IntroSection() {
             <div className="mt-5 lg:text-right">
               <Link
                 href="/about"
-                className="group/button inline-flex min-h-0 items-center gap-2 px-0 py-0 text-[0.875rem] font-medium tracking-[0.02em] text-bordeaux transition-colors duration-500 ease-[var(--ease-soft)] hover:text-brass"
+                className="group/button inline-flex min-h-11 items-center gap-2 px-0 py-2 text-[0.875rem] font-medium tracking-[0.02em] text-bordeaux transition-colors duration-500 ease-[var(--ease-soft)] hover:text-brass"
               >
                 {aboutBrief.linkLabel}
                 <CtaArrow className="size-3.5 text-brass" />
@@ -65,7 +65,7 @@ export function IntroSection() {
               <li
                 key={item.id}
                 className={cn(
-                  "flex min-w-[10rem] flex-1 items-start gap-3.5 sm:min-w-[12rem]",
+                  "flex w-full min-w-0 basis-full items-start gap-3.5 sm:min-w-[11rem] sm:flex-1 sm:basis-[calc(50%-1rem)] lg:basis-0",
                   index === 0
                     ? "sm:pr-6 lg:pr-8"
                     : "border-[rgba(35,7,13,0.08)] sm:border-l sm:px-6 lg:px-8",

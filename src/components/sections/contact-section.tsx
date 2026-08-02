@@ -47,7 +47,7 @@ export function ContactSection({ withHeading = true }: { withHeading?: boolean }
         >
           <Reveal className="h-full">
             <div className={cn(cardSurface, "h-full p-6 sm:p-8")}>
-              <p className="font-display text-ink text-[1.75rem] leading-tight font-normal tracking-[-0.015em]">
+              <p className="font-display text-ink text-[clamp(1.375rem,1.1rem+1.2vw,1.75rem)] leading-tight font-normal tracking-[-0.015em] break-words">
                 {contactConfig.legalName}
               </p>
 
@@ -73,7 +73,7 @@ export function ContactSection({ withHeading = true }: { withHeading?: boolean }
                         href={contactConfig.telegramUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="hover:text-brass inline-flex min-h-9 items-center transition-colors duration-500 ease-[var(--ease-soft)]"
+                        className="hover:text-brass inline-flex min-h-11 items-center break-all transition-colors duration-500 ease-[var(--ease-soft)]"
                       >
                         {contactConfig.telegramHandle}
                       </a>
@@ -90,7 +90,7 @@ export function ContactSection({ withHeading = true }: { withHeading?: boolean }
                     <dd className={valueClass}>
                       <a
                         href={`tel:${contactConfig.phoneHref}`}
-                        className="hover:text-brass inline-flex min-h-9 items-center transition-colors duration-500 ease-[var(--ease-soft)]"
+                        className="hover:text-brass inline-flex min-h-11 items-center break-all transition-colors duration-500 ease-[var(--ease-soft)]"
                       >
                         {contactConfig.phone.value}
                       </a>
@@ -116,14 +116,15 @@ export function ContactSection({ withHeading = true }: { withHeading?: boolean }
                   intent={telegramIntents.order}
                   label={ctaLabels.telegramShort}
                   size="lg"
+                  className="w-full sm:w-auto"
                 />
-                <Button asChild variant="outline" size="lg">
+                <Button asChild variant="outline" size="lg" className="w-full sm:w-auto">
                   <a href={`tel:${contactConfig.phoneHref}`}>
                     <Phone aria-hidden="true" />
                     {ctaLabels.call}
                   </a>
                 </Button>
-                <Button asChild variant="outline" size="lg">
+                <Button asChild variant="outline" size="lg" className="w-full sm:w-auto">
                   <a href={contactConfig.mapsUrl} target="_blank" rel="noopener noreferrer">
                     <Navigation aria-hidden="true" />
                     {ctaLabels.route}

@@ -17,7 +17,7 @@ export const cardInteractive = cn(
 
 /** Media-forward cards (categories, supplier portraits): thin frame, no fill. */
 export const cardMedia = cn(
-  "group relative block overflow-hidden rounded-[1.75rem]",
+  "group relative block w-full max-w-full min-w-0 overflow-hidden rounded-[1.75rem]",
   "border border-[rgba(35,7,13,0.1)] bg-graphite shadow-soft",
   "transition-[box-shadow,border-color,transform] duration-500 ease-[var(--ease-soft)]",
   "hover:-translate-y-1 hover:border-[rgba(213,175,99,0.35)] hover:shadow-[0_24px_48px_-28px_rgb(20_12_14_/_0.3)]",

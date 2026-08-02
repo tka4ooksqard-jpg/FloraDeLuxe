@@ -49,6 +49,16 @@
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    /* Sticky header clearance for in-page anchors (#assortment, #faq, …). */
+    scroll-padding-top: 5.75rem;
+  }
+
+  /* Progressive enhancement: reveals must remain readable without JS. */
+  @media (scripting: none) {
+    .reveal {
+      opacity: 1 !important;
+      transform: none !important;
+    }
   }
 
   body {

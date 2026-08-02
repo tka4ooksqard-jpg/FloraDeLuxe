@@ -9,7 +9,8 @@ import { cn } from "@/lib/utils";
 
 const controlStyles = cn(
   "border-line-strong bg-porcelain text-graphite w-full rounded-2xl border px-4 py-3",
-  "min-h-11 text-[0.9375rem] font-medium placeholder:text-muted/75",
+  /* 16px floor prevents iOS Safari from zooming the page on focus. */
+  "min-h-12 text-base font-medium placeholder:text-muted/75",
   "transition-[border-color,box-shadow] duration-300 ease-[var(--ease-soft)]",
   "hover:border-line-strong/80",
   "focus:border-bordeaux focus:ring-bordeaux/15 focus:ring-4 focus:outline-none",
@@ -41,7 +42,7 @@ function Checkbox({ className, ...props }: ComponentProps<typeof CheckboxPrimiti
   return (
     <CheckboxPrimitive.Root
       className={cn(
-        "border-line-strong bg-porcelain grid size-5 shrink-0 place-items-center rounded-md border",
+        "border-line-strong bg-porcelain grid size-6 shrink-0 place-items-center rounded-md border",
         "transition-colors duration-200",
         "data-[state=checked]:border-bordeaux data-[state=checked]:bg-bordeaux data-[state=checked]:text-porcelain",
         "aria-[invalid=true]:border-bordeaux-soft",

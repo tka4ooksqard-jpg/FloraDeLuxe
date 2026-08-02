@@ -26,11 +26,13 @@ export function SupplyMap() {
   return (
     <svg
       viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
+      width="100%"
+      preserveAspectRatio="xMidYMid meet"
       role="img"
       aria-label={`Схема напрямків поставок: ${supplierRegions
         .map((region) => region.country)
         .join(", ")} — до Києва`}
-      className="h-auto w-full"
+      className="block h-auto w-full max-w-full overflow-hidden"
     >
       <defs>
         <linearGradient id="supply-line" x1="0" y1="0" x2="1" y2="0">

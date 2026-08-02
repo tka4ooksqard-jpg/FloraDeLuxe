@@ -31,7 +31,8 @@ export function BrandMark({
       priority={priority}
       sizes="(max-width: 640px) 172px, 232px"
       className={cn(
-        "h-[43px] w-auto sm:h-[58px]",
+        /* Cap width on the narrowest phones so the mark never crowds the menu button. */
+        "h-[43px] w-auto max-w-[min(172px,52vw)] object-contain object-left sm:h-[58px] sm:max-w-[232px]",
         "transition-[transform,filter] duration-[250ms] ease-[var(--ease-soft)]",
         asLink &&
           "group-hover:scale-[1.02] group-hover:drop-shadow-[0_0_10px_rgba(201,166,107,0.22)]",
@@ -46,7 +47,7 @@ export function BrandMark({
     <Link
       href="/"
       aria-label={`${siteConfig.name} — на головну`}
-      className="group inline-flex shrink-0 items-center self-center"
+      className="group inline-flex min-h-11 shrink-0 items-center self-center"
     >
       {image}
     </Link>

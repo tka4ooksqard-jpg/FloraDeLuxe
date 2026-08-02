@@ -225,7 +225,7 @@ export function DeliveryDays() {
               label={ctaLabels.currentSupply}
               variant="light"
               size="lg"
-              className="h-12 min-h-12 shrink-0 px-6 text-[0.875rem] sm:px-7"
+              className="h-12 min-h-12 w-full shrink-0 px-6 text-[0.9375rem] sm:w-auto sm:px-7"
             />
           </div>
         </Reveal>

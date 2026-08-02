@@ -49,7 +49,7 @@ export function SiteHeader() {
     >
       <div
         className={cn(
-          "container-page flex items-center justify-between gap-5",
+          "container-page flex items-center justify-between gap-3 sm:gap-5",
           isHome ? "h-[5.25rem] sm:h-[5.5rem]" : "h-16 sm:h-[4.5rem]",
         )}
       >
@@ -107,12 +107,12 @@ export function SiteHeader() {
         </div>
 
         <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
-          <SheetTrigger asChild className="lg:hidden">
+          <SheetTrigger asChild className="lg:hidden shrink-0">
             <Button
               variant={isHome ? "onDark" : "outline"}
               size="icon"
               aria-label="Відкрити меню"
-              className="size-11"
+              className="size-11 min-h-11 min-w-11"
             >
               <Menu className="size-5" aria-hidden="true" />
             </Button>
@@ -124,7 +124,7 @@ export function SiteHeader() {
               Навігація сайту та кнопки зв’язку з оптовим менеджером.
             </SheetDescription>
 
-            <div className="border-line border-b px-5 py-6">
+            <div className="border-line border-b py-6 pr-16 pl-5">
               <SheetClose asChild>
                 <Link href="/" aria-label="Flora de Luxe Kyiv OPT — на головну">
                   <BrandMark asLink={false} />
@@ -132,7 +132,7 @@ export function SiteHeader() {
               </SheetClose>
             </div>
 
-            <nav aria-label="Мобільна навігація" className="flex-1 overflow-y-auto px-5 py-4">
+            <nav aria-label="Мобільна навігація" className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-4">
               <ul className="flex flex-col">
                 {primaryNav.map((item) => (
                   <li key={item.href}>
@@ -141,7 +141,7 @@ export function SiteHeader() {
                         href={item.href}
                         aria-current={isActive(item.href) ? "page" : undefined}
                         className={cn(
-                          "border-line/70 flex min-h-14 items-center border-b text-lg font-medium tracking-normal transition-colors duration-200",
+                          "border-line/70 flex min-h-14 items-center border-b py-3 text-[1.0625rem] leading-snug font-medium tracking-normal break-words transition-colors duration-200",
                           isActive(item.href) ? "text-bordeaux" : "text-graphite hover:text-bordeaux",
                         )}
                       >
@@ -153,7 +153,7 @@ export function SiteHeader() {
               </ul>
             </nav>
 
-            <div className="border-line bg-cream/60 flex flex-col gap-3 border-t px-5 py-5">
+            <div className="border-line bg-cream/60 flex shrink-0 flex-col gap-3 border-t px-5 py-5">
               <TelegramCta intent={telegramIntents.order} size="lg" className="w-full" />
               <TelegramCta
                 intent={telegramIntents.price}

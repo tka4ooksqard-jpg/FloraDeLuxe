@@ -51,20 +51,20 @@ export function ContactMap() {
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 p-4 sm:p-5">
         <div
           className={cn(
-            "pointer-events-auto max-w-[16.5rem] rounded-[var(--radius-tile)] border border-porcelain/45",
-            "bg-porcelain/78 p-4 shadow-soft backdrop-blur-xl",
+            "pointer-events-auto w-full max-w-[min(16.5rem,calc(100%-0.25rem))] rounded-[var(--radius-tile)] border border-porcelain/45",
+            "bg-porcelain/78 p-3.5 shadow-soft backdrop-blur-xl sm:p-4",
             "supports-[backdrop-filter]:bg-porcelain/62",
           )}
         >
-          <p className="text-ink flex items-start gap-2 font-display text-[1.125rem] leading-tight">
+          <p className="text-ink flex items-start gap-2 font-display text-[1.0625rem] leading-tight break-words sm:text-[1.125rem]">
             <MapPin
               className="mt-0.5 size-4 shrink-0 text-brass"
               aria-hidden="true"
               strokeWidth={1.5}
             />
-            <span>{contactConfig.legalName}</span>
+            <span className="min-w-0">{contactConfig.legalName}</span>
           </p>
-          <p className="type-caption text-muted mt-2 pl-6">
+          <p className="type-caption text-muted mt-2 pl-6 break-words">
             {contactConfig.street}
             <br />
             {contactConfig.city}

@@ -34,10 +34,10 @@ export function NavCardGrid({
               <Icon name={link.icon} className="size-4" />
             </span>
 
-            <span className="mt-5 flex items-center justify-between gap-4">
+            <span className="mt-5 flex items-start justify-between gap-3 sm:gap-4">
               <span
                 className={cn(
-                  "font-display text-[1.5rem] leading-tight font-normal tracking-[-0.015em] sm:text-[1.625rem]",
+                  "font-display min-w-0 text-[1.375rem] leading-tight font-normal tracking-[-0.015em] text-balance sm:text-[1.625rem]",
                   featured ? "text-[#F5EFE9]" : "text-ink",
                 )}
               >

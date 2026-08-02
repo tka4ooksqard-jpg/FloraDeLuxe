@@ -89,7 +89,7 @@ export function HowToOrder() {
             intent={telegramIntents.order}
             size="lg"
             variant="light"
-            className="h-14 px-8"
+            className="h-14 w-full px-8 sm:w-auto"
           />
         </Reveal>
       </div>

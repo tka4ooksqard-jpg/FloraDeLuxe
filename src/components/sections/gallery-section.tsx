@@ -209,7 +209,7 @@ export function GallerySection() {
               <p className="type-eyebrow text-brass-soft">
                 {activeItem.kind === "video" ? "Відеоматеріал" : "Фотоматеріал"}
               </p>
-              <DialogTitle className="font-display text-porcelain mt-3 text-[1.75rem] leading-tight font-normal tracking-[-0.015em] sm:text-[2.25rem]">
+              <DialogTitle className="font-display text-porcelain mt-3 text-[clamp(1.375rem,1.1rem+1.4vw,2.25rem)] leading-tight font-normal tracking-[-0.015em] text-balance">
                 {activeItem.title}
               </DialogTitle>
               <DialogDescription className="text-porcelain/85 mt-3 text-[0.9375rem] leading-[1.7] font-medium">

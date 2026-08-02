@@ -33,20 +33,34 @@ export function Reveal({ children, className, delay = 0, as }: RevealProps) {
       return;
     }
 
+    let revealed = false;
+    const reveal = () => {
+      if (revealed) return;
+      revealed = true;
+      node.dataset.revealed = "true";
+    };
+
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.isIntersecting && entry.target instanceof HTMLElement) {
-            entry.target.dataset.revealed = "true";
+          if (entry.isIntersecting) {
+            reveal();
             observer.disconnect();
           }
         }
       },
-      { rootMargin: "0px 0px -12% 0px", threshold: 0.08 },
+      /* Softer bottom margin so short mobile viewports still trigger. */
+      { rootMargin: "0px 0px -6% 0px", threshold: 0.05 },
     );
 
     observer.observe(node);
-    return () => observer.disconnect();
+    /* Safety net: never leave content invisible if IO never fires. */
+    const fallback = window.setTimeout(reveal, 2200);
+
+    return () => {
+      observer.disconnect();
+      window.clearTimeout(fallback);
+    };
   }, []);
 
   return (

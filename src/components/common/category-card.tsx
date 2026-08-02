@@ -54,15 +54,15 @@ export function CategoryCard({
   );
 
   const body = (
-    <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5 sm:p-6">
-      <div className="min-w-0">
-        <h3 className="font-display text-[1.625rem] leading-tight font-normal tracking-[-0.015em] text-[#F5EFE9] sm:text-[1.875rem]">
+    <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-4 sm:gap-4 sm:p-6">
+      <div className="min-w-0 flex-1">
+        <h3 className="font-display text-[clamp(1.375rem,1.1rem+1.2vw,1.875rem)] leading-tight font-normal tracking-[-0.015em] text-balance text-[#F5EFE9]">
           {category.name}
         </h3>
         <p className="mt-2 max-w-md text-[0.9375rem] leading-[1.65] font-medium text-[rgba(245,239,233,0.86)]">
           {category.description}
         </p>
-        <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium tracking-[0.02em] text-[#D5AF63]">
+        <span className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium tracking-[0.02em] text-[#D5AF63] sm:mt-4">
           {ctaLabels.availability}
         </span>
       </div>
@@ -70,7 +70,7 @@ export function CategoryCard({
       <span
         aria-hidden="true"
         className={cn(
-          "grid size-11 shrink-0 place-items-center rounded-[14px] border border-[rgba(213,175,99,0.35)] bg-[rgba(35,7,13,0.35)] text-[#D5AF63]",
+          "mb-0.5 grid size-11 shrink-0 place-items-center rounded-[14px] border border-[rgba(213,175,99,0.35)] bg-[rgba(35,7,13,0.35)] text-[#D5AF63]",
           "transition-transform duration-500 ease-[var(--ease-soft)]",
           "group-hover:translate-x-1",
         )}

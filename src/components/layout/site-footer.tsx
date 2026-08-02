@@ -16,7 +16,7 @@ const companyLinks = [
 
 const columnTitleClass = "type-eyebrow text-brass mb-6";
 const linkClass =
-  "text-mist hover:text-frost inline-flex min-h-11 items-center gap-2 text-[0.9375rem] font-medium leading-relaxed transition-colors duration-[var(--duration-micro)]";
+  "text-mist hover:text-frost inline-flex min-h-11 max-w-full items-start gap-2 py-1 text-[0.9375rem] font-medium leading-relaxed break-words transition-colors duration-[var(--duration-micro)]";
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
@@ -27,9 +27,9 @@ export function SiteFooter() {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(48rem_28rem_at_12%_0%,rgb(200_164_106_/_0.08),transparent_60%)]"
       />
-      <div className="container-hero relative z-10 py-20 md:py-24">
-        <div className="grid gap-14 lg:grid-cols-[1.35fr_1fr_1fr_1.15fr] lg:gap-12">
-          <div className="max-w-sm">
+      <div className="container-hero relative z-10 py-14 sm:py-20 md:py-24">
+        <div className="grid gap-10 sm:gap-12 lg:grid-cols-[1.35fr_1fr_1fr_1.15fr] lg:gap-12">
+          <div className="max-w-sm min-w-0">
             <BrandMark tone="dark" />
             <p className="text-frost mt-7 text-base leading-[1.8] font-medium">
               Оптові поставки свіжих квітів для магазинів, флористів і бізнесу.
@@ -120,8 +120,8 @@ export function SiteFooter() {
           </p>
         ) : null}
 
-        <div className="border-porcelain/15 mt-16 flex flex-col gap-4 border-t pt-10 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-mist/90 text-sm leading-relaxed font-medium">
+        <div className="border-porcelain/15 mt-12 flex flex-col gap-3 border-t pt-8 sm:mt-16 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:pt-10">
+          <p className="text-mist/90 text-sm leading-relaxed font-medium break-words">
             © {year} {siteConfig.name}. Усі права захищені.
           </p>
           <Link

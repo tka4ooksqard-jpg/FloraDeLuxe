@@ -29,10 +29,10 @@ function DialogContent({
       />
       <DialogPrimitive.Content
         className={cn(
-          "on-dark fixed top-1/2 left-1/2 z-50 w-[calc(100vw-2rem)] max-w-4xl",
+          "on-dark fixed top-1/2 left-1/2 z-50 w-[min(calc(100vw-1.5rem),56rem)] max-w-4xl",
           "-translate-x-1/2 -translate-y-1/2",
           "bg-graphite text-porcelain rounded-[var(--radius-card)] shadow-lift",
-          "max-h-[calc(100dvh-2rem)] overflow-y-auto p-4 sm:p-6",
+          "max-h-[calc(100dvh-1.5rem)] overflow-y-auto overscroll-contain p-4 sm:p-6",
           "data-[state=open]:animate-[fdl-fade-up_260ms_var(--ease-soft)]",
           "data-[state=closed]:animate-[fdl-fade-out_180ms_var(--ease-soft)]",
           className,
@@ -43,7 +43,7 @@ function DialogContent({
         <DialogPrimitive.Close
           aria-label={closeLabel}
           className={cn(
-            "absolute top-3 right-3 grid size-11 place-items-center rounded-full",
+            "absolute top-3 right-3 z-10 grid size-11 min-h-11 min-w-11 place-items-center rounded-full",
             "bg-porcelain/10 text-porcelain transition-colors duration-300",
             "hover:bg-porcelain/20",
           )}

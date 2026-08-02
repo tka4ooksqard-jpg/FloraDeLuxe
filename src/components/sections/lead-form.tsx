@@ -147,16 +147,20 @@ export function LeadForm() {
             <form
               noValidate
               onSubmit={onSubmit}
-              className="rounded-[1.75rem] border border-[rgba(35,7,13,0.08)] bg-[rgba(246,243,239,0.78)] p-6 shadow-soft backdrop-blur-[18px] sm:p-8"
+              className="relative overflow-x-clip rounded-[1.75rem] border border-[rgba(35,7,13,0.08)] bg-[rgba(246,243,239,0.78)] p-5 shadow-soft backdrop-blur-[18px] sm:p-8"
             >
-              {/* Honeypot: hidden from users and assistive tech, visible to bots. */}
-              <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
+              {/* Honeypot: zero box, clipped — never off-screen (avoids overflow + false QA hits). */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute top-0 left-0 h-0 w-0 overflow-hidden opacity-0"
+              >
                 <label htmlFor={fieldId("website")}>Не заповнюйте це поле</label>
                 <input
                   id={fieldId("website")}
                   type="text"
                   tabIndex={-1}
                   autoComplete="off"
+                  className="h-0 w-0 border-0 p-0"
                   {...register("website")}
                 />
               </div>
@@ -315,7 +319,7 @@ export function LeadForm() {
                   name="consent"
                   render={({ field }) => (
                     <label className="text-graphite flex cursor-pointer items-start gap-3 text-[0.9375rem] leading-relaxed">
-                      <span className="pt-0.5">
+                      <span className="grid min-h-11 min-w-11 shrink-0 place-items-center pt-0.5">
                         <Checkbox
                           checked={field.value}
                           onCheckedChange={(value) => field.onChange(value === true)}
