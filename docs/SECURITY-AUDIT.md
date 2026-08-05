@@ -1,9 +1,9 @@
 # Security Audit — Flora de Luxe Kyiv OPT
 
 **Date:** 2026-08-02  
-**Scope:** Tracked Git sources of this repository (first stage — analysis only)  
-**Auditor role:** Application Security / Next.js / independent code review  
-**Code changes in this stage:** none (this document only)
+**Scope:** Tracked Git sources + local production verification (`next start`)  
+**Auditor role:** Application Security / Next.js  
+**Stages:** (1) analysis-only audit → (2) targeted P1/P2 hardening (this update)
 
 ---
 
@@ -20,18 +20,17 @@ Flora de Luxe Kyiv OPT is a mostly **static** Next.js 16 App Router marketing si
 
 **No Critical findings** for the current public surface.  
 **No live secrets** found in tracked files or safe Git-history pattern scans.  
-**No P0 blockers** for a private/internal staging demo.
+**No open P1 blockers** after this hardening stage (clickjacking headers, Privacy/Maps disclosure, site URL hardening, Report-Only CSP, Permissions-Policy).
 
-Main residual risks before a **public** staging/production deploy:
+Main residual items before public production:
 
-1. Missing **clickjacking** protections (`frame-ancestors` / `X-Frame-Options`).
-2. No **Content-Security-Policy** (defense-in-depth).
-3. **Privacy copy** does not clearly disclose Google Maps as a third party loaded on contacts.
-4. **Transitive** `pnpm audit` High advisories under `next` (`sharp@0.34.5`, `postcss@8.4.31`) — limited practical reachability for this architecture, but should be tracked until Next ships patched nested versions.
-5. Dead **LeadForm / submitLead** stack still in the repo (safe today because unused in production graph; risk rises if remounted without real delivery).
+1. **Full CSP** remains Report-Only (`'unsafe-inline'` required by Next inline bootstraps) — enforce only after staging observation.
+2. **Transitive** `pnpm audit` advisories under `next` (`sharp@0.34.5`, `postcss@8.4.31`) — **not remediated in this stage** (no lockfile / dependency changes).
+3. **HSTS** — verify only after HTTPS staging; do not treat local HTTP as production HSTS done.
+4. Dead **LeadForm / submitLead** stack — Low / maintenance debt; not a public endpoint today.
 
-**Staging readiness (security):** acceptable for a closed/demo staging with HTTPS at the edge, after acknowledging header and privacy gaps.  
-**Production readiness:** not yet — complete P1/P2 items below.
+**Staging readiness (security):** acceptable for closed/demo staging with HTTPS at the edge, after setting `NEXT_PUBLIC_SITE_URL`.  
+**Production readiness:** closer — complete deferred items in §16 (enforce CSP carefully, HSTS at edge, dependency track).
 
 ---
 
@@ -44,7 +43,8 @@ Main residual risks before a **public** staging/production deploy:
 - No App Router `route.ts` API handlers in `src/`
 - No `.github/` workflows
 - No `.npmrc`
-- No tracked `.env*` files
+- Tracked env template: `.env.example` (`NEXT_PUBLIC_SITE_URL` only)
+- `.env` / `.env.*` / `.env*.local` gitignored (exception: `.env.example`)
 
 ### 2.2 Pages (App Router)
 
@@ -64,7 +64,7 @@ Main residual risks before a **public** staging/production deploy:
 | `/manifest.webmanifest` | `src/app/manifest.ts` | Metadata |
 | `/icon`, `/apple-icon`, `/opengraph-image` | generated | Metadata |
 
-All listed routes report as **static** (`○`) after `pnpm build`.
+All listed routes report as **static** (`○`) after `pnpm build`. Unchanged by hardening.
 
 ### 2.3 Server Actions / endpoints
 
@@ -90,13 +90,13 @@ Including: `site-header`, `mobile-menu`, `hero-visual`, `gallery-section`, `cont
 | Google Maps short + embed | `mapsUrl`, `mapsEmbedUrl` | Contacts iframe + links |
 | Instagram URL | configured, **not rendered** in UI | Dead config |
 | Google Fonts via `next/font` | `layout.tsx` | Self-hosted by Next at build |
-| Fallback site URL | `NEXT_PUBLIC_SITE_URL` or `https://opt.floradeluxe.com.ua` | Canonical/sitemap/JSON-LD |
+| Site URL | `NEXT_PUBLIC_SITE_URL` via `resolveSiteUrl()`; local fallback `http://localhost:3000` | Canonical/sitemap/JSON-LD |
 
 ### 2.6 Environment variables
 
 | Variable | Exposure | Usage |
 | --- | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | Public (by design) | `site-config.ts` |
+| `NEXT_PUBLIC_SITE_URL` | Public (by design) | `site-config.ts` — http/https only, trailing slash stripped via `URL.origin`, invalid → localhost fallback |
 | `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID` | Mentioned **only in comments** in `submit-lead.ts` | Not read at runtime |
 
 ### 2.7 User input (runtime)
@@ -116,10 +116,10 @@ Offline tooling (`scripts/import-opt-media.mjs`) fetches Telegram HTML/images fo
 - XSS sinks, links, iframe, SVG  
 - Secrets (tracked files + limited Git history patterns)  
 - Client/server boundaries and production JS grep for token-like strings  
-- Dependency advisories (`pnpm audit`, `pnpm outdated`, `pnpm why`)  
+- Dependency advisories (`pnpm audit`, `pnpm why`) — **no dependency remediation this stage**  
 - Response headers from running production server  
 - Privacy vs third-party behaviour  
-- `pnpm lint` / `tsc` / `build` / `qa`
+- `pnpm lint` / `tsc` / `build` / `qa` / browser CSP Report-Only probe
 
 **Not deeply reviewed (binaries):** image/video bytes (paths and provenance only).
 
@@ -131,16 +131,16 @@ Offline tooling (`scripts/import-opt-media.mjs`) fetches Telegram HTML/images fo
 | --- | --- | --- |
 | Anonymous internet attacker | Yes | Public static site |
 | Malicious POST / Server Action abuse | Low today | `submitLead` absent from production manifest |
-| XSS / HTML injection | Low | No user HTML; JSON-LD escapes `<` |
-| Clickjacking | Medium | No `frame-ancestors` / `X-Frame-Options` |
-| Open redirect | Low | `absoluteUrl` has `http` short-circuit but callers pass static paths |
+| XSS / HTML injection | Low | No user HTML; JSON-LD escapes `<`; Report-Only CSP monitors |
+| Clickjacking | Mitigated | `X-Frame-Options: DENY` + enforced `frame-ancestors 'none'` |
+| Open redirect | Low | `absoluteUrl` path-only |
 | SSRF | Low (prod) | No server fetch from request input; import script is offline |
 | Secret leak | Low | No live secrets in repo |
-| Malicious / compromised npm package | Medium (supply chain) | Standard risk; advisories under `next` |
+| Malicious / compromised npm package | Medium (supply chain) | Advisories under `next` — deferred |
 | Accidental publish of internals | Low | `public/` mostly media + `images/README.md` |
-| Iframe abuse / Maps referrer | Low–Medium | Static Maps embed; loads Google when visible |
+| Iframe abuse / Maps referrer | Low–Medium | Static Maps embed; disclosed in Privacy; CSP `frame-src` Report-Only |
 | Unsafe SVG | Low | One static brand SVG; no `dangerouslyAllowSVG` |
-| Misconfigured production | Medium | Headers incomplete; site URL via env |
+| Misconfigured production | Medium | Must set `NEXT_PUBLIC_SITE_URL`; HSTS at HTTPS edge |
 
 Out of scope / not applicable: auth bypass, IDOR, SQLi, session fixation (no auth/DB).
 
@@ -162,14 +162,13 @@ Out of scope / not applicable: auth bypass, IDOR, SQLi, session fixation (no aut
 | **Severity** | High *(advisory)* / **Medium** *(practical reachability here)* |
 | **Confidence** | High (version), Medium (exploitability) |
 | **Category** | Supply chain / image processing |
+| **Status** | **Deferred** (dependency remediation stage) |
 | **Evidence** | `pnpm audit`: GHSA-f88m-g3jw-g9cj; `pnpm why sharp` → `sharp@0.34.5` under `next@16.2.12`. Project also has direct `sharp@0.35.3` (devDependency, patched). |
 | **Attack scenario** | Malicious image crafted for libvips CVEs processed by Next image optimization. |
 | **Conditions** | Attacker must get a malicious image into a path Next will process. This app has **no** `images.remotePatterns` / `domains` — only local `/public` assets. |
 | **Impact** | Potential RCE/DoS in image pipeline on the Node host (deployment-dependent). |
-| **Fix** | Wait for / upgrade to a Next release that bundles patched `sharp`, or vendor override after validating Next compatibility (separate hardening stage). |
-| **Fix risk** | Medium (overrides can break Next image pipeline). |
-| **Before staging** | Document accepted risk for closed staging. |
-| **Before production** | Prefer patched transitive `sharp` or hosting that isolates image optimization. |
+| **Reason deferred** | This stage forbids `pnpm update` / overrides / lockfile changes. |
+| **Required before production** | Prefer Next release with nested patched `sharp`, or validated override in a dedicated dependency stage. |
 
 ### SEC-H2 — Transitive `postcss` (via `next`) below patched floors
 
@@ -179,14 +178,14 @@ Out of scope / not applicable: auth bypass, IDOR, SQLi, session fixation (no aut
 | **Severity** | High *(advisory)* / **Low–Medium** *(runtime for this site)* |
 | **Confidence** | High (version), Medium (reachability) |
 | **Category** | Supply chain / build tooling |
-| **Evidence** | GHSA-6g55-p6wh-862q, GHSA-r28c-9q8g-f849, GHSA-qx2v-qp2m-jg93; `postcss@8.4.31` under `next`. Direct/dev `postcss@8.5.25` is newer. |
+| **Status** | **Deferred** (dependency remediation stage) |
+| **Evidence** | Three advisories on the same nested `postcss@8.4.31` under `next`: GHSA-6g55-p6wh-862q (High), GHSA-r28c-9q8g-f849 (High), GHSA-qx2v-qp2m-jg93 (Moderate). Direct/dev `postcss@8.5.25` is newer. |
+| **Note on counting** | Findings table groups these as **one** High finding (SEC-H2) for nested PostCSS. `pnpm audit` reports **3 High + 1 Moderate** advisories total (1 sharp High + 2 postcss High + 1 postcss Moderate). Multiple advisories map to one finding when they share the same package instance. |
 | **Attack scenario** | Attacker-controlled CSS/`sourceMappingURL` during CSS tooling. |
 | **Conditions** | Primarily **build-time** / tooling paths, not anonymous HTML page GET. |
 | **Impact** | File disclosure / XSS in tooling contexts if untrusted CSS is processed. |
-| **Fix** | Upgrade Next when nested `postcss` is patched; avoid processing untrusted CSS in CI. |
-| **Fix risk** | Low–Medium. |
-| **Before staging** | No urgent runtime block. |
-| **Before production** | Track Next upgrade. |
+| **Reason deferred** | No dependency changes in this stage. |
+| **Required before production** | Track Next upgrade when nested `postcss` is patched. |
 
 ---
 
@@ -198,17 +197,9 @@ Out of scope / not applicable: auth bypass, IDOR, SQLi, session fixation (no aut
 | --- | --- |
 | **ID** | SEC-M1 |
 | **Severity** | Medium |
-| **Confidence** | High |
-| **Category** | Security headers |
-| **File** | `next.config.ts` (headers block ~L11–21); confirmed absent on live responses |
-| **Evidence** | Production responses lack `Content-Security-Policy` `frame-ancestors` and `X-Frame-Options`. |
-| **Attack scenario** | Site embedded in attacker iframe for UI redress / clickjacking on Telegram CTAs. |
-| **Conditions** | Attacker hosts a page framing this origin; user interaction. |
-| **Impact** | Misleading clicks toward Telegram/phone; reputation risk. |
-| **Fix** | Add `Content-Security-Policy: frame-ancestors 'self'` (preferred) and/or `X-Frame-Options: DENY`/`SAMEORIGIN`. |
-| **Fix risk** | Low (unless legitimate embedding is required — currently not). |
-| **Before staging (public)** | Yes. |
-| **Before production** | Yes. |
+| **Status** | **Fixed** |
+| **Fix** | `next.config.ts`: `X-Frame-Options: DENY` + enforced CSP `frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'`. Site must not be embedded on external domains. |
+| **Verification** | `curl -sI` on `/`, `/assortment`, `/contacts`, `/privacy`, 404 — all return XFO DENY and enforced CSP with `frame-ancestors 'none'`. `pnpm qa` asserts the same. |
 
 ### SEC-M2 — No Content-Security-Policy
 
@@ -216,16 +207,10 @@ Out of scope / not applicable: auth bypass, IDOR, SQLi, session fixation (no aut
 | --- | --- |
 | **ID** | SEC-M2 |
 | **Severity** | Medium |
-| **Confidence** | High |
-| **Category** | Security headers / XSS defense-in-depth |
-| **Evidence** | Header absent on `/`, `/contacts`, etc. |
-| **Attack scenario** | Future XSS or injected third-party script would run without CSP constraints. |
-| **Conditions** | Requires an injection vector (none confirmed today). |
-| **Impact** | Weaker containment if XSS appears later. |
-| **Fix** | Roll out CSP in Report-Only first (see §13), then enforce. |
-| **Fix risk** | Medium — can break Maps / Next inline styles if over-strict. |
-| **Before staging** | Report-Only recommended. |
-| **Before production** | Enforcing CSP preferred. |
+| **Status** | **Partially fixed** — minimal CSP **enforced**; full policy **Report-Only** |
+| **Fix** | Enforced minimal CSP (see SEC-M1). Full inventory-based `Content-Security-Policy-Report-Only` in `next.config.ts` with `script-src`/`style-src` including `'unsafe-inline'` (Next.js inline bootstraps; Report-Only only — not a final strict policy). `frame-src https://www.google.com` only. No `report-uri`/`report-to` (no endpoint). No nonce / middleware / dynamic rendering. |
+| **Verification** | Headers present on HTML routes; Puppeteer probe on `/`, `/contacts` (after map scroll), `/privacy`, `/assortment`, `/faq`, 404 — **zero** `securitypolicyviolation` events and no CSP console refusals. |
+| **Required before production** | Observe Report-Only on HTTPS staging; then tighten and consider enforcement. Do not claim the Report-Only policy is a strict final CSP. |
 
 ### SEC-M3 — Privacy page omits Google Maps third-party load
 
@@ -233,16 +218,9 @@ Out of scope / not applicable: auth bypass, IDOR, SQLi, session fixation (no aut
 | --- | --- |
 | **ID** | SEC-M3 |
 | **Severity** | Medium |
-| **Confidence** | High |
-| **Category** | Privacy / third-party |
-| **File** | `src/lib/content/privacy.ts` (cookies/analytics section); Maps: `src/components/sections/contact-map.tsx` |
-| **Evidence** | Privacy states no advertising trackers / third-party analytics scripts. Contacts map mounts `iframe` to `google.com/maps` when near viewport. |
-| **Scenario** | User opens `/contacts` and scrolls to map → browser requests Google; IP/UA/Referer may be visible to Google. |
-| **Impact** | Documentation mismatch (technical, not a legal conclusion). |
-| **Fix** | Disclose Maps embed + when it loads; keep lazy-load behaviour. |
-| **Fix risk** | Low (copy change). |
-| **Before staging** | Recommended. |
-| **Before production** | Yes. |
+| **Status** | **Fixed** |
+| **Fix** | `src/lib/content/privacy.ts`: §2 no web form / Telegram leaves site; new §5 Google Maps lazy iframe + technical data Google may receive; §8 no own analytics / tracking pixels / ad cookies (neutral, no legal guarantees). Visual Privacy layout unchanged. |
+| **Verification** | Content review + contacts map still lazy-mounts static HTTPS embed. |
 
 ---
 
@@ -254,13 +232,9 @@ Out of scope / not applicable: auth bypass, IDOR, SQLi, session fixation (no aut
 | --- | --- |
 | **ID** | SEC-L1 |
 | **Severity** | Low |
-| **Confidence** | High |
-| **Category** | Security headers |
-| **Evidence** | Not present on production responses. |
-| **Impact** | Browser features not explicitly disabled (camera, mic, geolocation, etc.). |
-| **Fix** | Add a restrictive `Permissions-Policy` allowing only what is needed (likely empty/deny-most). |
-| **Fix risk** | Low; verify Maps still works. |
-| **Staging / production** | P2/P3. |
+| **Status** | **Fixed** |
+| **Fix** | `Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()` after confirming code does not use these APIs. No `allow="geolocation"` on Maps iframe. |
+| **Verification** | Header present on production responses; Maps iframe still loads. |
 
 ### SEC-L2 — `.gitignore` gaps for some env filenames
 
@@ -268,27 +242,21 @@ Out of scope / not applicable: auth bypass, IDOR, SQLi, session fixation (no aut
 | --- | --- |
 | **ID** | SEC-L2 |
 | **Severity** | Low |
-| **Confidence** | High |
-| **Category** | Secrets hygiene |
-| **File** | `.gitignore` L18–19: `.env`, `.env*.local` |
-| **Evidence** | Patterns do **not** ignore `.env.production` / `.env.development` (without `.local`). |
-| **Impact** | Accidental commit risk if someone creates those filenames. |
-| **Fix** | Add `.env.*` (and keep exceptions for `.env.example` if introduced). |
-| **Fix risk** | Low. |
+| **Status** | **Fixed** |
+| **Fix** | `.gitignore`: `.env`, `.env.*`, `!.env.example`, `.env*.local`. Added `.env.example` with `NEXT_PUBLIC_SITE_URL=`. |
+| **Verification** | Patterns reviewed; template is the only tracked env file. |
 
 ### SEC-L3 — Dead lead stack can mislead if remounted
 
 | Field | Value |
 | --- | --- |
 | **ID** | SEC-L3 |
-| **Severity** | Low |
-| **Confidence** | High |
-| **Category** | Dead code / integrity |
+| **Severity** | Low / maintenance debt |
+| **Status** | **Deferred** (not removed this stage by design) |
 | **Files** | `src/lib/actions/submit-lead.ts`, `src/components/sections/lead-form.tsx` |
-| **Evidence** | `deliverLead` throws; honeypot branch returns success text «Заявку прийнято» (L64–65); catch returns generic error. Not in production server-reference manifest. |
-| **Impact** | If remounted without real delivery, users could see false success (honeypot) or errors — integrity/UX risk, not current HTTP surface. |
-| **Fix** | Keep unmounted until delivery exists; or delete/gate behind explicit feature flag in a later stage. |
-| **Staging / production** | Do not remount before delivery. |
+| **Evidence** | Reconfirmed after hardening build: `submitLead` **absent** from `.next/server/server-reference-manifest.json` (`node`/`edge` empty). Not a public production Server Action endpoint. |
+| **Reason** | Keep for future go-live; removal is a separate product decision. |
+| **Required before production** | Do not remount until real delivery exists; then fix honeypot false-success wording. |
 
 ### SEC-L4 — Maps iframe without `sandbox`
 
@@ -296,28 +264,23 @@ Out of scope / not applicable: auth bypass, IDOR, SQLi, session fixation (no aut
 | --- | --- |
 | **ID** | SEC-L4 |
 | **Severity** | Low / Accepted risk |
-| **Confidence** | High |
-| **Category** | Iframe hardening |
-| **File** | `src/components/sections/contact-map.tsx` ~L64–75 |
-| **Evidence** | Static `src={contactConfig.mapsEmbedUrl}`; `loading="lazy"`; `title` set; `referrerPolicy="no-referrer-when-downgrade"`; no `sandbox`. |
-| **Impact** | Full iframe capabilities for Google origin (expected for Maps). |
-| **Fix** | Prefer leaving without sandbox (sandbox often breaks Maps). Rely on CSP `frame-src`. |
-| **Accepted risk** | Yes, with static src + CSP later. |
+| **Status** | **Accepted risk** (unchanged) |
+| **Evidence** | Static `src={contactConfig.mapsEmbedUrl}`; HTTPS; `loading="lazy"`; `title`; `referrerPolicy="no-referrer-when-downgrade"`; reserved aspect-ratio; no user input in `src`; no `sandbox` (would break Maps); no `allow="geolocation"`. |
+| **Fix** | Rely on static src + Report-Only / future enforced `frame-src`. |
 
 ---
 
 ## 9. Informational findings
 
-### SEC-I1 — `absoluteUrl` accepts absolute `http(s)` strings
+### SEC-I1 — `absoluteUrl` path hygiene
 
 | Field | Value |
 | --- | --- |
 | **ID** | SEC-I1 |
 | **Severity** | Informational |
-| **File** | `src/lib/site-config.ts` L36–38 |
-| **Evidence** | `if (pathname.startsWith("http")) return pathname;` |
-| **Callers** | Static paths only (`sitemap.ts`, `seo.ts`, `robots.ts`). |
-| **Note** | Not an open redirect today; harden if ever fed user input. |
+| **Status** | **Fixed** (hardening) |
+| **File** | `src/lib/site-config.ts` |
+| **Fix** | Path-only absolute URL builder; no passthrough of absolute `http(s)` strings. |
 
 ### SEC-I2 — JSON-LD uses `dangerouslySetInnerHTML` safely
 
@@ -325,18 +288,18 @@ Out of scope / not applicable: auth bypass, IDOR, SQLi, session fixation (no aut
 | --- | --- |
 | **ID** | SEC-I2 |
 | **Severity** | Informational |
-| **File** | `src/components/seo/json-ld.tsx` L8–14 |
+| **File** | `src/components/seo/json-ld.tsx` |
 | **Evidence** | Payload from typed SEO helpers; `<` escaped to `\u003c`. Not user-controlled. |
 
-### SEC-I3 — Hardcoded fallback site origin
+### SEC-I3 — Site URL configuration
 
 | Field | Value |
 | --- | --- |
 | **ID** | SEC-I3 |
 | **Severity** | Informational |
-| **File** | `src/lib/site-config.ts` L11 |
-| **Evidence** | Default `https://opt.floradeluxe.com.ua` if env unset. |
-| **Impact** | Wrong canonical/sitemap hosts on misconfigured deploys — set `NEXT_PUBLIC_SITE_URL`. |
+| **Status** | **Fixed** (hardening) |
+| **File** | `src/lib/site-config.ts`, `.env.example` |
+| **Fix** | Single `resolveSiteUrl()` from `NEXT_PUBLIC_SITE_URL`; only `http:`/`https:`; invalid → `http://localhost:3000`; staging/production must set env on the host. No invented production domain. Env not logged to the client console. |
 
 ### SEC-I4 — Offline media import fetches Telegram
 
@@ -345,8 +308,7 @@ Out of scope / not applicable: auth bypass, IDOR, SQLi, session fixation (no aut
 | **ID** | SEC-I4 |
 | **Severity** | Informational |
 | **File** | `scripts/import-opt-media.mjs` |
-| **Evidence** | `fetch` to `t.me` + image URLs during local import. |
-| **Impact** | Not production request path; SSRF only if script pointed at attacker URLs by a developer. |
+| **Evidence** | `fetch` to `t.me` + image URLs during local import. Not production request path. |
 
 ### SEC-I5 — QA touch-target noise
 
@@ -354,13 +316,13 @@ Out of scope / not applicable: auth bypass, IDOR, SQLi, session fixation (no aut
 | --- | --- |
 | **ID** | SEC-I5 |
 | **Severity** | Informational |
-| **Evidence** | `pnpm qa` reports ~40 “under 44px” hits (skip-link / desktop nav). Not security issues. |
+| **Evidence** | `pnpm qa` reports ~40 “under 44px” hits (skip-link / desktop nav). Not security issues. Security header / Maps / Telegram CTA / no `#lead-form` checks pass. |
 
 ---
 
 ## 10. Dependency audit
 
-### Direct production versions
+### Direct production versions *(unchanged this stage)*
 
 | Package | Version |
 | --- | --- |
@@ -371,22 +333,20 @@ Out of scope / not applicable: auth bypass, IDOR, SQLi, session fixation (no aut
 | lucide-react | 1.28.0 |
 | Radix UI packages | pinned as in `package.json` |
 
-No Git/tarball dependencies. No `overrides` / `patchedDependencies`. No custom lifecycle install scripts beyond Next defaults.
+No Git/tarball dependencies. No `overrides` / `patchedDependencies`. **`package.json` and `pnpm-lock.yaml` were not modified.**
 
-### `pnpm audit --audit-level low` (no `--fix`)
+### `pnpm audit --audit-level low` (no `--fix`) — re-run after hardening
 
 | Advisory | Package | Installed (path) | Severity | Direct? | Prod/Dev path | Patched | Reachable here? | Action |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| GHSA-f88m-g3jw-g9cj | sharp | 0.34.5 via `next` | High | Transitive | Prod (Next image) | ≥0.35.0 | Limited (local images only) | Track Next upgrade / override carefully |
-| GHSA-6g55-p6wh-862q | postcss | 8.4.31 via `next` | High | Transitive | Nested under Next | ≥8.5.12 | Mostly build/tooling | Track Next upgrade |
-| GHSA-r28c-9q8g-f849 | postcss | 8.4.31 via `next` | High | Transitive | Nested under Next | ≥8.5.18 | Mostly build/tooling | Track Next upgrade |
-| GHSA-qx2v-qp2m-jg93 | postcss | 8.4.31 via `next` | Moderate | Transitive | Nested under Next | ≥8.5.10 | Mostly build/tooling | Track Next upgrade |
+| GHSA-f88m-g3jw-g9cj | sharp | 0.34.5 via `next` | High | Transitive | Prod (Next image) | ≥0.35.0 | Limited (local images only) | Separate dependency remediation |
+| GHSA-6g55-p6wh-862q | postcss | 8.4.31 via `next` | High | Transitive | Nested under Next | ≥8.5.12 | Mostly build/tooling | Separate dependency remediation |
+| GHSA-r28c-9q8g-f849 | postcss | 8.4.31 via `next` | High | Transitive | Nested under Next | ≥8.5.18 | Mostly build/tooling | Separate dependency remediation |
+| GHSA-qx2v-qp2m-jg93 | postcss | 8.4.31 via `next` | Moderate | Transitive | Nested under Next | ≥8.5.10 | Mostly build/tooling | Separate dependency remediation |
+
+**Audit count vs findings table:** `pnpm audit` → **3 High + 1 Moderate** advisories. Findings table → **2 High findings** (SEC-H1 sharp, SEC-H2 postcss). SEC-H2 intentionally aggregates **three** PostCSS advisories on the same nested `8.4.31` instance.
 
 Direct `sharp@0.35.3` and `postcss@8.5.25` (dev) are newer than the vulnerable nested copies.
-
-### `pnpm outdated` (informational)
-
-`@hookform/resolvers`, `react-hook-form`, `eslint`, `typescript` have newer majors/minors. Not treated as vulnerabilities by themselves.
 
 ---
 
@@ -394,15 +354,14 @@ Direct `sharp@0.35.3` and `postcss@8.5.25` (dev) are newer than the vulnerable n
 
 | Check | Result |
 | --- | --- |
-| Tracked `.env*` | None |
+| Tracked `.env*` | `.env.example` only (no secrets) |
 | Live tokens/keys in `src/` | None found |
 | `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID` | Comment-only placeholders in `submit-lead.ts` |
 | Production client bundles (`.next/static`) | No matches for token-like patterns searched |
 | Git history (`git log -S TELEGRAM_BOT_TOKEN`) | Comment string present since commit `6b54e8d` — **not a live secret value** |
 | Tracked private keys / PEM | None (`.pem` gitignored) |
 
-**No secret rotation required** based on this scan.  
-If a real bot token was ever pasted into a file and force-pushed elsewhere outside this scan, treat that as out-of-band.
+**No secret rotation required** based on this scan.
 
 > Note: Next’s empty server-reference manifest still contains a build-local encryption key field under `.next/` (gitignored). Do not commit `.next`. Value intentionally omitted from this report.
 
@@ -421,61 +380,80 @@ If a real bot token was ever pasted into a file and force-pushed elsewhere outsi
 | Callable via Next Server Action POST today? | **No evidence it is registered** |
 | Accepts FormData? | Yes (in source) |
 | Logs / stores / external I/O? | No (throws in `deliverLead`) |
-| Returns excessive errors? | Generic UA messages; fieldErrors from Zod |
 
-**Verdict:** **Action is absent from the production Server Action surface** after current `pnpm build`.  
-It remains **dead code in the repository** and must not be remounted until real delivery exists.
+**Verdict:** **Not a production Server Action.** Low / maintenance debt. Not removed in this hardening stage.
 
 No other Server Actions or `route.ts` handlers in tracked `src/`.
 
 ---
 
-## 13. Recommended security headers
+## 13. Security headers (post-hardening)
 
-Observed on production server (ports 3400 / 3415), HTML routes:
+Observed on production server (`pnpm start --port 3400`), HTML routes (`/`, `/assortment`, `/contacts`, `/privacy`, 404):
 
 | Header | Status |
 | --- | --- |
-| `X-Content-Type-Options: nosniff` | Present (from `next.config.ts`) |
-| `Referrer-Policy: strict-origin-when-cross-origin` | Present |
-| `X-DNS-Prefetch-Control: on` | Present |
+| `X-Content-Type-Options: nosniff` | Present (unchanged) |
+| `Referrer-Policy: strict-origin-when-cross-origin` | Present (unchanged) |
+| `X-DNS-Prefetch-Control: on` | Present (unchanged) |
 | `x-powered-by` | Absent (`poweredByHeader: false`) |
-| `Content-Security-Policy` | **Missing** — recommended |
-| `Content-Security-Policy-Report-Only` | **Missing** — good first step |
-| `frame-ancestors` / `X-Frame-Options` | **Missing** — recommended before public staging |
-| `Permissions-Policy` | **Missing** — recommended |
-| `Strict-Transport-Security` | **Missing** — apply at HTTPS edge / after TLS |
-| `Cross-Origin-Opener-Policy` | Optional |
-| `Cross-Origin-Resource-Policy` | Optional / may need care with assets |
+| `X-Frame-Options: DENY` | **Added** |
+| `Content-Security-Policy` (enforced minimal) | **Added** — see below |
+| `Content-Security-Policy-Report-Only` (full inventory) | **Added** — see below |
+| `Permissions-Policy` | **Added** — camera/microphone/geolocation/payment/usb empty |
+| `Strict-Transport-Security` | **Not added** — verify after HTTPS staging; do not enable `includeSubDomains`/`preload` automatically; avoid conflicting with platform HSTS |
+| `Cross-Origin-Opener-Policy` | **Deferred** — no proof they are safe with Maps/media |
+| `Cross-Origin-Embedder-Policy` | **Deferred** |
+| `Cross-Origin-Resource-Policy` | **Deferred** |
 | `X-XSS-Protection` | Do **not** enable `1` |
 
-**Do not implement in this audit stage.**
+Sitemap/robots also receive the same Next `/:path*` header set today; that is acceptable and not treated as a defect.
+
+### Enforced CSP
+
+```
+frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'
+```
+
+Does **not** restrict scripts, styles, images, fonts, or Maps frames.
+
+### Report-Only CSP
+
+```
+default-src 'self';
+script-src 'self' 'unsafe-inline';
+style-src 'self' 'unsafe-inline';
+img-src 'self' data: blob:;
+font-src 'self' data:;
+connect-src 'self';
+frame-src https://www.google.com;
+media-src 'self';
+worker-src 'self' blob:;
+object-src 'none';
+base-uri 'self';
+form-action 'self';
+frame-ancestors 'none'
+```
+
+`'unsafe-inline'` is allowed **only** in Report-Only because production Next.js emits inline scripts/styles. This is **not** a strict final enforced policy.
+
+### CSP Report-Only violations (local production probe)
+
+**None observed** on `/`, `/contacts` (with Maps scrolled into view), `/privacy`, `/assortment`, `/faq`, 404.
+
+Allowlist was **not** expanded “just in case.”
 
 ---
 
-## 14. Draft CSP (not implemented)
+## 14. Draft CSP rollout (updated)
 
-Based on actual resources:
+1. ~~Start with Report-Only~~ — **done** (full inventory policy).
+2. ~~Minimal enforced clickjacking CSP~~ — **done**.
+3. Confirm Maps + gallery + fonts on HTTPS staging console.
+4. Tighten; only then consider enforcing broader directives.
+5. Prefer edge/platform HSTS rather than only Next config if CDN terminates TLS.
 
-- Scripts: Next runtime (`'self'`; nonces or strict-dynamic may be needed — evaluate Report-Only).
-- Styles: `'self'` + likely `'unsafe-inline'` for Next/Tailwind unless nonce strategy is adopted (may force dynamic rendering).
-- Images: `'self'`, `data:` (blur LQIP / icons), `blob:` if used.
-- Fonts: `'self'` (next/font self-host).
-- Frames: `https://www.google.com` (Maps embed).
-- Connect: `'self'` (+ Maps/Google endpoints if client connect appears — verify in Report-Only).
-- Media: `'self'`.
-- Objects: `'none'`.
-- Base URI: `'self'`.
-- Frame ancestors: `'self'`.
-
-**Suggested rollout**
-
-1. Start with `Content-Security-Policy-Report-Only`.
-2. Confirm Maps + gallery videos + fonts in browser console.
-3. Tighten; only then enforce.
-4. Prefer edge/platform HSTS rather than only Next config if CDN terminates TLS.
-
-Wildcard `*` should be avoided.
+Wildcard `*` avoided. No nonce / `proxy.ts` / dynamic rendering for CSP.
 
 ---
 
@@ -483,14 +461,14 @@ Wildcard `*` should be avoided.
 
 | Behaviour | Privacy text | Match? |
 | --- | --- | --- |
-| No web form PII collection | Stated | Yes |
-| Telegram / phone for orders | Stated | Yes |
-| No ad analytics scripts | Stated | Yes |
-| Google Maps iframe on `/contacts` (lazy) | Not clearly disclosed | **Gap (SEC-M3)** |
+| No web form PII collection | Stated (§2) | Yes |
+| Telegram / phone for orders; user leaves site | Stated (§2, §4) | Yes |
+| No own analytics / ad trackers / pixels | Stated (§8) | Yes |
+| Google Maps iframe on `/contacts` (lazy) | Stated (§5) | Yes |
 | `next/font` self-hosted | N/A | OK |
 | Referer on external Telegram/Maps links | `noopener noreferrer` on `_blank` | Good practice |
 
-Not a legal opinion — technical consistency only.
+Not a legal opinion — technical consistency only. No claims of full legal compliance.
 
 ---
 
@@ -502,56 +480,79 @@ Not a legal opinion — technical consistency only.
 
 ### P1 — before public staging
 
-1. Add clickjacking protection (`frame-ancestors` and/or `X-Frame-Options`).
-2. Update Privacy to disclose Google Maps embed behaviour.
-3. Set `NEXT_PUBLIC_SITE_URL` correctly for the staging host.
+1. ~~Add clickjacking protection~~ — **Fixed**
+2. ~~Update Privacy to disclose Google Maps~~ — **Fixed**
+3. ~~Harden `NEXT_PUBLIC_SITE_URL` + `.env.example`~~ — **Fixed** (set real value on staging host)
 
 ### P2 — before production
 
-1. CSP Report-Only → enforce.
-2. `Permissions-Policy`.
-3. HSTS at HTTPS terminator.
-4. Plan Next upgrade path for nested `sharp` / `postcss` advisories.
+1. Observe Report-Only CSP on HTTPS staging → decide enforcement.
+2. ~~`Permissions-Policy`~~ — **Fixed**
+3. **HSTS** at HTTPS terminator after staging proof; confirm no conflicting platform header; do not auto-`includeSubDomains` / `preload`.
+4. Plan Next upgrade path for nested `sharp` / `postcss` advisories (**separate dependency stage**).
 5. Keep `LeadForm`/`submitLead` unmounted until real delivery; remove false-success honeypot wording when wiring delivery.
 
 ### P3 — hardening
 
-1. Expand `.gitignore` env patterns.
-2. COOP/CORP evaluation.
+1. ~~Expand `.gitignore` env patterns~~ — **Fixed**
+2. COOP/COEP/CORP evaluation **only with proof** they do not break Maps/images/video.
 3. Optional removal of unused Instagram config / dead lead modules after go-live decision.
 
-### Accepted risk (for now)
+### Accepted risk / deferred
 
 - Maps iframe without `sandbox` (compatibility).
-- Closed staging without full CSP if Report-Only is scheduled.
+- Full CSP not yet enforced (Report-Only + minimal enforced).
+- COOP/COEP/CORP not added.
+- HSTS not added locally.
+- Dependency advisories not patched this stage.
+- `submitLead` retained as dead source (not production surface).
 
 ---
 
 ## 17. What could not be fully verified
 
 - Deep exploitability of libvips/PostCSS advisories against this exact host OS build of Next.
-- Full Git object carving beyond pattern/`-S` searches (7 commits in history).
+- Full Git object carving beyond pattern/`-S` searches.
 - CDN/edge header overlays (Vercel/Cloudflare) — only Node `next start` observed.
 - Runtime behaviour of a remounted `submitLead` under forged Next action IDs (not registered in current build).
 - Binary malware scanning of media files.
+- HSTS behaviour on the real production domain (requires HTTPS staging/production).
 
 ---
 
-## 18. lint / tsc / build / qa
+## 18. lint / tsc / build / qa / audit (hardening verification)
 
 | Check | Result |
 | --- | --- |
 | `pnpm lint` | Pass |
 | `pnpm exec tsc --noEmit` | Pass |
-| `pnpm build` | Pass — all app routes static |
-| `pnpm qa` | Completes; ~40 known a11y touch-target false positives; no overflow/broken-image reports in filtered review |
-| Production headers | Verified via HTTP against running `next start` |
+| `pnpm build` | Pass — all app routes static (`○`) |
+| `pnpm qa` | Completes; ~40 known a11y touch-target noise; **no** security-header / Maps / Telegram / lead-form / overflow / broken-image failures |
+| `pnpm audit --audit-level low` | 3 High + 1 Moderate (unchanged; not fixed) |
+| `pnpm why sharp` / `pnpm why postcss` | Nested under `next` + newer direct/dev copies |
+| Production headers | Verified via `curl` against `next start --port 3400` |
+| CSP Report-Only console | Zero violations in local probe |
+| `submitLead` in server-reference manifest | Absent |
 
 ---
 
-## 19. Confirmation
+## 19. Hardening stage confirmation
 
-- **Only new/changed file intended for this stage:** `docs/SECURITY-AUDIT.md`
-- **No** dependency updates, `pnpm audit --fix`, installs, CSP/header implementation, Server Action deletion, or mass refactors were performed as remediation.
-- **No** secret values are reproduced in this document.
-- Analysis used tracked sources + local build artefacts under `.next` (gitignored) for server-reference and header verification.
+**Changed this stage:**
+
+- `next.config.ts` — security headers (XFO, enforced CSP, Report-Only CSP, Permissions-Policy)
+- `src/lib/site-config.ts` — `NEXT_PUBLIC_SITE_URL` resolver + path-only `absoluteUrl`
+- `src/lib/content/privacy.ts` — Privacy copy aligned with behaviour
+- `.env.example` — `NEXT_PUBLIC_SITE_URL=`
+- `.gitignore` — broader env ignores + exception for example
+- `scripts/qa.mjs` — resilient security header + Maps checks
+- `docs/SECURITY-AUDIT.md` — status updates
+
+**Not changed:**
+
+- Dependencies / lockfile / overrides / versions
+- Hero, design, marketing copy (except Privacy), routes, Telegram URL, Maps URL
+- Static generation / performance architecture
+- LeadForm / submitLead (kept unmounted)
+- HSTS, COOP/COEP/CORP
+- No deploy performed

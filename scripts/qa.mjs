@@ -28,6 +28,71 @@ function report(scope, message) {
   problems.push(`${scope}: ${message}`);
 }
 
+/** Case-insensitive header lookup (Node lowercases; be defensive). */
+function header(headers, name) {
+  if (!headers) return "";
+  const want = name.toLowerCase();
+  for (const [key, value] of Object.entries(headers)) {
+    if (key.toLowerCase() === want) return String(value ?? "");
+  }
+  return "";
+}
+
+/** Token-aware CSP directive check (order-independent). */
+function cspHasDirective(csp, directive, expectedValue) {
+  if (!csp) return false;
+  const parts = csp.split(";").map((part) => part.trim()).filter(Boolean);
+  for (const part of parts) {
+    const [name, ...rest] = part.split(/\s+/);
+    if (name?.toLowerCase() !== directive.toLowerCase()) continue;
+    const values = rest.map((v) => v.toLowerCase());
+    return values.includes(expectedValue.toLowerCase());
+  }
+  return false;
+}
+
+function assertSecurityHeaders(scope, headers) {
+  const xfo = header(headers, "x-frame-options");
+  if (xfo.toUpperCase() !== "DENY") {
+    report(scope, `X-Frame-Options missing or not DENY (got "${xfo}")`);
+  }
+
+  const csp = header(headers, "content-security-policy");
+  if (!cspHasDirective(csp, "frame-ancestors", "'none'")) {
+    report(scope, "enforced CSP must include frame-ancestors 'none'");
+  }
+  if (!cspHasDirective(csp, "object-src", "'none'")) {
+    report(scope, "enforced CSP must include object-src 'none'");
+  }
+
+  if (!header(headers, "x-content-type-options").toLowerCase().includes("nosniff")) {
+    report(scope, "X-Content-Type-Options: nosniff missing");
+  }
+
+  const referrer = header(headers, "referrer-policy").toLowerCase();
+  if (!referrer.includes("strict-origin-when-cross-origin")) {
+    report(scope, `Referrer-Policy unexpected (got "${referrer}")`);
+  }
+
+  const permissions = header(headers, "permissions-policy").toLowerCase();
+  for (const feature of ["camera=()", "microphone=()", "geolocation=()"]) {
+    if (!permissions.includes(feature)) {
+      report(scope, `Permissions-Policy missing ${feature}`);
+    }
+  }
+
+  if (header(headers, "x-powered-by")) {
+    report(scope, "x-powered-by must be absent");
+  }
+
+  const reportOnly = header(headers, "content-security-policy-report-only");
+  if (!reportOnly) {
+    report(scope, "Content-Security-Policy-Report-Only missing");
+  } else if (!cspHasDirective(reportOnly, "frame-src", "https://www.google.com")) {
+    report(scope, "CSP Report-Only must allow frame-src https://www.google.com");
+  }
+}
+
 async function audit(page, scope) {
   const result = await page.evaluate(() => {
     const doc = document.documentElement;
@@ -141,7 +206,15 @@ async function main() {
         const scope = `${viewport.name}px ${path}`;
         const response = await page.goto(url, { waitUntil: "networkidle2", timeout: 45000 });
         const status = response?.status() ?? 0;
-        if (path !== "/nope" && status !== 200) report(scope, `HTTP ${status}`);
+        // 304 is fine when Chrome revalidates a cached static page.
+        if (path !== "/nope" && status !== 200 && status !== 304) {
+          report(scope, `HTTP ${status}`);
+        }
+
+        // Security headers — once per path on the first viewport (full 200 response).
+        if (viewport.name === "320") {
+          assertSecurityHeaders(`headers ${path}`, response?.headers() ?? {});
+        }
 
         // Trigger every scroll reveal so screenshots show the settled layout.
         await page.evaluate(async () => {
@@ -253,6 +326,35 @@ async function main() {
       }
       await page.screenshot({ path: `${OUT}/order-cta-${path === "/" ? "home" : "contacts"}.png` });
     }
+
+    // Google Maps iframe on contacts — lazy mount near viewport.
+    await page.goto(`${BASE}/contacts`, { waitUntil: "networkidle2" });
+    await page.evaluate(() => {
+      document.querySelector("#contacts")?.scrollIntoView({ block: "center" });
+    });
+    await new Promise((r) => setTimeout(r, 1200));
+    const map = await page.evaluate(() => {
+      const iframe = document.querySelector("#contacts iframe, iframe[title*='Карта']");
+      if (!iframe) return { present: false };
+      return {
+        present: true,
+        src: iframe.getAttribute("src") ?? "",
+        title: iframe.getAttribute("title") ?? "",
+        loading: iframe.getAttribute("loading") ?? "",
+        referrerPolicy: iframe.getAttribute("referrerpolicy") ?? "",
+      };
+    });
+    if (!map.present) {
+      report("maps", "Google Maps iframe not found after scrolling contacts");
+    } else {
+      if (!map.src.startsWith("https://www.google.com/maps")) {
+        report("maps", `unexpected iframe src: ${map.src}`);
+      }
+      if (!map.title) report("maps", "iframe title missing");
+      if (map.loading !== "lazy") report("maps", `loading expected lazy, got "${map.loading}"`);
+      if (!map.referrerPolicy) report("maps", "referrerPolicy missing");
+    }
+    await page.screenshot({ path: `${OUT}/contacts-map.png` });
 
     await page.close();
   } finally {

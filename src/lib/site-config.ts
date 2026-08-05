@@ -8,14 +8,37 @@ export const LOCALES = ["uk"] as const;
 export type Locale = (typeof LOCALES)[number];
 export const DEFAULT_LOCALE: Locale = "uk";
 
-const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://opt.floradeluxe.com.ua";
+const LOCAL_FALLBACK_URL = "http://localhost:3000";
+
+/**
+ * Resolves the public site origin from `NEXT_PUBLIC_SITE_URL`.
+ * Staging/production must set the env on the host; local falls back to localhost.
+ * Only http/https are accepted — invalid values are ignored.
+ */
+function resolveSiteUrl(): string {
+  const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (!raw) return LOCAL_FALLBACK_URL;
+
+  let parsed: URL;
+  try {
+    parsed = new URL(raw);
+  } catch {
+    return LOCAL_FALLBACK_URL;
+  }
+
+  if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+    return LOCAL_FALLBACK_URL;
+  }
+
+  return parsed.origin;
+}
 
 export const siteConfig = {
   name: contactConfig.legalName,
   shortName: "Flora de Luxe OPT",
   logoTop: "FLORA DE LUXE",
   logoBottom: "KYIV OPT",
-  url: rawSiteUrl.replace(/\/$/, ""),
+  url: resolveSiteUrl(),
   locale: DEFAULT_LOCALE,
   htmlLang: "uk",
   ogLocale: "uk_UA",
@@ -33,7 +56,8 @@ export const siteConfig = {
   ],
 } as const;
 
+/** Build an absolute URL on `siteConfig.url`. Path-only inputs; no open redirects. */
 export function absoluteUrl(pathname: string): string {
-  if (pathname.startsWith("http")) return pathname;
-  return `${siteConfig.url}${pathname.startsWith("/") ? pathname : `/${pathname}`}`;
+  const path = pathname.startsWith("/") ? pathname : `/${pathname}`;
+  return `${siteConfig.url}${path}`;
 }
