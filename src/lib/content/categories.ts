@@ -29,7 +29,7 @@ export const categories: readonly Category[] = [
       "Відпуск лише пачками — без поділу пачки на штуки",
     ],
     image: {
-      src: "/images/categories/roses-premium.webp",
+      src: "/images/categories/roses-flora-de-luxe.webp",
       alt: "Оптові пачки преміальних троянд Flora de Luxe",
       width: 1600,
       height: 1067,

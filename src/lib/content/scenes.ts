@@ -2,11 +2,11 @@ import type { SiteImage } from "@/lib/content/media";
 
 /**
  * Unified luxury photoset slots for editorial sections.
- * All frames share one cinematic grade (bordeaux / champagne / gold).
+ * Soft cream / blush / wine grade — one wholesale photoshoot language.
  */
 export const sceneImages = {
   delivery: {
-    src: "/images/scenes/delivery-arrival.webp",
+    src: "/images/gallery/delivery-flora-de-luxe.webp",
     alt: "Візуальна презентація приймання оптової поставки квітів",
     width: 1920,
     height: 1440,

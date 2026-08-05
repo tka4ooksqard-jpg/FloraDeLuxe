@@ -185,7 +185,7 @@ export const aboutPage = {
       height: 2000,
     } satisfies SiteImage,
     craft: {
-      src: "/images/about/packaging-area.webp",
+      src: "/images/gallery/packaging-flora-de-luxe.webp",
       alt: "Упаковка та флористичні матеріали на оптовому складі Flora de Luxe Kyiv OPT",
       width: 2200,
       height: 1238,

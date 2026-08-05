@@ -13,12 +13,12 @@ export const hero = {
     "Актуальний прайс та швидке оформлення — у Telegram.",
   ] as const,
   image: {
-    src: "/images/hero/hero-premium-wholesale.webp",
-    alt: "Оптовий асортимент свіжих квітів Flora de Luxe Kyiv OPT",
-    width: 1920,
-    height: 1280,
+    src: "/images/hero/hero-client-roses-main.webp",
+    alt: "Пишний букет насичено-рожевих троянд Flora de Luxe Kyiv OPT",
+    width: 1179,
+    height: 1554,
     blurDataURL:
-      "data:image/webp;base64,UklGRpQAAABXRUJQVlA4IIgAAABQBACdASoYABAAPu1iqk2ppaQiMAgBMB2JQBOmUAZnIiOOrb0Ver4cCEHgAP7u31j0sJ2Qb25Hn9hs5VbH4dPJaoBG+UTEu9Ah4xrKZdKuwYdbrvOfbB1UBrWQSIaKjg/Ab+fKJbFM+IIDMmK8IaV4LYzsiLOVrnjRYByVNkDlWTacdlZNDVAA",
+      "data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAACwAwCdASoQABUAPzmEuVOvKKWisAgB4CcJbAAAUrP5ayrxR1mlcAD+U9smExQPr64dZtAJnUbTLuUbxFRHF/uEqTtbZEemXIf+IvCY8BpigIRMCFh4wbiobuKqkXTnnMGqLdPDhAG8Pyxpok7S1twZQH9u/INwAAA=",
   } satisfies SiteImage,
 } as const;
 

@@ -30,7 +30,7 @@ export const galleryItems: readonly GalleryItem[] = [
     title: "Оптовий асортимент",
     caption: "Загальний вигляд оптового асортименту Flora de Luxe Kyiv OPT.",
     image: {
-      src: "/images/gallery/wholesale-hall-premium.webp",
+      src: "/images/gallery/wholesale-hall-flora-de-luxe.webp",
       alt: "Візуальна презентація оптового асортименту квітів",
       width: 1600,
       height: 2000,
@@ -44,7 +44,7 @@ export const galleryItems: readonly GalleryItem[] = [
     title: "Партія на прийманні",
     caption: "Свіжа партія після розвантаження, підготовлена до видачі.",
     image: {
-      src: "/images/gallery/new-delivery-premium.webp",
+      src: "/images/gallery/delivery-flora-de-luxe.webp",
       alt: "Нова партія квітів на прийманні",
       width: 2200,
       height: 1238,
@@ -58,7 +58,7 @@ export const galleryItems: readonly GalleryItem[] = [
     title: "Червоні та білі троянди",
     caption: "Пачки троянд з поточної оптової партії.",
     image: {
-      src: "/images/gallery/red-white-roses-premium.webp",
+      src: "/images/gallery/red-white-roses-flora-de-luxe.webp",
       alt: "Оптові пачки червоних і білих троянд",
       width: 1600,
       height: 2000,
@@ -72,7 +72,7 @@ export const galleryItems: readonly GalleryItem[] = [
     title: "Рожеві троянди",
     caption: "Рожеві троянди в пачках для оптових клієнтів.",
     image: {
-      src: "/images/gallery/pink-roses-premium.webp",
+      src: "/images/gallery/pink-roses-flora-de-luxe.webp",
       alt: "Оптові пачки пудрово-рожевих троянд",
       width: 1600,
       height: 2000,
@@ -86,7 +86,7 @@ export const galleryItems: readonly GalleryItem[] = [
     title: "Кошики",
     caption: "Плетіння кошики для флористичної комплектації.",
     image: {
-      src: "/images/gallery/floral-baskets-premium.webp",
+      src: "/images/gallery/floral-baskets-flora-de-luxe.webp",
       alt: "Преміальні плетені кошики для флористики",
       width: 1600,
       height: 2000,
@@ -100,7 +100,7 @@ export const galleryItems: readonly GalleryItem[] = [
     title: "Упаковка",
     caption: "Запаси пакувальних матеріалів для комплектації замовлень.",
     image: {
-      src: "/images/gallery/packaging-materials-premium.webp",
+      src: "/images/gallery/packaging-flora-de-luxe.webp",
       alt: "Пакувальні матеріали для оптових замовлень",
       width: 2200,
       height: 1238,
@@ -114,7 +114,7 @@ export const galleryItems: readonly GalleryItem[] = [
     title: "Комплектація",
     caption: "Акуратна підготовка оптового замовлення до видачі.",
     image: {
-      src: "/images/gallery/order-preparation-premium.webp",
+      src: "/images/gallery/order-preparation-flora-de-luxe.webp",
       alt: "Комплектація оптового замовлення квітів",
       width: 2200,
       height: 1238,
@@ -124,14 +124,14 @@ export const galleryItems: readonly GalleryItem[] = [
     id: "cold-storage",
     kind: "image",
     emphasis: "secondary",
-    orientation: "portrait",
+    orientation: "landscape",
     title: "Холодильне зберігання",
     caption: "Квіти у професійних контейнерах у зоні зберігання.",
     image: {
-      src: "/images/gallery/cold-storage-premium.webp",
+      src: "/images/gallery/cold-storage-flora-de-luxe.webp",
       alt: "Холодильне зберігання оптових квітів",
-      width: 1600,
-      height: 2000,
+      width: 2200,
+      height: 1238,
     },
   },
 
@@ -145,7 +145,7 @@ export const galleryItems: readonly GalleryItem[] = [
     caption: "Коротке відео оптового асортименту.",
     videoSrc: "/videos/warehouse/wholesale-floor.mp4",
     image: {
-      src: "/images/gallery/wholesale-hall-premium.webp",
+      src: "/images/gallery/wholesale-hall-flora-de-luxe.webp",
       alt: "Відео: загальний вигляд оптового асортименту",
       width: 1600,
       height: 2000,
@@ -160,7 +160,7 @@ export const galleryItems: readonly GalleryItem[] = [
     caption: "Надходження змішаної квіткової партії.",
     videoSrc: "/videos/warehouse/mixed-arrival.mp4",
     image: {
-      src: "/images/gallery/new-delivery-premium.webp",
+      src: "/images/gallery/delivery-flora-de-luxe.webp",
       alt: "Відео: надходження квіткової партії",
       width: 2200,
       height: 1238,
@@ -175,7 +175,7 @@ export const galleryItems: readonly GalleryItem[] = [
     caption: "Пачки рожевих троянд з оптової партії.",
     videoSrc: "/videos/warehouse/pink-roses.mp4",
     image: {
-      src: "/images/gallery/pink-roses-premium.webp",
+      src: "/images/gallery/pink-roses-flora-de-luxe.webp",
       alt: "Відео: оптові рожеві троянди",
       width: 1600,
       height: 2000,
@@ -190,7 +190,7 @@ export const galleryItems: readonly GalleryItem[] = [
     caption: "Пачки червоних і білих троянд.",
     videoSrc: "/videos/warehouse/red-roses.mp4",
     image: {
-      src: "/images/gallery/red-white-roses-premium.webp",
+      src: "/images/gallery/red-white-roses-flora-de-luxe.webp",
       alt: "Відео: червоні та білі троянди",
       width: 1600,
       height: 2000,
@@ -220,10 +220,10 @@ export const galleryItems: readonly GalleryItem[] = [
     caption: "Півонії з оптового асортименту.",
     videoSrc: "/videos/warehouse/peonies.mp4",
     image: {
-      src: "/images/gallery/pink-roses-premium.webp",
-      alt: "Відео: квіткові пачки з оптового асортименту",
+      src: "/images/categories/seasonal-premium.webp",
+      alt: "Відео: сезонні квіти з півоніями",
       width: 1600,
-      height: 2000,
+      height: 1067,
     },
   },
 ];

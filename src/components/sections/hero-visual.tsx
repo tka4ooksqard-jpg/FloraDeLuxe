@@ -70,7 +70,7 @@ export function HeroVisual({ className }: { className?: string }) {
               placeholder="blur"
               blurDataURL={hero.image.blurDataURL}
               sizes="(min-width: 1024px) 58vw, 100vw"
-              className="hero-photo-grade object-cover object-[center_right]"
+              className="hero-photo-grade object-cover object-[center_28%] lg:object-[center_36%]"
             />
 
             <div
